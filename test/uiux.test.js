@@ -1,0 +1,126 @@
+import { test, describe } from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
+import { TIER_COLORS } from '../src/systems/logic.js';
+import { COLORS, TILE_GRADIENTS } from '../src/config.js';
+import { sounds } from '../src/systems/audio.js';
+
+const root = process.cwd();
+const read = (p) => fs.readFileSync(path.join(root, p), 'utf-8');
+
+describe('Visual identity v2 (AIH-18 brief)', () => {
+  test('UI01: nền gradient dọc #0b1020 -> #1a2238 + accent cyan #22d3ee + gold #e9c46a', () => {
+    assert.equal(COLORS.bg, 0x0b1020, 'nền trên phải là #0b1020');
+    assert.equal(COLORS.bgBottom, 0x1a2238, 'nền dưới phải là #1a2238');
+    assert.equal(COLORS.accent, 0x22d3ee, 'accent cyan #22d3ee');
+    assert.equal(COLORS.gold, '#e9c46a', 'accent vàng #e9c46a');
+
+    const main = read('src/main.js');
+    assert.ok(main.includes('#0b1020'), 'backgroundColor Phaser = #0b1020');
+    assert.ok(main.includes('Scale.FIT') && main.includes('480') && main.includes('800'), 'giữ Scale.FIT 480x800');
+
+    const visuals = read('src/ui/visuals.js');
+    assert.ok(/addGradientBackground/.test(visuals), 'có helper nền gradient');
+    assert.ok(/addVignette/.test(visuals), 'có vignette');
+    assert.ok(/addGlow/.test(visuals), 'có glow');
+    assert.ok(/drawPanel/.test(visuals), 'có panel viền + bóng');
+  });
+
+  test('UI02: tier 256/512/1024/2048 khác màu nhau (không còn trùng 0xff007f)', () => {
+    const tiers = [TIER_COLORS[8], TIER_COLORS[9], TIER_COLORS[10], TIER_COLORS[11]];
+    const uniq = new Set(tiers);
+    assert.equal(uniq.size, 4, '4 tier cao phải có 4 màu khác nhau');
+    assert.ok(!TIER_COLORS.includes(0xff007f), 'bỏ màu neon trùng 0xff007f');
+    assert.equal(TILE_GRADIENTS.length, 12, 'đủ gradient cho exponent 0..11');
+    assert.equal(new Set(TILE_GRADIENTS.slice(8).map((g) => g[0])).size, 4, 'gradient cao cấp khác nhau');
+  });
+
+  test('UI03: tile vẽ bevel (viền sáng trên + bóng dưới) trong GameScene', () => {
+    const scene = read('src/scenes/GameScene.js');
+    assert.ok(/bevel/i.test(scene), 'có comment/khối bevel');
+    assert.ok(scene.includes('tileGradient'), 'tile dùng gradient theo tier');
+    assert.ok(scene.includes('drop shadow') || /shadow/i.test(scene), 'tile có shadow');
+  });
+});
+
+describe('Game feel / juice (>=10 tween có chủ đích)', () => {
+  test('FX01: Fx kit có >= 10 hiệu ứng tween riêng biệt', () => {
+    const fxSrc = read('src/ui/fx.js');
+    const methodRe = /^  ([a-zA-Z]+)\([^)]*\) \{/gm;
+    const skip = new Set(['constructor', 'register', 'tween', 'musicActive']);
+    const methods = [...fxSrc.matchAll(methodRe)]
+      .map((m) => m[1])
+      .filter((n) => !skip.has(n));
+    const effects = methods.filter((n) => {
+      const body = fxSrc.split(`  ${n}(`)[1] ?? '';
+      return /this\.tween\(|cameras\.main\.(shake|fadeIn)/.test(body);
+    });
+    assert.ok(effects.length >= 10, `cần >=10 hiệu ứng, đang có ${effects.length}: ${effects.join(', ')}`);
+  });
+
+  test('FX02: các hiệu ứng bắt buộc có mặt (spawn/merge/shake/burst/confetti/counter/pop/float/fade/overlay)', () => {
+    const fxSrc = read('src/ui/fx.js');
+    const required = [
+      'spawnPop', 'mergeBounce', 'flash', 'boardShake', 'burst',
+      'confetti', 'countScore', 'scorePop', 'float', 'fadeIn', 'overlayIn',
+    ];
+    for (const name of required) {
+      assert.ok(fxSrc.includes(`${name}(`), `thiếu hiệu ứng ${name}`);
+    }
+    const button = read('src/ui/button.js');
+    assert.ok(/pointerover/.test(button) && /tweens\.add/.test(button), 'nút hover/press dùng tween mượt');
+    const menu = read('src/scenes/MenuScene.js');
+    assert.ok(menu.includes('fx.pulse') || menu.includes('pulse('), 'menu có CTA pulse');
+    assert.ok(menu.includes('fx.float'), 'logo float');
+    const game = read('src/scenes/GameScene.js');
+    assert.ok(game.includes('boardShake'), 'board shake khi combo');
+    assert.ok(game.includes('confetti'), 'confetti khi kỷ lục');
+    assert.ok(game.includes('burst'), 'particle nổ khi gộp');
+    assert.ok(game.includes('countScore'), 'score counter chạy số');
+  });
+
+  test('FX03: GameScene dùng fx.showX ở luồng chơi (spawn pop, merge bounce)', () => {
+    const game = read('src/scenes/GameScene.js');
+    assert.ok(/fx\.spawnPop/.test(game), 'spawn pop khi renderBoard');
+    assert.ok(/fx\.mergeBounce/.test(game), 'merge bounce khi gộp');
+    assert.ok(/fx\.flash/.test(game), 'merge flash');
+    assert.ok(/fx\.overlayIn/.test(game), 'overlay slide-in (pause/howto/gameover)');
+    assert.ok(/fx\.fadeIn/.test(game), 'scene fade');
+  });
+});
+
+describe('Audio: nhạc nền + SFX (WebAudio, 0 asset)', () => {
+  test('AU01: audio manager có nhạc nền loop + SFX menu/record', () => {
+    for (const m of ['startMusic', 'stopMusic', 'scheduleMusicStep', 'playMenu', 'playRecord', 'playMerge', 'playCombo', 'playGameOver']) {
+      assert.equal(typeof sounds[m], 'function', `thiếu sounds.${m}()`);
+    }
+    assert.equal(sounds.musicPlaying, false, 'nhạc chưa tự chạy khi chưa có tương tác');
+  });
+
+  test('AU02: mute tắt cả nhạc nền (stopMusic) và bật lại khi unmute', () => {
+    const src = read('src/systems/audio.js');
+    assert.ok(/toggleMute/.test(src), 'có toggleMute');
+    assert.ok(/if \(this\.muted\) this\.stopMusic\(\)/.test(src), 'mute -> stopMusic');
+    assert.ok(/startMusic\(\)/.test(src.split('toggleMute()')[1] ?? ''), 'unmute -> startMusic');
+  });
+
+  test('AU03: GameScene bật nhạc nền và menu có SFX, không tải file audio từ mạng', () => {
+    const game = read('src/scenes/GameScene.js');
+    assert.ok(/sounds\.startMusic\(\)/.test(game), 'GameScene khởi động nhạc nền');
+    const menu = read('src/scenes/MenuScene.js');
+    assert.ok(/sounds\.playMenu\(\)/.test(menu), 'menu có SFX');
+    const fxOn = ['mp3', 'ogg', 'wav'];
+    for (const file of ['src/scenes/MenuScene.js', 'src/scenes/GameScene.js', 'src/systems/audio.js']) {
+      const c = read(file).toLowerCase();
+      for (const ext of fxOn) assert.ok(!c.includes(`.${ext}`), `${file} không được nạp file .${ext}`);
+    }
+  });
+
+  test('AU04: CREDITS.txt có mục âm nhạc + giấy phép rõ ràng', () => {
+    const credits = read('public/CREDITS.txt');
+    assert.ok(/nhạc nền|âm nhạc/i.test(credits), 'CREDITS phải có mục âm nhạc');
+    assert.ok(/Web Audio/i.test(credits), 'ghi rõ nhạc sinh bằng Web Audio');
+    assert.ok(/0 file|CC0|không bên thứ ba/i.test(credits), 'ghi license/nguồn');
+  });
+});

@@ -6,7 +6,7 @@ import GameScene from './scenes/GameScene.js';
 const config = {
   type: Phaser.AUTO,
   parent: 'game',
-  backgroundColor: '#161a23',
+  backgroundColor: '#0b1020',
   scale: {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH,

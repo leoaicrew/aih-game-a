@@ -15,8 +15,12 @@
 - Favicon: SVG data-URI nhúng trong index.html, tài sản nội bộ.
 
 == Âm thanh ==
-- Tổng hợp tại chỗ bằng Web Audio API (src/systems/audio.js) — 0 file, 0 băng thông.
+- SFX + nhạc nền: tổng hợp tại chỗ bằng Web Audio API (src/systems/audio.js) — 0 file, 0 băng thông.
   Phát sinh từ mã nguồn, không lấy mẫu từ bên thứ ba.
+- Nhạc nền (2026-11-13): vòng hợp âm Am–F–C–G tự sinh bằng Web Audio Oscillator/Gain,
+  loop mềm ~380ms/step, tắt hẳn khi bấm mute. Bản quyền: AIH Games, phát hành CC0
+  (không dùng mẫu ngoài, không cần ghi nguồn bên thứ ba).
+- SFX: slide, merge (cao độ theo tier), combo, game-over, click, menu, kỷ lục mới.
 
 == Dữ liệu ==
 - Không thu thập dữ liệu cá nhân. Chỉ lưu cục bộ trong localStorage của trình duyệt:

@@ -1,21 +1,30 @@
 export const BOARD_SIZE = 5;
 export const MAX_TILE = 11; // 2^11 = 2048 highest design tier
 
-// Colors per tier (index = exponent). Design palette (AIH-4 gdd/assets-audio).
+// Colors per tier (index = exponent). Visual identity v2 (AIH-18 brief).
+// 256/512/1024/2048 must each be a distinct hue (old build reused 0xff007f).
 export const TIER_COLORS = [
   0x9aa5b1, // placeholder 2^0 (unused)
-  0xf2e8cf, // 2
-  0xe9c46a, // 4
-  0xf4a261, // 8
-  0xe76f51, // 16
-  0x2a9d8f, // 32
-  0x457b9d, // 64
-  0x7b2cbf, // 128
-  0xff007f, // 256 (neon pink)
-  0xff007f, // 512
-  0xff007f, // 1024
-  0xff007f, // 2048
+  0x24314d, // 2
+  0x1b4a69, // 4
+  0x0f5c6b, // 8
+  0x0e7d88, // 16
+  0x0e8fa8, // 32
+  0x2c5bd6, // 64
+  0x5b3fd6, // 128
+  0x8e3fc4, // 256 (violet)
+  0xd6406f, // 512 (rose)
+  0xc9622b, // 1024 (amber)
+  0xb8933f, // 2048 (gold)
 ];
+
+// SVG icon paths (CC0, in public/assets/svg/) used for HUD buttons on web.
+// Node tests import this module directly, so this must not touch Phaser.
+export const ICONS = {
+  pause: 'assets/svg/pause.svg',
+  mute: 'assets/svg/volume-mute.svg',
+  sound: 'assets/svg/volume.svg',
+};
 
 // Twist 1 (Chain Reaction): score multipliers by chain depth within one move.
 // Depth 1 = base merge (x1.0), depth 2 = x1.5, depth 3 = x2.0, depth 4+ = x3.0.

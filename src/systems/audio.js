@@ -25,6 +25,101 @@ class SoundManager {
     this.ctx = null;
     this.muted = loadMuted();
     this.volume = 0.3;
+    // Background music (procedural, looped) state.
+    this.musicGain = null;
+    this.musicTimer = null;
+    this.musicPlaying = false;
+    this.musicStep = 0;
+    this.wasMusicRequested = false;
+  }
+
+  // --- Background music -------------------------------------------------
+  // Cheap arpeggio loop generated with Web Audio (am - F - C - G pad + bell).
+  // No file, no license, works offline. Mute stops it completely.
+  MUSIC_TEMPO_MS = 380;
+
+  static MUSIC_CHORDS = [
+    [220.0, 261.63, 329.63], // A3 C4 E4 (Am)
+    [174.61, 220.0, 261.63], // F3 A3 C4 (F)
+    [130.81, 164.81, 196.0], // C3 E3 G3 (C)
+    [196.0, 246.94, 293.66], // G3 B3 D4 (G)
+  ];
+
+  musicActive() {
+    return this.musicPlaying && !this.muted && !!this.ctx;
+  }
+
+  startMusic() {
+    this.init();
+    if (!this.ctx) return false;
+    this.wasMusicRequested = true;
+    if (this.muted) return false;
+    if (this.musicPlaying) return true;
+    this.musicGain = this.ctx.createGain();
+    this.musicGain.gain.setValueAtTime(0.0001, this.ctx.currentTime);
+    this.musicGain.gain.exponentialRampToValueAtTime(this.volume * 0.22, this.ctx.currentTime + 1.2);
+    this.musicGain.connect(this.ctx.destination);
+    this.musicPlaying = true;
+    this.musicStep = 0;
+    this.scheduleMusicStep();
+    return true;
+  }
+
+  stopMusic() {
+    if (this.musicTimer) {
+      clearTimeout(this.musicTimer);
+      this.musicTimer = null;
+    }
+    if (this.musicGain && this.ctx) {
+      try {
+        this.musicGain.gain.cancelScheduledValues(this.ctx.currentTime);
+        this.musicGain.gain.setValueAtTime(0.0001, this.ctx.currentTime);
+      } catch {
+        /* context closed */
+      }
+      this.musicGain.disconnect?.();
+    }
+    this.musicGain = null;
+    this.musicPlaying = false;
+    this.wasMusicRequested = false;
+  }
+
+  scheduleMusicStep() {
+    if (!this.musicActive()) return;
+    const step = this.musicStep;
+    const chords = SoundManager.MUSIC_CHORDS;
+    const chord = chords[Math.floor(step / 4) % chords.length];
+    const now = this.ctx.currentTime;
+    // Pad: two soft triangle oscillators per step.
+    chord.forEach((freq, i) => {
+      const osc = this.ctx.createOscillator();
+      const g = this.ctx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(freq * (i === 2 ? 2 : 1), now);
+      g.gain.setValueAtTime(0.0001, now);
+      g.gain.exponentialRampToValueAtTime(0.16, now + 0.08);
+      g.gain.exponentialRampToValueAtTime(0.0001, now + 0.62);
+      osc.connect(g);
+      g.connect(this.musicGain);
+      osc.start(now);
+      osc.stop(now + 0.65);
+    });
+    // Bell melody on every other step.
+    if (step % 2 === 0) {
+      const bell = this.ctx.createOscillator();
+      const bg = this.ctx.createGain();
+      bell.type = 'sine';
+      bell.frequency.setValueAtTime(chord[2] * 2, now);
+      bg.gain.setValueAtTime(0.0001, now);
+      bg.gain.exponentialRampToValueAtTime(0.10, now + 0.02);
+      bg.gain.exponentialRampToValueAtTime(0.0001, now + 0.5);
+      bell.connect(bg);
+      bg.connect(this.musicGain);
+      bell.start(now);
+      bell.stop(now + 0.52);
+    }
+    this.musicStep = (step + 1) % 64;
+    this.musicTimer = setTimeout(() => this.scheduleMusicStep(), SoundManager.MUSIC_TEMPO_MS);
   }
 
   init() {
@@ -42,7 +137,51 @@ class SoundManager {
   toggleMute() {
     this.muted = !this.muted;
     saveMuted(this.muted);
+    // Mute must silence music too (brief §3): stop loop; resume when unmuted.
+    if (this.muted) this.stopMusic();
+    else if (this.musicPlaying || this.wasMusicRequested) this.startMusic();
     return this.muted;
+  }
+
+  playMenu() {
+    if (this.muted) return;
+    this.init();
+    if (!this.ctx) return;
+    const now = this.ctx.currentTime;
+    [392.0, 523.25].forEach((freq, i) => {
+      const osc = this.ctx.createOscillator();
+      const g = this.ctx.createGain();
+      const t = now + i * 0.07;
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(freq, t);
+      g.gain.setValueAtTime(this.volume * 0.45, t);
+      g.gain.exponentialRampToValueAtTime(0.001, t + 0.18);
+      osc.connect(g);
+      g.connect(this.ctx.destination);
+      osc.start(t);
+      osc.stop(t + 0.19);
+    });
+  }
+
+  // "Kỷ lục mới" fanfare used when confetti fires.
+  playRecord() {
+    if (this.muted) return;
+    this.init();
+    if (!this.ctx) return;
+    const now = this.ctx.currentTime;
+    [523.25, 659.25, 783.99, 1046.5].forEach((freq, i) => {
+      const osc = this.ctx.createOscillator();
+      const g = this.ctx.createGain();
+      const t = now + i * 0.09;
+      osc.type = 'square';
+      osc.frequency.setValueAtTime(freq, t);
+      g.gain.setValueAtTime(this.volume * 0.18, t);
+      g.gain.exponentialRampToValueAtTime(0.001, t + 0.3);
+      osc.connect(g);
+      g.connect(this.ctx.destination);
+      osc.start(t);
+      osc.stop(t + 0.31);
+    });
   }
 
   playSlide() {

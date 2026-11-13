@@ -28,7 +28,7 @@ Hướng dẫn deploy 1 lệnh/1 click, URL dự kiến và checklist ra mắt: 
 ```bash
 npm test
 ```
-30 test: luật gộp/xếp, điểm, game over, **Twist 1 Chain Reaction** (chuỗi combo + hệ số điểm), độ khó theo điểm.
+43 test: luật gộp/xếp, điểm, game over, **Twist 1 Chain Reaction** (chuỗi combo + hệ số điểm), độ khó theo điểm, **UI v2** (gradient/tier màu), **juice >=10 tween**, **audio nhạc nền + mute**.
 
 ## Điều khiển
 - Vuốt (mobile) hoặc phím mũi tên / WASD (desktop) để trượt.
@@ -44,11 +44,22 @@ src/scenes/           # Boot / Menu / Game
 src/systems/logic.js  # luật game thuần JS (test được, không phụ thuộc Phaser)
 src/systems/audio.js  # âm thanh Web Audio tổng hợp (CC0, 0 file tải)
 src/systems/ads.js    # stub SDK quảng cáo (chưa tích hợp)
-src/ui/button.js      # nút dùng chung
+src/ui/button.js      # nút bevel + hover/press tween
+src/ui/visuals.js     # nền gradient, glow, vignette, panel viền-bóng
+src/ui/fx.js          # bộ hiệu ứng "juice" (>=10 tween) + đếm fx
 test/logic.test.js    # unit test logic
 test/qa.test.js       # bộ QA (logic, twist, độ khó, viewport)
+test/uiux.test.js     # UI v2, juice >=10 tween, audio + nhạc nền, CREDITS
 public/assets/svg/    # 10 icon SVG do Thiết kế vẽ (CC0)
 ```
+
+## UI/UX v2 + juice + audio (AIH-18/AIH-19)
+- Nhận diện mới: nền gradient dọc `#0b1020 -> #1a2238`, glow board, vignette, accent cyan `#22d3ee` + vàng `#e9c46a`.
+- Tile bevel (viền sáng trên + bóng dưới), tier 256/512/1024/2048 khác màu (violet/rose/amber/gold).
+- 14 hiệu ứng tween: spawn pop, merge bounce, merge flash, board shake, particle burst, confetti kỷ lục,
+  score counter, score pop, nút hover/press, logo float, CTA pulse, scene fade, overlay slide-in.
+- Nhạc nền loop tự sinh bằng Web Audio (Am–F–C–G), mute tắt cả nhạc; thêm SFX menu + kỷ lục. 0 file audio, offline.
+- Ảnh trước/sau: `docs/screenshots/before/` (bản 68dd57e), `docs/screenshots/after/` (bản v2).
 
 ## Trạng thái
 - **Tuần 1 (đã xong):** khung Phaser + Vite, lưới 5x5, gộp/xếp, điểm, game over, lưu kỷ lục cục bộ (localStorage), menu + tạm dừng, hướng dẫn.
