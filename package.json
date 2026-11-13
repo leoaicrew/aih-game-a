@@ -1,0 +1,20 @@
+{
+  "name": "aih-game-a",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Game A prototype: merge/stack puzzle (web HTML5, Phaser 3). AIH Games.",
+  "type": "module",
+  "license": "UNLICENSED",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --host",
+    "test": "node --test test/*.test.js"
+  },
+  "dependencies": {
+    "phaser": "^3.90.0"
+  },
+  "devDependencies": {
+    "vite": "^7.3.8"
+  }
+}
