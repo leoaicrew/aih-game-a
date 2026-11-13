@@ -1,7 +1,7 @@
 export const BOARD_SIZE = 5;
-export const MAX_TILE = 7; // 2^7 = 128 highest merge tier
+export const MAX_TILE = 11; // 2^11 = 2048 highest design tier
 
-// Colors per tier (index = exponent). Tweak with design later.
+// Colors per tier (index = exponent). Design palette (AIH-4 gdd/assets-audio).
 export const TIER_COLORS = [
   0x9aa5b1, // placeholder 2^0 (unused)
   0xf2e8cf, // 2
@@ -11,7 +11,20 @@ export const TIER_COLORS = [
   0x2a9d8f, // 32
   0x457b9d, // 64
   0x7b2cbf, // 128
+  0xff007f, // 256 (neon pink)
+  0xff007f, // 512
+  0xff007f, // 1024
+  0xff007f, // 2048
 ];
+
+// Twist 1 (Chain Reaction): score multipliers by chain depth within one move.
+// Depth 1 = base merge (x1.0), depth 2 = x1.5, depth 3 = x2.0, depth 4+ = x3.0.
+export function comboMultiplier(chainDepth) {
+  if (chainDepth <= 1) return 1;
+  if (chainDepth === 2) return 1.5;
+  if (chainDepth === 3) return 2;
+  return 3;
+}
 
 function emptyBoard() {
   return Array.from({ length: BOARD_SIZE }, () => Array(BOARD_SIZE).fill(0));
@@ -22,25 +35,47 @@ function cloneBoard(b) {
 }
 
 // Collapse a line (array of exponents, 0 = empty) toward index 0 and merge equal neighbors.
-// Returns { result, gained, merged } where merged is a list of result indices that were merged.
+// Twist 1: after a merge produces value V, if the next tile toward the direction is also V,
+// it automatically merges again within the same move (Chain Reaction).
+// Returns { result, gained, merged, chains } where merged lists result indices that were merged,
+// and chains lists { index, value, depth } for every merge (depth = position in the chain).
 export function collapseLine(line) {
   const values = line.filter((v) => v > 0);
   const result = [];
   const merged = [];
+  const chains = [];
   let gained = 0;
-  for (let i = 0; i < values.length; i++) {
-    if (i + 1 < values.length && values[i] === values[i + 1]) {
-      const v = values[i] + 1;
-      result.push(v);
-      merged.push(result.length - 1);
-      gained += 2 ** v;
-      i++;
+  let i = 0;
+
+  while (i < values.length) {
+    const v = values[i];
+    if (i + 1 < values.length && values[i + 1] === v) {
+      // Chain: keep merging while the next tile equals the running value.
+      // GDD §2.1: every merge step scores its new tile value times the multiplier
+      // for that step's depth (base x1.0, chain 2 x1.5, chain 3 x2.0, chain 4+ x3.0).
+      let depth = 1;
+      let current = v + 1;
+      gained += 2 ** current * comboMultiplier(depth);
+      let j = i + 2;
+      while (j < values.length && values[j] === current) {
+        depth++;
+        current += 1;
+        gained += 2 ** current * comboMultiplier(depth);
+        j++;
+      }
+      const idx = result.length;
+      result.push(current);
+      merged.push(idx);
+      chains.push({ index: idx, value: 2 ** current, depth });
+      i = j;
     } else {
-      result.push(values[i]);
+      result.push(v);
+      i++;
     }
   }
+
   while (result.length < line.length) result.push(0);
-  return { result, gained, merged };
+  return { result, gained, merged, chains };
 }
 
 export function move(board, dir) {
@@ -49,6 +84,8 @@ export function move(board, dir) {
   let gained = 0;
   let changed = false;
   const mergedCells = [];
+  const combos = [];
+  let maxChain = 0;
 
   const getLine = (i) => {
     const line = [];
@@ -61,28 +98,40 @@ export function move(board, dir) {
     return line;
   };
 
-  const setLine = (i, line, mergedIdx) => {
+  const posFor = (i, j) => {
+    if (dir === 'left') return [i, j];
+    if (dir === 'right') return [i, size - 1 - j];
+    if (dir === 'up') return [j, i];
+    return [size - 1 - j, i];
+  };
+
+  const setLine = (i, line, mergedIdx, chains) => {
     for (let j = 0; j < size; j++) {
-      const v = line[j];
-      let r, c;
-      if (dir === 'left') [r, c] = [i, j];
-      else if (dir === 'right') [r, c] = [i, size - 1 - j];
-      else if (dir === 'up') [r, c] = [j, i];
-      else if (dir === 'down') [r, c] = [size - 1 - j, i];
-      out[r][c] = v;
-      if (mergedIdx.includes(j)) mergedCells.push({ r, c, value: 2 ** v });
+      const [r, c] = posFor(i, j);
+      out[r][c] = line[j];
+    }
+    for (const idx of mergedIdx) {
+      const [r, c] = posFor(i, idx);
+      mergedCells.push({ r, c, value: 2 ** line[idx] });
+    }
+    for (const ch of chains) {
+      if (ch.depth > 1) {
+        const [r, c] = posFor(i, ch.index);
+        combos.push({ r, c, value: ch.value, depth: ch.depth });
+        maxChain = Math.max(maxChain, ch.depth);
+      }
     }
   };
 
   for (let i = 0; i < size; i++) {
     const before = getLine(i);
-    const { result, gained: g, merged } = collapseLine(before);
+    const { result, gained: g, merged, chains } = collapseLine(before);
     gained += g;
-    setLine(i, result, merged);
+    setLine(i, result, merged, chains);
     if (result.some((v, j) => v !== before[j])) changed = true;
   }
 
-  return { board: out, gained, changed, mergedCells };
+  return { board: out, gained, changed, mergedCells, combos, maxChain };
 }
 
 export function emptyCells(board) {
@@ -93,11 +142,21 @@ export function emptyCells(board) {
   return cells;
 }
 
-export function spawnTile(board, rng = Math.random) {
+// Difficulty curve (AIH-4 GDD §3). Returns the spawn weight for a 4-tile (exponent 2),
+// the rest default to a 2-tile (exponent 1). Phase 3 additionally spawns a 8-tile at 5%.
+export function spawnPhase(score) {
+  if (score < 500) return { p4: 0.1, p8: 0 };
+  if (score < 2000) return { p4: 0.2, p8: 0 };
+  return { p4: 0.25, p8: 0.05 };
+}
+
+export function spawnTile(board, rng = Math.random, score = 0) {
   const empties = emptyCells(board);
   if (empties.length === 0) return null;
   const { r, c } = empties[Math.floor(rng() * empties.length)];
-  board[r][c] = rng() < 0.9 ? 1 : 2; // 90% a "2", 10% a "4" (exponent 1/2)
+  const { p4, p8 } = spawnPhase(score);
+  const roll = rng();
+  board[r][c] = roll < p8 ? 3 : roll < p8 + p4 ? 2 : 1;
   return { r, c };
 }
 
@@ -120,8 +179,8 @@ export function maxTile(board) {
 
 export function createGame(rng = Math.random) {
   const board = emptyBoard();
-  spawnTile(board, rng);
-  spawnTile(board, rng);
+  spawnTile(board, rng, 0);
+  spawnTile(board, rng, 0);
   return {
     board,
     score: 0,
@@ -157,8 +216,8 @@ export function applyMove(state, dir) {
   if (!res.changed) return { state, moved: false };
 
   const board = cloneBoard(res.board);
-  spawnTile(board, state.rng ?? Math.random);
-  const score = state.score + res.gained;
+  const score = state.score + Math.round(res.gained);
+  spawnTile(board, state.rng ?? Math.random, score);
   const best = Math.max(state.best, score);
   const over = isGameOver(board);
   if (best > state.best) saveBest(best);
@@ -167,6 +226,8 @@ export function applyMove(state, dir) {
     moved: true,
     state: { ...state, board, score, best, over },
     mergedCells: res.mergedCells,
+    combos: res.combos,
+    maxChain: res.maxChain,
   };
 }
 

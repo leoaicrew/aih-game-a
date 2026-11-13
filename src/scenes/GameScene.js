@@ -6,7 +6,9 @@ import {
   TIER_COLORS,
   createGame,
   applyMove,
+  comboMultiplier,
 } from '../systems/logic.js';
+import { sounds } from '../systems/audio.js';
 
 const BOARD_PX = 420;
 const MARGIN = (GAME_W - BOARD_PX) / 2;
@@ -96,6 +98,22 @@ export default class GameScene extends Phaser.Scene {
       () => this.togglePause(),
       { width: 64, height: 56, fontSize: '26px', fill: 0x2a3140, radius: 14 },
     );
+
+    this.muteBtn = makeButton(
+      this,
+      GAME_W - MARGIN - 116,
+      130,
+      sounds.muted ? '🔇' : '🔊',
+      () => this.toggleMute(),
+      { width: 64, height: 56, fontSize: '24px', fill: 0x2a3140, radius: 14 },
+    );
+  }
+
+  toggleMute() {
+    const muted = sounds.toggleMute();
+    const label = this.muteBtn.list?.[1];
+    if (label) label.setText(muted ? '🔇' : '🔊');
+    if (!muted) sounds.playClick();
   }
 
   buildBoard() {
@@ -128,7 +146,9 @@ export default class GameScene extends Phaser.Scene {
     g.fillRoundedRect(-size / 2, -size / 2, size, size, 10);
 
     const value = 2 ** exponent;
-    const fontSize = value >= 1000 ? 34 : value >= 100 ? 40 : 46;
+    // DEF-02: shrink font as tile digits grow so 1024/2048 stay inside the cell.
+    const fontSize =
+      value >= 1000 ? 30 : value >= 100 ? 38 : value >= 10 ? 44 : 46;
     const textColor =
       exponent <= 1 ? TILE_TEXT_COLORS.dark : TILE_TEXT_COLORS.light;
     const text = this.add
@@ -210,21 +230,80 @@ export default class GameScene extends Phaser.Scene {
 
   doMove(dir) {
     if (this.locked || this.game.over || this.paused) return;
-    const { state, moved, mergedCells } = applyMove(this.game, dir);
+    const { state, moved, mergedCells, combos, maxChain } = applyMove(
+      this.game,
+      dir,
+    );
     if (!moved) return;
 
     this.game = state;
     this.locked = true;
     this.renderBoard();
 
+    sounds.playSlide();
+
     if (mergedCells?.length) {
+      const topTier = Math.max(...mergedCells.map((c) => c.value));
       for (const cell of mergedCells) this.popCell(cell.r, cell.c);
+      sounds.playMerge(Math.log2(topTier || 2));
     }
 
-    this.time.delayedCall(120, () => {
+    if (combos?.length && maxChain > 1) {
+      sounds.playCombo(maxChain);
+      // Show the strongest chain's feedback once per move.
+      const strongest = combos.reduce((a, b) => (b.depth > a.depth ? b : a));
+      this.showComboBurst(strongest.r, strongest.c, strongest.depth);
+    }
+
+    this.time.delayedCall(140, () => {
       this.locked = false;
-      if (this.game.over) this.showGameOver();
+      if (this.game.over) {
+        sounds.playGameOver();
+        this.showGameOver();
+      }
     });
+  }
+
+  showComboBurst(r, c, depth) {
+    const { x, y } = this.cellXY(r, c);
+    const mult = comboMultiplier(depth);
+    const label = depth >= 4 ? `MEGA COMBO x${mult}!` : `COMBO x${mult}!`;
+
+    const star = this.add
+      .text(x, y - CELL * 0.55, '★', {
+        fontFamily: 'system-ui, sans-serif',
+        fontSize: '30px',
+        color: '#e9c46a',
+      })
+      .setOrigin(0.5)
+      .setDepth(900);
+
+    const text = this.add
+      .text(x, y - CELL * 0.2, label, {
+        fontFamily: 'system-ui, sans-serif',
+        fontSize: '24px',
+        color: '#e9c46a',
+        fontStyle: 'bold',
+        stroke: '#161a23',
+        strokeThickness: 5,
+      })
+      .setOrigin(0.5)
+      .setDepth(900);
+
+    const targets = [star, text];
+    for (const t of targets) {
+      t.setScale(0.2).setAlpha(0);
+      this.tweens.add({
+        targets: t,
+        scale: { from: 0.2, to: 1.3 },
+        alpha: 1,
+        duration: 160,
+        ease: 'Back.Out',
+        yoyo: true,
+        hold: 260,
+        onComplete: () => t.destroy(),
+      });
+    }
   }
 
   popCell(r, c) {
@@ -290,14 +369,14 @@ export default class GameScene extends Phaser.Scene {
     const body = this.add
       .text(
         GAME_W / 2,
-        GAME_H * 0.5,
-        'Vuốt hoặc dùng phím mũi tên\nđể trượt các ô số.\n\nHai ô cùng số chạm nhau\nsẽ gộp thành số gấp đôi.\n\nMục tiêu: gộp tới 128!\nBàn đầy và không còn\nnước đi là thua.',
+        GAME_H * 0.52,
+        'Vuốt hoặc dùng phím mũi tên\nđể trượt các ô số.\nHai ô cùng số chạm nhau\nsẽ gộp thành số gấp đôi.\n\n★ CHUỖI COMBO:\nÔ vừa gộp chạm ô cùng số\nsẽ gộp tiếp ngay trong lượt!\nCombo càng sâu, điểm càng cao\n(x1.5 → x2 → x3).\n\nMục tiêu: gộp tới 2048!\nBàn đầy, hết nước đi là thua.',
         {
           fontFamily: 'system-ui, sans-serif',
-          fontSize: '22px',
+          fontSize: '20px',
           color: COLORS.textLight,
           align: 'center',
-          lineSpacing: 8,
+          lineSpacing: 5,
         },
       )
       .setOrigin(0.5);

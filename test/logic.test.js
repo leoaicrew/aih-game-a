@@ -18,7 +18,7 @@ test('collapseLine merges equal neighbors and sums score', () => {
   assert.deepEqual(merged, [0]);
 });
 
-test('collapseLine does not chain-merge three tiles', () => {
+test('collapseLine does not chain a lone third equal tile', () => {
   const { result } = collapseLine([1, 1, 1, 0, 0]);
   assert.deepEqual(result, [2, 1, 0, 0, 0]);
 });

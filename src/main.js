@@ -20,4 +20,9 @@ const config = {
   scene: [BootScene, MenuScene, GameScene],
 };
 
-new Phaser.Game(config);
+const game = new Phaser.Game(config);
+
+// Debug/QA hook: lets the headless smoke test (and devtools) inspect scene state.
+if (typeof window !== 'undefined') {
+  window.__AIH__ = game;
+}
