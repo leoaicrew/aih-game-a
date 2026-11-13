@@ -284,4 +284,29 @@ describe('QA Test Suite – Game A: Merge Stack', () => {
     assert.ok(content.includes('480'), 'Chiều rộng chuẩn 480px');
     assert.ok(content.includes('800'), 'Chiều cao chuẩn 800px');
   });
+
+  // --- NHÓM 5: SẴN SÀNG PHÁT HÀNH TĨNH (hosting miễn phí) ---
+  test('TC12: Vite dùng base tương đối để chạy được ở subpath GitHub Pages', () => {
+    const cfgPath = path.join(process.cwd(), 'vite.config.js');
+    const content = fs.readFileSync(cfgPath, 'utf-8');
+
+    assert.ok(/base:\s*['"]\.\/['"]/.test(content), "base phải là './' để asset không tuyệt đối hóa theo domain");
+  });
+
+  test('TC13: CREDITS.txt ghi giấy phép Phaser (MIT) và tuyên bố không thu dữ liệu', () => {
+    const creditsPath = path.join(process.cwd(), 'public', 'CREDITS.txt');
+    const content = fs.readFileSync(creditsPath, 'utf-8');
+
+    assert.ok(/Phaser[\s\S]*MIT/.test(content), 'Phải ghi Phaser MIT');
+    assert.ok(/không thu thập dữ liệu cá nhân/i.test(content), 'Phải tuyên bố không thu dữ liệu cá nhân');
+  });
+
+  test('TC14: Có workflow deploy GitHub Pages kích hoạt thủ công (không tự chạy khi push)', () => {
+    const wfPath = path.join(process.cwd(), '.github', 'workflows', 'deploy-pages.yml');
+    const content = fs.readFileSync(wfPath, 'utf-8');
+
+    assert.ok(content.includes('workflow_dispatch'), 'Deploy phải kích hoạt tay bằng workflow_dispatch');
+    assert.ok(!/^\s*on:\s*\[?\s*push/m.test(content), 'Không được tự deploy khi push');
+    assert.ok(content.includes('npm run build'), 'Workflow phải build site tĩnh');
+  });
 });

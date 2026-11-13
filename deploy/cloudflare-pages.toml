@@ -1,0 +1,17 @@
+# Cloudflare Pages — cấu hình deploy tĩnh (miễn phí)
+#
+# KHÔNG commit token, KHÔNG tự tạo tài khoản. Người thật (CEO/Chủ tịch) làm:
+#   1. Tạo tài khoản Cloudflare (miễn phí) tại https://dash.cloudflare.com/sign-up
+#   2. Workers & Pages > Create > Pages > "Connect to Git" repo này
+#   3. Điền đúng các giá trị dưới đây trong màn hình cấu hình build
+#   4. Bấm "Save and Deploy"
+#
+# Trang tĩnh có sẵn trong dist/, vite.config.js dùng base './' nên chạy được
+# cả ở domain gốc Cloudflare lẫn subpath GitHub Pages.
+
+[build]
+command = "npm ci --include=dev && npm test && npm run build"
+publish_dir = "dist"
+
+[build.environment]
+NODE_VERSION = "20"

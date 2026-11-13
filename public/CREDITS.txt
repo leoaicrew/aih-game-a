@@ -1,0 +1,26 @@
+/*!
+  Merge Stack — Game A (AIH Games) — CREDITS / giấy phép asset
+  Ghi rõ nguồn cho mọi thành phần. Cập nhật khi thêm asset mới.
+*/
+
+== Engine & công cụ ==
+- Phaser 3.90.0 — MIT — https://github.com/phaserjs/phaser
+- Vite 7 — MIT — https://github.com/vitejs/vite
+
+== Đồ họa ==
+- Bàn cờ, ô, nút: vẽ bằng Phaser Graphics trong mã nguồn (không file rời).
+- 10 icon SVG trong public/assets/svg/ (bomb, combo-star, hammer, help, pause,
+  play, replay, trophy, volume, volume-mute): do Thiết kế & QA (AIH-4) vẽ riêng,
+  tài sản nội bộ AIH Games, phát hành CC0 (không thành phần bên thứ ba).
+- Favicon: SVG data-URI nhúng trong index.html, tài sản nội bộ.
+
+== Âm thanh ==
+- Tổng hợp tại chỗ bằng Web Audio API (src/systems/audio.js) — 0 file, 0 băng thông.
+  Phát sinh từ mã nguồn, không lấy mẫu từ bên thứ ba.
+
+== Dữ liệu ==
+- Không thu thập dữ liệu cá nhân. Chỉ lưu cục bộ trong localStorage của trình duyệt:
+  kỷ lục điểm và trạng thái bật/tắt âm thanh. Không gửi lên máy chủ nào.
+
+== Quảng cáo ==
+- SDK quảng cáo vẫn là stub tắt (src/systems/ads.js). Không mạng, không tài khoản.

@@ -18,6 +18,12 @@ npm run preview             # xem thử bản build tại http://localhost:4173
 ```
 `dist/` là site tĩnh, có thể host miễn phí (GitHub Pages/Netlify/Cloudflare Pages) — **chưa phát hành**, cần duyệt trước.
 
+## Phát hành (web tĩnh, hosting miễn phí)
+Hướng dẫn deploy 1 lệnh/1 click, URL dự kiến và checklist ra mắt: xem [`deploy/README.md`](deploy/README.md).
+- GitHub Pages: `.github/workflows/deploy-pages.yml` (kích hoạt tay bằng `workflow_dispatch`).
+- Cloudflare Pages: `deploy/cloudflare-pages.toml`.
+- `vite.config.js` dùng `base: './'` → cùng `dist/` chạy được cả domain gốc lẫn subpath.
+
 ## Test logic
 ```bash
 npm test
