@@ -9,15 +9,21 @@ import { sounds } from '../src/systems/audio.js';
 const root = process.cwd();
 const read = (p) => fs.readFileSync(path.join(root, p), 'utf-8');
 
-describe('Visual identity v2 (AIH-18 brief)', () => {
-  test('UI01: nền gradient dọc #0b1020 -> #1a2238 + accent cyan #22d3ee + gold #e9c46a', () => {
-    assert.equal(COLORS.bg, 0x0b1020, 'nền trên phải là #0b1020');
-    assert.equal(COLORS.bgBottom, 0x1a2238, 'nền dưới phải là #1a2238');
+describe('Visual identity v3 — bright daylight (AIH-24 pass 2)', () => {
+  test('UI01: nền gradient SÁNG (v3) + accent cyan #22d3ee + gold #ffd45e', () => {
+    // AIH-24: pass 1 was near-black (#0b1020); v3 lifts the base far brighter.
+    assert.equal(COLORS.bg, 0x4f7fd6, 'nền trên phải sáng #4f7fd6');
+    assert.equal(COLORS.bgBottom, 0x8fd0ef, 'nền dưới phải sáng #8fd0ef');
     assert.equal(COLORS.accent, 0x22d3ee, 'accent cyan #22d3ee');
-    assert.equal(COLORS.gold, '#e9c46a', 'accent vàng #e9c46a');
+    assert.equal(COLORS.gold, '#ffd45e', 'accent vàng #ffd45e');
+
+    // Brightness guard: mean of the gradient stops must be clearly above black.
+    const mean = (c) => ((c >> 16 & 255) + (c >> 8 & 255) + (c & 255)) / 3;
+    assert.ok(mean(COLORS.bg) > 90, `nền trên quá tối: ${mean(COLORS.bg)}`);
+    assert.ok(mean(COLORS.bgBottom) > 120, `nền dưới quá tối: ${mean(COLORS.bgBottom)}`);
 
     const main = read('src/main.js');
-    assert.ok(main.includes('#0b1020'), 'backgroundColor Phaser = #0b1020');
+    assert.ok(main.includes('#4f7fd6'), 'backgroundColor Phaser sáng = #4f7fd6');
     assert.ok(main.includes('Scale.FIT') && main.includes('480') && main.includes('800'), 'giữ Scale.FIT 480x800');
 
     const visuals = read('src/ui/visuals.js');
@@ -34,13 +40,28 @@ describe('Visual identity v2 (AIH-18 brief)', () => {
     assert.ok(!TIER_COLORS.includes(0xff007f), 'bỏ màu neon trùng 0xff007f');
     assert.equal(TILE_GRADIENTS.length, 12, 'đủ gradient cho exponent 0..11');
     assert.equal(new Set(TILE_GRADIENTS.slice(8).map((g) => g[0])).size, 4, 'gradient cao cấp khác nhau');
+    // Every tile tier must be bright enough to read on a light sky.
+    const mean = (c) => ((c >> 16 & 255) + (c >> 8 & 255) + (c & 255)) / 3;
+    for (let i = 1; i < TIER_COLORS.length; i++) {
+      assert.ok(mean(TIER_COLORS[i]) > 110, `tier ${2 ** i} quá tối (${mean(TIER_COLORS[i])})`);
+    }
   });
 
-  test('UI03: tile vẽ bevel (viền sáng trên + bóng dưới) trong GameScene', () => {
-    const scene = read('src/scenes/GameScene.js');
-    assert.ok(/bevel/i.test(scene), 'có comment/khối bevel');
-    assert.ok(scene.includes('tileGradient'), 'tile dùng gradient theo tier');
-    assert.ok(scene.includes('drop shadow') || /shadow/i.test(scene), 'tile có shadow');
+  test('UI03: tile không còn blur filter + không nhúng số trong SVG (nhoè fix)', () => {
+    const grid = read('src/scenes/GameScene.js');
+    // Procedural fallback (no-art) still draws a bevel tile.
+    assert.ok(/bevel/i.test(grid), 'có khối bevel fallback');
+    assert.ok(grid.includes('tileGradient'), 'fallback tile dùng gradient theo tier');
+    // Real SVG tile files must be crisp: no blur filters, engine draws the number.
+    const tilesDir = path.join(root, 'public/assets/art/tiles');
+    const files = fs.readdirSync(tilesDir)
+      .filter((f) => /^tile-\d+\.svg$/.test(f));
+    assert.ok(files.length >= 11, 'đủ 11 tile số SVG');
+    for (const f of files) {
+      const svg = fs.readFileSync(path.join(tilesDir, f), 'utf-8');
+      assert.ok(!/feGaussianBlur|feDropShadow/.test(svg), `${f} không được có blur filter (gây nhoè)`);
+      assert.ok(!/<text[\s>]/.test(svg), `${f} không nhúng số (engine vẽ số, tránh trùng/nhoè)`);
+    }
   });
 });
 

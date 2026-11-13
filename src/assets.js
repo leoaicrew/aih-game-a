@@ -11,15 +11,17 @@ function tex(id, file, width, height) {
   return { key: `art-${id}`, url: file, width, height };
 }
 
+// Tiles load at 2x native (256px) so on high-DPI screens the 74px downscale
+// stays crisp (AIH-24: "nhoè" fix — no blur filters in the SVG either).
 export const TILES = TIER_NUMBERS.reduce((acc, val) => {
-  acc[val] = tex(`tile-${val}`, `${ART_BASE}/tiles/tile-${val}.svg`, 128, 128);
+  acc[val] = tex(`tile-${val}`, `${ART_BASE}/tiles/tile-${val}.svg`, 256, 256);
   return acc;
 }, {});
 
 export const TILE_EXTRAS = {
-  empty: tex('tile-empty', `${ART_BASE}/tiles/tile-empty.svg`, 128, 128),
-  selected: tex('tile-selected', `${ART_BASE}/tiles/tile-selected.svg`, 128, 128),
-  flash: tex('tile-flash', `${ART_BASE}/tiles/tile-merge-flash.svg`, 128, 128),
+  empty: tex('tile-empty', `${ART_BASE}/tiles/tile-empty.svg`, 256, 256),
+  selected: tex('tile-selected', `${ART_BASE}/tiles/tile-selected.svg`, 256, 256),
+  flash: tex('tile-flash', `${ART_BASE}/tiles/tile-merge-flash.svg`, 256, 256),
 };
 
 export const BACKGROUNDS = {

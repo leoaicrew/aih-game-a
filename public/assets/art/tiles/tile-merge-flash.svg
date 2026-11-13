@@ -2,16 +2,14 @@
   <defs>
     <radialGradient id="flash-rad" cx="50%" cy="50%" r="50%">
       <stop offset="0%" stop-color="#ffffff" stop-opacity="1"/>
-      <stop offset="35%" stop-color="#67e8f9" stop-opacity="0.85"/>
-      <stop offset="70%" stop-color="#e9c46a" stop-opacity="0.4"/>
-      <stop offset="100%" stop-color="#0b1020" stop-opacity="0"/>
+      <stop offset="40%" stop-color="#aef1ff" stop-opacity="0.85"/>
+      <stop offset="72%" stop-color="#ffe07a" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
     </radialGradient>
   </defs>
-  <!-- Radiant Shockwave Burst -->
+  <!-- Radiant shockwave burst. -->
   <circle cx="64" cy="64" r="56" fill="url(#flash-rad)"/>
-  <!-- 4 Radiant Light Rays -->
+  <!-- 4 crisp light rays. -->
   <path d="M 64 8 L 68 56 L 120 64 L 68 72 L 64 120 L 60 72 L 8 64 L 60 56 Z" fill="#ffffff" opacity="0.9"/>
-  <!-- Diagonal Sparkles -->
-  <path d="M 64 24 L 66 60 L 104 64 L 66 68 L 64 104 L 62 68 L 24 64 L 62 60 Z" fill="#fef08a" opacity="0.75" transform="rotate(45 64 64)"/>
   <circle cx="64" cy="64" r="16" fill="#ffffff"/>
 </svg>

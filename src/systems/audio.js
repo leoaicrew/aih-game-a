@@ -34,16 +34,38 @@ class SoundManager {
   }
 
   // --- Background music -------------------------------------------------
-  // Cheap arpeggio loop generated with Web Audio (am - F - C - G pad + bell).
-  // No file, no license, works offline. Mute stops it completely.
-  MUSIC_TEMPO_MS = 380;
+  // AIH-24 pass 2: the old version layered sustained triangle "pads" whose
+  // overlapping oscillators beat into a muddy hum ("nhạc u u"). Replaced with
+  // a light, plucked marimba/bell arpeggio: every note is a short self-decaying
+  // "pluck" on a bright pentatonic-friendly progression (C - Am - F - G), so
+  // there are no sustained drones and the loop breathes. Still 0 files, 0 network.
+  MUSIC_TEMPO_MS = 300;
 
+  // Chord roots + arpeggio degrees (semitone offsets from root), major-ish so
+  // it reads upbeat. Root frequencies in Hz.
   static MUSIC_CHORDS = [
-    [220.0, 261.63, 329.63], // A3 C4 E4 (Am)
-    [174.61, 220.0, 261.63], // F3 A3 C4 (F)
-    [130.81, 164.81, 196.0], // C3 E3 G3 (C)
-    [196.0, 246.94, 293.66], // G3 B3 D4 (G)
+    { root: 261.63, arp: [0, 4, 7, 12] }, // C major
+    { root: 220.0, arp: [0, 3, 7, 12] }, // A minor
+    { root: 174.61, arp: [0, 4, 7, 12] }, // F major
+    { root: 196.0, arp: [0, 4, 7, 12] }, // G major
   ];
+
+  // One short plucked note: quick attack, exponential decay, slight detune
+  // shimmer via a second quieter oscillator a fifth up. Very short so notes
+  // never pile into a drone.
+  playPluck(freq, when, gainPeak = 0.14, decay = 0.32, type = 'sine') {
+    const osc = this.ctx.createOscillator();
+    const g = this.ctx.createGain();
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, when);
+    g.gain.setValueAtTime(0.0001, when);
+    g.gain.exponentialRampToValueAtTime(gainPeak, when + 0.012);
+    g.gain.exponentialRampToValueAtTime(0.0001, when + decay);
+    osc.connect(g);
+    g.connect(this.musicGain);
+    osc.start(when);
+    osc.stop(when + decay + 0.02);
+  }
 
   musicActive() {
     return this.musicPlaying && !this.muted && !!this.ctx;
@@ -57,7 +79,7 @@ class SoundManager {
     if (this.musicPlaying) return true;
     this.musicGain = this.ctx.createGain();
     this.musicGain.gain.setValueAtTime(0.0001, this.ctx.currentTime);
-    this.musicGain.gain.exponentialRampToValueAtTime(this.volume * 0.22, this.ctx.currentTime + 1.2);
+    this.musicGain.gain.exponentialRampToValueAtTime(this.volume * 0.32, this.ctx.currentTime + 1.0);
     this.musicGain.connect(this.ctx.destination);
     this.musicPlaying = true;
     this.musicStep = 0;
@@ -90,35 +112,18 @@ class SoundManager {
     const chords = SoundManager.MUSIC_CHORDS;
     const chord = chords[Math.floor(step / 4) % chords.length];
     const now = this.ctx.currentTime;
-    // Pad: two soft triangle oscillators per step.
-    chord.forEach((freq, i) => {
-      const osc = this.ctx.createOscillator();
-      const g = this.ctx.createGain();
-      osc.type = 'triangle';
-      osc.frequency.setValueAtTime(freq * (i === 2 ? 2 : 1), now);
-      g.gain.setValueAtTime(0.0001, now);
-      g.gain.exponentialRampToValueAtTime(0.16, now + 0.08);
-      g.gain.exponentialRampToValueAtTime(0.0001, now + 0.62);
-      osc.connect(g);
-      g.connect(this.musicGain);
-      osc.start(now);
-      osc.stop(now + 0.65);
-    });
-    // Bell melody on every other step.
-    if (step % 2 === 0) {
-      const bell = this.ctx.createOscillator();
-      const bg = this.ctx.createGain();
-      bell.type = 'sine';
-      bell.frequency.setValueAtTime(chord[2] * 2, now);
-      bg.gain.setValueAtTime(0.0001, now);
-      bg.gain.exponentialRampToValueAtTime(0.10, now + 0.02);
-      bg.gain.exponentialRampToValueAtTime(0.0001, now + 0.5);
-      bell.connect(bg);
-      bg.connect(this.musicGain);
-      bell.start(now);
-      bell.stop(now + 0.52);
-    }
-    this.musicStep = (step + 1) % 64;
+    const semis = (n) => chord.root * Math.pow(2, n / 12);
+
+    // Arpeggio: walk the 4 chord tones across the 4 steps of the bar so the
+    // melody moves instead of holding one tone.
+    const deg = chord.arp[step % chord.arp.length];
+    this.playPluck(semis(deg), now, 0.16, 0.34, 'triangle');
+    // Soft octave shimmer (quiet, short) on the beat for sparkle.
+    if (step % 2 === 0) this.playPluck(semis(deg + 12), now + 0.02, 0.07, 0.26, 'sine');
+    // Gentle low root pulse on the downbeat only (short, not a drone).
+    if (step % 4 === 0) this.playPluck(chord.root / 2, now, 0.1, 0.36, 'sine');
+
+    this.musicStep = (step + 1) % 16;
     this.musicTimer = setTimeout(() => this.scheduleMusicStep(), SoundManager.MUSIC_TEMPO_MS);
   }
 

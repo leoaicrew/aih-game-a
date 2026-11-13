@@ -1,21 +1,22 @@
 export const BOARD_SIZE = 5;
 export const MAX_TILE = 11; // 2^11 = 2048 highest design tier
 
-// Colors per tier (index = exponent). Visual identity v2 (AIH-18 brief).
-// 256/512/1024/2048 must each be a distinct hue (old build reused 0xff007f).
+// Colors per tier (index = exponent). Visual identity v3 (AIH-24 pass 2):
+// brighter, higher-contrast tiles on a bright sky. 256/512/1024/2048 keep
+// distinct hues (old build reused 0xff007f).
 export const TIER_COLORS = [
   0x9aa5b1, // placeholder 2^0 (unused)
-  0x24314d, // 2
-  0x1b4a69, // 4
-  0x0f5c6b, // 8
-  0x0e7d88, // 16
-  0x0e8fa8, // 32
-  0x2c5bd6, // 64
-  0x5b3fd6, // 128
-  0x8e3fc4, // 256 (violet)
-  0xd6406f, // 512 (rose)
-  0xc9622b, // 1024 (amber)
-  0xb8933f, // 2048 (gold)
+  0x8fb2d9, // 2   (soft sky blue)
+  0x5fd0e8, // 4   (aqua)
+  0x33d6a6, // 8   (mint green)
+  0x2ee6c8, // 16  (teal mint)
+  0x22d3ee, // 32  (cyan)
+  0x4f8dff, // 64  (blue)
+  0x7c6bff, // 128 (indigo)
+  0xb36bff, // 256 (violet)
+  0xff77b0, // 512 (rose)
+  0xff9e5c, // 1024 (amber-orange)
+  0xffd45e, // 2048 (gold)
 ];
 
 // SVG icon paths (CC0, in public/assets/svg/) used for HUD buttons on web.

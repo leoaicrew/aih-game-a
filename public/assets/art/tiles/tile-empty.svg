@@ -1,14 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
   <defs>
-    <linearGradient id="empty-grad" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#101524"/>
-      <stop offset="100%" stop-color="#161e32"/>
+    <linearGradient id="empty-grad" x1="0.3" y1="0" x2="0.3" y2="1">
+      <stop offset="0%" stop-color="#5c7cae"/>
+      <stop offset="100%" stop-color="#4a6a9c"/>
     </linearGradient>
   </defs>
-  <!-- Inset recessed cell shadow -->
-  <rect x="8" y="8" width="112" height="112" rx="20" fill="url(#empty-grad)" stroke="#222c44" stroke-width="2"/>
-  <!-- Inner top shadow for cavity depth -->
-  <path d="M 10 26 C 10 16, 20 10, 36 10 L 92 10 C 108 10, 118 16, 118 26 L 114 26 C 114 18, 106 14, 92 14 L 36 14 C 22 14, 14 18, 14 26 Z" fill="#000000" opacity="0.6"/>
-  <!-- Subtle center crosshair guide -->
-  <circle cx="64" cy="64" r="3" fill="#2c3856" opacity="0.5"/>
+  <!-- Inset recessed cell: crisp 2px border, no blur. -->
+  <rect x="6" y="6" width="116" height="116" rx="24" fill="url(#empty-grad)" stroke="rgba(255,255,255,0.4)" stroke-width="2" stroke-dasharray="3 5"/>
+  <!-- Subtle center dot guide. -->
+  <circle cx="64" cy="64" r="3" fill="#ffffff" opacity="0.3"/>
 </svg>

@@ -17,9 +17,9 @@
 == Âm thanh ==
 - SFX + nhạc nền: tổng hợp tại chỗ bằng Web Audio API (src/systems/audio.js) — 0 file, 0 băng thông.
   Phát sinh từ mã nguồn, không lấy mẫu từ bên thứ ba.
-- Nhạc nền (2026-11-13): vòng hợp âm Am–F–C–G tự sinh bằng Web Audio Oscillator/Gain,
-  loop mềm ~380ms/step, tắt hẳn khi bấm mute. Bản quyền: AIH Games, phát hành CC0
-  (không dùng mẫu ngoài, không cần ghi nguồn bên thứ ba).
+- Nhạc nền (AIH-24 đợt 2): vòng hợp âm C–Am–F–G tự sinh bằng Web Audio Oscillator/Gain,
+  mỗi nốt là một "pluck" ngắn tự tắt (marimba/bell), loop ~300ms/step, không drone "u u",
+  tắt hẳn khi bấm mute. Bản quyền: AIH Games, phát hành CC0 (0 file, không mẫu ngoài).
 - SFX: slide, merge (cao độ theo tier), combo, game-over, click, menu, kỷ lục mới.
 
 == Dữ liệu ==
@@ -30,12 +30,11 @@
 - SDK quảng cáo vẫn là stub tắt (src/systems/ads.js). Không mạng, không tài khoản.
 
 == Bộ Asset Đồ Họa 2D Thật (AIH-21 — Game Artist) ==
-- Bộ 37 asset đồ họa vector SVG chuyên nghiệp theo phong cách "Neon Night":
-  + 14 Tile set (cấp bậc 2..2048 có bevel 3D, selected, merge-flash, empty).
-  + 2 Backgrounds (bg-main, bg-menu chuẩn 480x800 gradient đa tầng & họa tiết cyber).
-  + 8 UI Kit (nút primary/secondary normal & pressed, panel-card, score-board, progress-bar, badge-combo).
-  + 10 Icon đồng bộ (play, pause, replay, volume, mute, trophy, hammer, bomb, help, combo-star).
-  + 3 Sprite Linh vật "Stacky" (3 biểu cảm: idle vẫy tay, cheer ăn mừng kỷ lục, shock khi game over).
+- Bộ 37 asset đồ họa vector SVG "Neon Night" (bản AIH-24 đợt 2: nền sáng hơn, tile sắc nét):
+  + 11 Tile số (2..2048) nền gradient tươi, viền sắc 3px, KHÔNG filter blur, KHÔNG nhúng số
+    (engine Phaser vẽ số) — sửa lỗi "nhoè"; thêm selected, merge-flash, empty.
+  + 2 Backgrounds (bg-main, bg-menu 480x800) sky sáng + nebula.
+  + 8 UI Kit, 10 Icon, 3 Sprite linh vật "Stacky" (idle/cheer/shock).
 - Thư mục lưu trữ: public/assets/art/ và public/assets/svg/
 - Bản quyền & Giấy phép: Tài sản độc quyền do Game Artist AIH Games tự thiết kế, phát hành theo CC0 1.0 Universal.
 - Chi phí: 0 VNĐ, không bản quyền bên thứ ba.

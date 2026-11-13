@@ -64,13 +64,15 @@ export default class GameScene extends Phaser.Scene {
 
   create() {
     this.fx = new Fx(this);
-    this.cameras.main.setBackgroundColor('#0b1020');
-    // Real SVG play background (AIH-21); gradient stays as fallback layer.
+    this.cameras.main.setBackgroundColor('#4f7fd6');
+    // Gradient first as the fallback base, then the bright SVG background on
+    // top (AIH-24: previously the opaque gradient was painted OVER the SVG,
+    // which is why the screen read as near-black).
+    addGradientBackground(this);
     if (this.textures.exists(BACKGROUNDS.main.key)) {
       this.add.image(GAME_W / 2, GAME_H / 2, BACKGROUNDS.main.key).setDisplaySize(GAME_W, GAME_H);
     }
-    addGradientBackground(this);
-    addGlow(this, GAME_W / 2, BOARD_TOP + BOARD_PX / 2, 300, PALETTE.cyan, 0.16);
+    addGlow(this, GAME_W / 2, BOARD_TOP + BOARD_PX / 2, 300, PALETTE.cyan, 0.18);
     addVignette(this);
 
     this.game = createGame();
@@ -99,7 +101,7 @@ export default class GameScene extends Phaser.Scene {
 
   buildHeader() {
     // Score card
-    drawPanel(this, 118, 60, 208, 92, 18, { fill: 0x121a2c });
+    drawPanel(this, 118, 60, 208, 92, 18, { fill: 0x24375e, edge: 0x5f83c4 });
     this.add.text(28, 22, 'ĐIỂM', { fontFamily: FONT, fontSize: '15px', color: '#22d3ee', letterSpacing: 2 });
     this.scoreText = this.add
       .text(28, 42, '0', {
@@ -112,7 +114,7 @@ export default class GameScene extends Phaser.Scene {
       .setShadow(0, 2, '#000000', 6, false, true);
 
     // Best card
-    drawPanel(this, GAME_W - 118, 60, 208, 92, 18, { fill: 0x121a2c });
+    drawPanel(this, GAME_W - 118, 60, 208, 92, 18, { fill: 0x24375e, edge: 0x5f83c4 });
     this.add
       .text(GAME_W - 28, 22, 'KỶ LỤC', { fontFamily: FONT, fontSize: '15px', color: '#e9c46a', letterSpacing: 2 })
       .setOrigin(1, 0);
@@ -126,11 +128,11 @@ export default class GameScene extends Phaser.Scene {
       .setOrigin(1, 0);
 
     this.pauseBtn = makeIconButton(this, GAME_W - 62, 160, '❚❚', () => this.togglePause(), {
-      sfx: sounds, size: 48, fontSize: '18px', fill: 0x121a2c,
+      sfx: sounds, size: 48, fontSize: '18px', fill: 0x24375e,
       texture: ICONS.pause.key, iconSize: 28,
     });
     this.muteBtn = makeIconButton(this, GAME_W - 122, 160, sounds.muted ? '🔇' : '🔊', () => this.toggleMute(), {
-      sfx: sounds, size: 48, fill: 0x121a2c,
+      sfx: sounds, size: 48, fill: 0x24375e,
       texture: (sounds.muted ? ICONS.mute : ICONS.volume).key, iconSize: 28,
     });
     void this.pauseBtn;
@@ -139,7 +141,7 @@ export default class GameScene extends Phaser.Scene {
       .text(GAME_W / 2, 160, 'VUỐT ĐỂ TRƯỢT', {
         fontFamily: FONT,
         fontSize: '15px',
-        color: '#6b7894',
+        color: '#dbe6f5',
         letterSpacing: 3,
       })
       .setOrigin(0.5);
@@ -385,9 +387,9 @@ export default class GameScene extends Phaser.Scene {
       .text(x, y - CELL * 0.2, label, {
         fontFamily: FONT,
         fontSize: '24px',
-        color: '#e9c46a',
+        color: '#ffd45e',
         fontStyle: 'bold',
-        stroke: '#0b1020',
+        stroke: '#24375e',
         strokeThickness: 6,
       })
       .setOrigin(0.5)
@@ -447,7 +449,7 @@ export default class GameScene extends Phaser.Scene {
         .setOrigin(0)
         .setInteractive({ useHandCursor: false });
       const card = this.add.container(0, 0);
-      drawPanel(this, GAME_W / 2, GAME_H * 0.45, 360, 380, 28, { fill: 0x121a2c });
+      drawPanel(this, GAME_W / 2, GAME_H * 0.45, 360, 380, 28, { fill: 0x1e2f52, edge: 0x4f6fa8 });
       const title = this.add
         .text(GAME_W / 2, GAME_H * 0.31, 'TẠM DỪNG', {
           fontFamily: FONT,
@@ -465,7 +467,7 @@ export default class GameScene extends Phaser.Scene {
         GAME_H * 0.45 + 96,
         'VỀ MENU',
         () => this.scene.start('Menu'),
-        { sfx: sounds, fill: PALETTE.panelEdge, fillBottom: 0x1b2337, textColor: '#f5f7fa', fontSize: '24px', height: 64 },
+        { sfx: sounds, fill: PALETTE.panelEdge, fillBottom: 0x2a3f66, textColor: '#f5f7fa', fontSize: '24px', height: 64 },
       );
       card.add([title, resume, quit]);
       layer.add([dim, card]);
@@ -484,7 +486,7 @@ export default class GameScene extends Phaser.Scene {
       .setOrigin(0)
       .setInteractive();
     const card = this.add.container(0, 0);
-    drawPanel(this, GAME_W / 2, GAME_H * 0.5, 400, 600, 28, { fill: 0x121a2c });
+    drawPanel(this, GAME_W / 2, GAME_H * 0.5, 400, 600, 28, { fill: 0x1e2f52, edge: 0x4f6fa8 });
     const title = this.add
       .text(GAME_W / 2, GAME_H * 0.27, 'CÁCH CHƠI', {
         fontFamily: FONT,
@@ -522,7 +524,7 @@ export default class GameScene extends Phaser.Scene {
       .setOrigin(0)
       .setInteractive();
     const card = this.add.container(0, 0);
-    drawPanel(this, GAME_W / 2, GAME_H * 0.48, 380, 460, 28, { fill: 0x121a2c });
+    drawPanel(this, GAME_W / 2, GAME_H * 0.48, 380, 460, 28, { fill: 0x1e2f52, edge: 0x4f6fa8 });
     const isBest = this.game.score >= this.game.best && this.game.score > 0;
     const title = this.add
       .text(GAME_W / 2, GAME_H * 0.315, 'KẾT THÚC', {
@@ -564,7 +566,7 @@ export default class GameScene extends Phaser.Scene {
       GAME_H * 0.58 + 92,
       'VỀ MENU',
       () => this.scene.start('Menu'),
-      { sfx: sounds, fill: PALETTE.panelEdge, fillBottom: 0x1b2337, textColor: '#f5f7fa', fontSize: '24px', height: 64 },
+      { sfx: sounds, fill: PALETTE.panelEdge, fillBottom: 0x2a3f66, textColor: '#f5f7fa', fontSize: '24px', height: 64 },
     );
     card.add([title, score, best, again, menu]);
     layer.add([dim, card]);

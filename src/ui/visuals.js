@@ -43,15 +43,15 @@ export function addGlow(scene, x, y, radius, color, alpha = 0.25) {
   return scene.add.image(x, y, key).setAlpha(alpha).setBlendMode(Phaser.BlendModes.ADD);
 }
 
-// Dark vignette overlay: 4 edge gradients darkening the corners.
+// Soft vignette overlay: subtle edge shading so the board stays bright (AIH-24).
 export function addVignette(scene) {
   const key = 'vignette-tile';
   if (!scene.textures.exists(key)) {
     const c = scene.textures.createCanvas(key, 128, 128);
     const ctx = c.context;
-    const grad = ctx.createRadialGradient(64, 64, 20, 64, 64, 92);
+    const grad = ctx.createRadialGradient(64, 64, 30, 64, 64, 92);
     grad.addColorStop(0, 'rgba(0,0,0,0)');
-    grad.addColorStop(1, 'rgba(0,0,0,0.55)');
+    grad.addColorStop(1, 'rgba(11,42,74,0.22)');
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, 128, 128);
     c.refresh();

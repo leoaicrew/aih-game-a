@@ -1,14 +1,16 @@
 export const GAME_W = 480;
 export const GAME_H = 800;
 
-// Visual identity v2 (AIH-18 brief / AIH-19): deep gradient night-sky, cyan + gold.
+// Visual identity v3 (AIH-24 pass 2): bright daylight-sky with neon accents.
+// Pass 1 was too dark (#0b1020 near-black). Base lifted far above black,
+// cyan + gold accents kept for brand continuity, contrast raised.
 export const PALETTE = {
-  bgTop: 0x0b1020,
-  bgBottom: 0x1a2238,
-  panel: 0x161d30,
-  panelEdge: 0x2c3856,
-  cellEmpty: 0x131a2b,
-  cellEmptyEdge: 0x222c44,
+  bgTop: 0x4f7fd6,
+  bgBottom: 0x8fd0ef,
+  panel: 0x2a3f66,
+  panelEdge: 0x5f83c4,
+  cellEmpty: 0x3f5a86,
+  cellEmptyEdge: 0x6f92c9,
   cyan: 0x22d3ee,
   cyanDim: 0x0e7490,
   gold: 0xe9c46a,
@@ -20,35 +22,35 @@ export const PALETTE = {
 export const COLORS = {
   bg: PALETTE.bgTop,
   bgBottom: PALETTE.bgBottom,
-  boardBg: 0x12172a,
-  cellEmpty: 0x131a2b,
-  textLight: '#f5f7fa',
-  textDim: '#9aa5b1',
+  boardBg: 0x33497a,
+  cellEmpty: 0x3f5a86,
+  textLight: '#ffffff',
+  textDim: '#dbe6f5',
   accent: PALETTE.cyan,
-  gold: '#e9c46a',
+  gold: '#ffd45e',
   cyan: '#22d3ee',
 };
 
 export const TILE_TEXT_COLORS = {
-  dark: '#2a3140',
+  dark: '#1c2740',
   light: '#ffffff',
 };
 
-// Tile gradients (top -> bottom) per exponent 1..11. Tier 256/512/1024/2048
-// get distinct hues so the board reads at a glance (old build reused 0xff007f).
+// Tile gradients (top -> bottom) per exponent 1..11. Brighter, saturated hues
+// with a clear top-to-bottom falloff so tiles pop against the sky background.
 export const TILE_GRADIENTS = [
-  [0x9aa5b1, 0x6b7684], // placeholder 2^0 (unused)
-  [0x3b4a6b, 0x24314d], // 2
-  [0x2e6f95, 0x1b4a69], // 4
-  [0x1f8a99, 0x0f5c6b], // 8
-  [0x1fb0b8, 0x0e7d88], // 16
-  [0x22d3ee, 0x0e8fa8], // 32
-  [0x4f8dff, 0x2c5bd6], // 64
-  [0x8b6bff, 0x5b3fd6], // 128
-  [0xd16bff, 0x8e3fc4], // 256 (violet)
-  [0xff7ab8, 0xd6406f], // 512 (rose)
-  [0xf4a261, 0xc9622b], // 1024 (amber)
-  [0xe9c46a, 0xb8933f], // 2048 (gold)
+  [0xbfd3e8, 0x8fb2d9], // placeholder 2^0 (unused)
+  [0xa9c8ef, 0x6f9fe0], // 2
+  [0x8ce4f4, 0x3fb8d6], // 4
+  [0x6fe8c4, 0x22b891], // 8
+  [0x5cf0d2, 0x1fc9ad], // 16
+  [0x4fe0f5, 0x14b4cf], // 32
+  [0x7aa8ff, 0x3f6fe0], // 64
+  [0xa08cff, 0x6b52d8], // 128
+  [0xd08aff, 0x9a4fd6], // 256 (violet)
+  [0xff9ecb, 0xf0548e], // 512 (rose)
+  [0xffb877, 0xe07b2e], // 1024 (amber-orange)
+  [0xffe07a, 0xe0a92e], // 2048 (gold)
 ];
 
 // Subtle glow emitted by high tiers (used for tile outer glow).

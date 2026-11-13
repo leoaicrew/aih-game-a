@@ -16,11 +16,13 @@ export default class MenuScene extends Phaser.Scene {
 
   create() {
     this.fx = new Fx(this);
-    this.cameras.main.setBackgroundColor('#0b1020');
-    this.addArtBackground(BACKGROUNDS.menu);
+    this.cameras.main.setBackgroundColor('#5a86db');
+    // Gradient fallback first, then bright SVG background on top (AIH-24 fix:
+    // the opaque gradient used to be painted over the SVG).
     addGradientBackground(this);
-    addGlow(this, GAME_W / 2, 250, 260, PALETTE.cyan, 0.30);
-    addGlow(this, GAME_W / 2, 660, 230, PALETTE.gold, 0.14);
+    this.addArtBackground(BACKGROUNDS.menu);
+    addGlow(this, GAME_W / 2, 250, 260, PALETTE.cyan, 0.32);
+    addGlow(this, GAME_W / 2, 660, 230, PALETTE.gold, 0.18);
     addVignette(this);
     this.fx.fadeIn();
 
