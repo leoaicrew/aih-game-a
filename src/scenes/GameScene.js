@@ -11,6 +11,7 @@ import {
 import { sounds } from '../systems/audio.js';
 import Fx from '../ui/fx.js';
 import { addGradientBackground, addGlow, addVignette, drawPanel } from '../ui/visuals.js';
+import { BACKGROUNDS, TILE_EXTRAS, ICONS, MASCOT, tileTexture } from '../assets.js';
 
 const BOARD_PX = 430;
 const MARGIN = (GAME_W - BOARD_PX) / 2;
@@ -41,6 +42,17 @@ function tileGradient(exponent) {
   return { top, bottom };
 }
 
+// DEF-02: shrink font as tile digits grow so 1024/2048 stay inside the cell.
+function tileFontSize(value) {
+  return value >= 1000 ? 30 : value >= 100 ? 38 : value >= 10 ? 44 : 46;
+}
+
+function tileLabel(exponent) {
+  const value = 2 ** exponent;
+  const textColor = exponent <= 1 ? TILE_TEXT_COLORS.dark : TILE_TEXT_COLORS.light;
+  return { value, textColor };
+}
+
 export default class GameScene extends Phaser.Scene {
   constructor() {
     super('Game');
@@ -53,6 +65,10 @@ export default class GameScene extends Phaser.Scene {
   create() {
     this.fx = new Fx(this);
     this.cameras.main.setBackgroundColor('#0b1020');
+    // Real SVG play background (AIH-21); gradient stays as fallback layer.
+    if (this.textures.exists(BACKGROUNDS.main.key)) {
+      this.add.image(GAME_W / 2, GAME_H / 2, BACKGROUNDS.main.key).setDisplaySize(GAME_W, GAME_H);
+    }
     addGradientBackground(this);
     addGlow(this, GAME_W / 2, BOARD_TOP + BOARD_PX / 2, 300, PALETTE.cyan, 0.16);
     addVignette(this);
@@ -111,9 +127,11 @@ export default class GameScene extends Phaser.Scene {
 
     this.pauseBtn = makeIconButton(this, GAME_W - 62, 160, '❚❚', () => this.togglePause(), {
       sfx: sounds, size: 48, fontSize: '18px', fill: 0x121a2c,
+      texture: ICONS.pause.key, iconSize: 28,
     });
     this.muteBtn = makeIconButton(this, GAME_W - 122, 160, sounds.muted ? '🔇' : '🔊', () => this.toggleMute(), {
       sfx: sounds, size: 48, fill: 0x121a2c,
+      texture: (sounds.muted ? ICONS.mute : ICONS.volume).key, iconSize: 28,
     });
     void this.pauseBtn;
 
@@ -129,7 +147,7 @@ export default class GameScene extends Phaser.Scene {
 
   toggleMute() {
     const muted = sounds.toggleMute();
-    if (this.muteBtn?.glyph) this.muteBtn.glyph.setText(muted ? '🔇' : '🔊');
+    this.muteBtn?.setIcon?.((muted ? ICONS.mute : ICONS.volume).key);
     if (!muted) sounds.playClick();
   }
 
@@ -141,14 +159,21 @@ export default class GameScene extends Phaser.Scene {
       shadowAlpha: 0.6,
     });
 
-    this.cellGraphics = this.add.graphics();
+    const hasEmptyArt = this.textures.exists(TILE_EXTRAS.empty.key);
+    if (!hasEmptyArt) {
+      this.cellGraphics = this.add.graphics();
+    }
     for (let r = 0; r < BOARD_SIZE; r++) {
       for (let c = 0; c < BOARD_SIZE; c++) {
         const { x, y } = this.cellXY(r, c);
-        this.cellGraphics.fillStyle(COLORS.cellEmpty, 1);
-        this.cellGraphics.fillRoundedRect(x - CELL / 2, y - CELL / 2, CELL, CELL, 12);
-        this.cellGraphics.lineStyle(1, 0x2a3550, 0.9);
-        this.cellGraphics.strokeRoundedRect(x - CELL / 2, y - CELL / 2, CELL, CELL, 12);
+        if (hasEmptyArt) {
+          this.add.image(x, y, TILE_EXTRAS.empty.key).setDisplaySize(CELL, CELL);
+        } else {
+          this.cellGraphics.fillStyle(COLORS.cellEmpty, 1);
+          this.cellGraphics.fillRoundedRect(x - CELL / 2, y - CELL / 2, CELL, CELL, 12);
+          this.cellGraphics.lineStyle(1, 0x2a3550, 0.9);
+          this.cellGraphics.strokeRoundedRect(x - CELL / 2, y - CELL / 2, CELL, CELL, 12);
+        }
       }
     }
   }
@@ -156,6 +181,27 @@ export default class GameScene extends Phaser.Scene {
   makeTile(exponent) {
     const container = this.add.container(0, 0);
     const size = CELL;
+    const texKey = tileTexture(exponent);
+    const hasArt = this.textures.exists(texKey);
+
+    if (hasArt) {
+      // Real bevel tile SVG (AIH-21) as the body, value glyph on top.
+      const img = this.add.image(0, 0, texKey).setDisplaySize(size, size);
+      const { value, textColor } = tileLabel(exponent);
+      const text = this.add
+        .text(0, 0, String(value), {
+          fontFamily: FONT,
+          fontSize: `${tileFontSize(value)}px`,
+          color: textColor,
+          fontStyle: 'bold',
+        })
+        .setOrigin(0.5)
+        .setShadow(0, 2, '#000000', 4, false, true);
+      container.add([img, text]);
+      container.tileBody = img;
+      return container;
+    }
+
     const { top, bottom } = tileGradient(exponent);
     const g = this.add.graphics();
 
@@ -306,6 +352,7 @@ export default class GameScene extends Phaser.Scene {
       // Show the strongest chain's feedback once per move.
       const strongest = combos.reduce((a, b) => (b.depth > a.depth ? b : a));
       this.showComboBurst(strongest.r, strongest.c, strongest.depth);
+      this.cheerMascot();
     }
 
     this.time.delayedCall(140, () => {
@@ -322,14 +369,17 @@ export default class GameScene extends Phaser.Scene {
     const mult = comboMultiplier(depth);
     const label = depth >= 4 ? `MEGA COMBO x${mult}!` : `COMBO x${mult}!`;
 
-    const star = this.add
-      .text(x, y - CELL * 0.55, '★', {
-        fontFamily: FONT,
-        fontSize: '32px',
-        color: '#e9c46a',
-      })
-      .setOrigin(0.5)
-      .setDepth(900);
+    const starKey = ICONS.comboStar.key;
+    const star = this.textures.exists(starKey)
+      ? this.add.image(x, y - CELL * 0.55, starKey).setDisplaySize(40, 40).setOrigin(0.5).setDepth(900)
+      : this.add
+        .text(x, y - CELL * 0.55, '★', {
+          fontFamily: FONT,
+          fontSize: '32px',
+          color: '#e9c46a',
+        })
+        .setOrigin(0.5)
+        .setDepth(900);
 
     const text = this.add
       .text(x, y - CELL * 0.2, label, {
@@ -351,11 +401,40 @@ export default class GameScene extends Phaser.Scene {
 
   popCell(r, c, exponent = 2) {
     const { x, y } = this.cellXY(r, c);
+    if (this.textures.exists(TILE_EXTRAS.flash.key)) {
+      const burstArt = this.add.image(x, y, TILE_EXTRAS.flash.key).setDisplaySize(CELL * 1.3, CELL * 1.3).setDepth(820);
+      this.fx.tween({
+        targets: burstArt,
+        alpha: 0,
+        scale: 1.5,
+        duration: 280,
+        ease: 'Quad.Out',
+        onComplete: () => burstArt.destroy(),
+      });
+    }
     const color = TIER_COLORS[Math.min(exponent, TIER_COLORS.length - 1)];
     this.fx.flash(x, y, color);
     this.fx.burst(x, y, color);
     const sprite = this.tileSprites.get(`${r},${c}`);
     if (sprite) this.fx.mergeBounce(sprite);
+  }
+
+  // Mascot "Stacky" cheer pop on a strong combo (real SVG, AIH-21).
+  cheerMascot() {
+    if (!this.textures.exists(MASCOT.cheer.key)) return;
+    if (!this.mascot) {
+      this.mascot = this.add
+        .image(MARGIN + CELL * 0.5, BOARD_TOP - 6, MASCOT.idle.key)
+        .setOrigin(0.5)
+        .setScale(0.34)
+        .setDepth(950);
+    }
+    this.mascot.setTexture(MASCOT.cheer.key).setDisplaySize(96, 96);
+    this.fx.popIn(this.mascot);
+    this.mascotTween?.remove?.();
+    this.mascotTween = this.time.delayedCall(900, () => {
+      this.mascot?.setTexture(MASCOT.idle.key).setDisplaySize(96, 96);
+    });
   }
 
   togglePause() {
@@ -446,7 +525,7 @@ export default class GameScene extends Phaser.Scene {
     drawPanel(this, GAME_W / 2, GAME_H * 0.48, 380, 460, 28, { fill: 0x121a2c });
     const isBest = this.game.score >= this.game.best && this.game.score > 0;
     const title = this.add
-      .text(GAME_W / 2, GAME_H * 0.3, 'KẾT THÚC', {
+      .text(GAME_W / 2, GAME_H * 0.315, 'KẾT THÚC', {
         fontFamily: FONT,
         fontSize: '46px',
         color: '#f5f7fa',
@@ -490,6 +569,18 @@ export default class GameScene extends Phaser.Scene {
     card.add([title, score, best, again, menu]);
     layer.add([dim, card]);
     this.fx.overlayIn(card);
+
+    // Mascot reaction: cheer on new record, shock on a normal loss.
+    const mascotKey = (isBest ? MASCOT.cheer : MASCOT.shock).key;
+    if (this.textures.exists(mascotKey)) {
+      const mascot = this.add
+        .image(GAME_W / 2, GAME_H * 0.235, mascotKey)
+        .setOrigin(0.5)
+        .setDisplaySize(96, 96);
+      card.add(mascot);
+      if (isBest) this.fx.float(mascot, 5, 1400);
+      this.fx.popIn(mascot);
+    }
 
     if (isBest) {
       sounds.playRecord();

@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import { GAME_W, GAME_H, PALETTE, FONT } from '../config.js';
 import { addGradientBackground, addGlow, addVignette } from '../ui/visuals.js';
+import { BACKGROUNDS, MASCOT, ICONS } from '../assets.js';
 import { makeButton } from '../ui/button.js';
 import { loadBest } from '../systems/logic.js';
 import { sounds } from '../systems/audio.js';
@@ -16,6 +17,7 @@ export default class MenuScene extends Phaser.Scene {
   create() {
     this.fx = new Fx(this);
     this.cameras.main.setBackgroundColor('#0b1020');
+    this.addArtBackground(BACKGROUNDS.menu);
     addGradientBackground(this);
     addGlow(this, GAME_W / 2, 250, 260, PALETTE.cyan, 0.30);
     addGlow(this, GAME_W / 2, 660, 230, PALETTE.gold, 0.14);
@@ -30,6 +32,10 @@ export default class MenuScene extends Phaser.Scene {
     const tileB = this.makeLogoTile(46, -14, 96, 0xe9c46a, 0xb8933f, '4', '#2a2140');
     logo.add([tileA, tileB]);
     this.fx.float(logo, 9, 2400);
+
+    // Mascot "Stacky" — idle wave, gently floating above the CTA.
+    this.mascot = this.add.image(GAME_W / 2 + 150, 402, MASCOT.idle.key).setOrigin(0.5).setScale(0.6);
+    this.fx.float(this.mascot, 7, 2600);
 
     this.add
       .text(GAME_W / 2, 318, 'MERGE STACK', {
@@ -56,16 +62,19 @@ export default class MenuScene extends Phaser.Scene {
       this.cameras.main.fadeOut(220, 5, 7, 13);
       this.cameras.main.once('camerafadeoutcomplete', () => this.scene.start('Game'));
     }, { sfx: sounds, width: 300, height: 84, fontSize: '32px' });
+    const playIcon = this.add.image(-108, 0, ICONS.play.key).setDisplaySize(40, 40);
+    play.add(playIcon);
     this.fx.pulse(play, 1.03, 1500);
 
-    makeButton(
+    const howTo = makeButton(
       this,
       GAME_W / 2,
       582,
       'HƯỚNG DẪN',
       () => this.scene.start('Game', { showHowTo: true }),
-      { sfx: sounds, fill: PALETTE.panelEdge, fillBottom: 0x1b2337, textColor: '#f5f7fa', width: 240, height: 64, fontSize: '24px' },
+      { sfx: sounds, art: 'secondary', width: 240, height: 64, fontSize: '24px' },
     );
+    howTo.add(this.add.image(-86, 0, ICONS.help.key).setDisplaySize(30, 30));
 
     const best = loadBest();
     if (best > 0) {
@@ -87,6 +96,16 @@ export default class MenuScene extends Phaser.Scene {
         color: '#5a6472',
       })
       .setOrigin(0.5);
+  }
+
+  // Real SVG background layer; falls back to the procedural gradient if the
+  // texture is somehow missing.
+  addArtBackground(tex) {
+    if (tex && this.textures.exists(tex.key)) {
+      this.add.image(GAME_W / 2, GAME_H / 2, tex.key).setDisplaySize(GAME_W, GAME_H);
+      return true;
+    }
+    return false;
   }
 
   makeLogoTile(x, y, size, top, bottom, glyph, textColor = '#ffffff') {

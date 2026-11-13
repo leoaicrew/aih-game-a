@@ -28,7 +28,7 @@ Hướng dẫn deploy 1 lệnh/1 click, URL dự kiến và checklist ra mắt: 
 ```bash
 npm test
 ```
-43 test: luật gộp/xếp, điểm, game over, **Twist 1 Chain Reaction** (chuỗi combo + hệ số điểm), độ khó theo điểm, **UI v2** (gradient/tier màu), **juice >=10 tween**, **audio nhạc nền + mute**.
+53 test: luật gộp/xếp, điểm, game over, **Twist 1 Chain Reaction** (chuỗi combo + hệ số điểm), độ khó theo điểm, **UI v2** (gradient/tier màu), **juice >=10 tween**, **audio nhạc nền + mute**, **asset 2D thật** (manifest 37 file, file tồn tại/SVG hợp lệ, BootScene preload, background/mascot/HUD icon).
 
 ## Điều khiển
 - Vuốt (mobile) hoặc phím mũi tên / WASD (desktop) để trượt.

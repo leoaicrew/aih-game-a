@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import { PALETTE, FONT } from '../config.js';
+import { UI } from '../assets.js';
 
 // Chunky store-quality button: gradient-free bevel body (top light + bottom
 // shadow), glow halo, smooth hover/press tweens and click SFX hook.
@@ -20,31 +21,51 @@ export function makeButton(scene, x, y, label, onClick, opts = {}) {
   glow.setBlendMode(Phaser.BlendModes.ADD);
   glow.setAlpha(0.6);
 
-  const g = scene.add.graphics();
-  // bottom "3D" lip
-  g.fillStyle(PALETTE.black, 0.5);
-  g.fillRoundedRect(-w / 2, -h / 2 + 6, w, h, radius);
-  // body gradient (stacked bands, cheap + crisp)
-  const bands = 12;
-  for (let i = 0; i < bands; i++) {
-    const t = i / (bands - 1);
-    g.fillStyle(mix(fill, fillBottom, t), 1);
-    const bh = h / bands;
-    const bx = -w / 2;
-    const by = -h / 2 + i * bh;
-    if (i === 0) g.fillRoundedRect(bx, by, w, bh + radius, { tl: radius, tr: radius, bl: 0, br: 0 });
-    else if (i === bands - 1) g.fillRoundedRect(bx, by, w, bh, { tl: 0, tr: 0, bl: radius, br: radius });
-    else g.fillRect(bx, by, w, bh + 1);
+  // Real UI kit art (AIH-21) when available, else procedural bevel body.
+  const artInfo = opts.art === 'secondary' ? UI.btnSecondary : opts.art ? UI.btnPrimary : null;
+  const artPressed = opts.art === 'secondary' ? UI.btnSecondaryPressed : opts.art ? UI.btnPrimaryPressed : null;
+  const useArt = Boolean(artInfo && scene.textures.exists(artInfo.key));
+  let g = null;
+  let artImage = null;
+
+  if (useArt) {
+    artImage = scene.add.image(0, 0, artInfo.key).setDisplaySize(w, h);
+    if (artPressed && scene.textures.exists(artPressed.key)) {
+      artImage.setData('pressedKey', artPressed.key);
+    }
+  } else {
+    g = scene.add.graphics();
+    // bottom "3D" lip
+    g.fillStyle(PALETTE.black, 0.5);
+    g.fillRoundedRect(-w / 2, -h / 2 + 6, w, h, radius);
+    // body gradient (stacked bands, cheap + crisp)
+    const bands = 12;
+    for (let i = 0; i < bands; i++) {
+      const t = i / (bands - 1);
+      g.fillStyle(mix(fill, fillBottom, t), 1);
+      const bh = h / bands;
+      const bx = -w / 2;
+      const by = -h / 2 + i * bh;
+      if (i === 0) g.fillRoundedRect(bx, by, w, bh + radius, { tl: radius, tr: radius, bl: 0, br: 0 });
+      else if (i === bands - 1) g.fillRoundedRect(bx, by, w, bh, { tl: 0, tr: 0, bl: radius, br: radius });
+      else g.fillRect(bx, by, w, bh + 1);
+    }
+    // top bevel highlight
+    g.lineStyle(2, 0xffffff, 0.55);
+    g.beginPath();
+    g.moveTo(-w / 2 + radius, -h / 2 + 2);
+    g.lineTo(w / 2 - radius, -h / 2 + 2);
+    g.strokePath();
+    // outer border
+    g.lineStyle(2, 0xffffff, 0.18);
+    g.strokeRoundedRect(-w / 2, -h / 2, w, h, radius);
   }
-  // top bevel highlight
-  g.lineStyle(2, 0xffffff, 0.55);
-  g.beginPath();
-  g.moveTo(-w / 2 + radius, -h / 2 + 2);
-  g.lineTo(w / 2 - radius, -h / 2 + 2);
-  g.strokePath();
-  // outer border
-  g.lineStyle(2, 0xffffff, 0.18);
-  g.strokeRoundedRect(-w / 2, -h / 2, w, h, radius);
+
+  const swapArt = (pressed) => {
+    if (!artImage) return;
+    const key = pressed ? artImage.getData('pressedKey') : artInfo.key;
+    if (key) artImage.setTexture(key).setDisplaySize(w, h);
+  };
 
   const text = scene.add
     .text(0, -2, label, {
@@ -55,7 +76,9 @@ export function makeButton(scene, x, y, label, onClick, opts = {}) {
     })
     .setOrigin(0.5);
 
-  container.add([glow, g, text]);
+  container.add(useArt ? [glow, artImage, text] : [glow, g, text]);
+  container.glyph = text;
+  container.artImage = artImage;
   container.setSize(w, h + 6);
   container.setInteractive({ useHandCursor: true });
 
@@ -75,12 +98,15 @@ export function makeButton(scene, x, y, label, onClick, opts = {}) {
   });
   container.on('pointerdown', () => {
     SFX?.playClick?.();
+    swapArt(true);
     tweenScale(0.94, 70, 'Quad.Out');
   });
   container.on('pointerup', () => {
+    swapArt(false);
     tweenScale(1.05, 160, 'Back.Out');
     onClick?.();
   });
+  container.on('pointerout', () => swapArt(false));
 
   return container;
 }
@@ -96,9 +122,14 @@ export function makeIconButton(scene, x, y, glyph, onClick, opts = {}) {
   g.fillRoundedRect(-size / 2, -size / 2, size, size, 16);
   g.lineStyle(2, PALETTE.panelEdge, 1);
   g.strokeRoundedRect(-size / 2, -size / 2, size, size, 16);
-  const t = scene.add
-    .text(0, -1, glyph, { fontFamily: FONT, fontSize: opts.fontSize ?? '26px', color: '#f5f7fa' })
-    .setOrigin(0.5);
+  let t;
+  if (opts.texture && scene.textures.exists(opts.texture)) {
+    t = scene.add.image(0, 0, opts.texture).setDisplaySize(opts.iconSize ?? size * 0.6, opts.iconSize ?? size * 0.6);
+  } else {
+    t = scene.add
+      .text(0, -1, glyph, { fontFamily: FONT, fontSize: opts.fontSize ?? '26px', color: '#f5f7fa' })
+      .setOrigin(0.5);
+  }
   c.add([g, t]);
   c.setSize(size, size);
   c.setInteractive({ useHandCursor: true });
@@ -113,6 +144,20 @@ export function makeIconButton(scene, x, y, glyph, onClick, opts = {}) {
     onClick?.();
   });
   c.glyph = t;
+  // Swap the HUD icon (e.g. volume <-> mute) to a real SVG texture when loaded.
+  c.setIcon = (texture) => {
+    if (!scene.textures.exists(texture)) return;
+    const dim = opts.iconSize ?? size * 0.6;
+    if (c.glyph.type === 'Image' || c.glyph.texture) {
+      c.glyph.setTexture(texture).setDisplaySize(dim, dim);
+    } else {
+      const img = scene.add.image(0, 0, texture).setDisplaySize(dim, dim);
+      c.remove(c.glyph);
+      c.glyph.destroy();
+      c.add(img);
+      c.glyph = img;
+    }
+  };
   return c;
 }
 
