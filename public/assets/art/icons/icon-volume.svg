@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="ic-vol-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+  </defs>
+  <rect x="4" y="4" width="56" height="56" rx="18" fill="url(#ic-vol-bg)" stroke="#22d3ee" stroke-width="2"/>
+  <!-- Speaker body -->
+  <path d="M 16 26 L 24 26 L 33 18 L 33 46 L 24 38 L 16 38 Z" fill="#22d3ee"/>
+  <!-- Waves -->
+  <path d="M 39 25 C 43 28, 43 36, 39 39" fill="none" stroke="#67e8f9" stroke-width="3" stroke-linecap="round"/>
+  <path d="M 44 20 C 51 25, 51 39, 44 44" fill="none" stroke="#e9c46a" stroke-width="3" stroke-linecap="round"/>
+</svg>

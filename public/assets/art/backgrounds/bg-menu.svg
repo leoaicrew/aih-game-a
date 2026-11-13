@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 800" width="480" height="800">
+  <defs>
+    <linearGradient id="menu-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#080c18"/>
+      <stop offset="35%" stop-color="#0f1629"/>
+      <stop offset="70%" stop-color="#141c33"/>
+      <stop offset="100%" stop-color="#1e2740"/>
+    </linearGradient>
+    <radialGradient id="menu-glow" cx="50%" cy="32%" r="45%">
+      <stop offset="0%" stop-color="#22d3ee" stop-opacity="0.25"/>
+      <stop offset="40%" stop-color="#4f8dff" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#080c18" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="menu-gold-glow" cx="50%" cy="65%" r="35%">
+      <stop offset="0%" stop-color="#e9c46a" stop-opacity="0.16"/>
+      <stop offset="70%" stop-color="#e9c46a" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Deep Cosmic Canvas -->
+  <rect width="480" height="800" fill="url(#menu-grad)"/>
+
+  <!-- Cyber Ray Angles -->
+  <path d="M 0 0 L 280 0 L 0 560 Z" fill="#22d3ee" fill-opacity="0.03"/>
+  <path d="M 480 800 L 200 800 L 480 240 Z" fill="#e9c46a" fill-opacity="0.03"/>
+
+  <!-- Logo Aura Radial -->
+  <circle cx="240" cy="260" r="220" fill="url(#menu-glow)"/>
+  <!-- CTA Aura Radial -->
+  <circle cx="240" cy="540" r="180" fill="url(#menu-gold-glow)"/>
+
+  <!-- Tech Hexagons in background -->
+  <g stroke="#22d3ee" stroke-width="1.5" stroke-opacity="0.15" fill="none">
+    <polygon points="240,110 270,126 270,158 240,174 210,158 210,126"/>
+    <polygon points="120,240 145,254 145,282 120,296 95,282 95,254"/>
+    <polygon points="360,240 385,254 385,282 360,296 335,282 335,254"/>
+    <polygon points="240,410 260,421 260,443 240,454 220,443 220,421"/>
+  </g>
+
+  <!-- Speed Rays -->
+  <g stroke="#ffffff" stroke-width="1" stroke-opacity="0.12">
+    <line x1="80" y1="120" x2="160" y2="40"/>
+    <line x1="400" y1="140" x2="340" y2="60"/>
+    <line x1="60" y1="620" x2="140" y2="700"/>
+    <line x1="420" y1="600" x2="340" y2="680"/>
+  </g>
+</svg>

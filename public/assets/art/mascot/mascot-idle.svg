@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160">
+  <defs>
+    <linearGradient id="bot-body" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#22d3ee"/>
+      <stop offset="45%" stop-color="#06b6d4"/>
+      <stop offset="100%" stop-color="#0891b2"/>
+    </linearGradient>
+    <linearGradient id="bot-face" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <filter id="bot-glow">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#0891b2" flood-opacity="0.6"/>
+    </filter>
+  </defs>
+
+  <!-- Shadow below mascot -->
+  <ellipse cx="80" cy="148" rx="46" ry="9" fill="#030712" opacity="0.6"/>
+
+  <!-- Antenna -->
+  <line x1="80" y1="28" x2="80" y2="42" stroke="#e9c46a" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="80" cy="24" r="8" fill="#fef08a" stroke="#e9c46a" stroke-width="2"/>
+  <circle cx="82" cy="22" r="2.5" fill="#ffffff"/>
+
+  <!-- Headphones / Ear Pods -->
+  <rect x="22" y="66" width="12" height="32" rx="6" fill="#e9c46a" stroke="#ffffff" stroke-width="1.5"/>
+  <rect x="126" y="66" width="12" height="32" rx="6" fill="#e9c46a" stroke="#ffffff" stroke-width="1.5"/>
+  <path d="M 28 68 C 28 40, 132 40, 132 68" fill="none" stroke="#e9c46a" stroke-width="3.5" stroke-linecap="round"/>
+
+  <!-- Mascot Body (Rounded Chamfer Cube) -->
+  <rect x="30" y="42" width="100" height="96" rx="30" fill="url(#bot-body)" stroke="#ffffff" stroke-width="3" filter="url(#bot-glow)"/>
+
+  <!-- Specular Arc on Top Body -->
+  <path d="M 48 50 C 60 46, 100 46, 112 50 C 114 54, 46 54, 48 50 Z" fill="#ffffff" opacity="0.5"/>
+
+  <!-- Screen Visor Face Plate -->
+  <rect x="42" y="58" width="76" height="58" rx="18" fill="url(#bot-face)" stroke="#38bdf8" stroke-width="2"/>
+
+  <!-- Big Sparkling Happy Anime Eyes -->
+  <!-- Left Eye -->
+  <ellipse cx="62" cy="82" rx="10" ry="13" fill="#22d3ee"/>
+  <ellipse cx="62" cy="82" rx="8" ry="11" fill="#083344"/>
+  <circle cx="65" cy="78" r="4.5" fill="#ffffff"/>
+  <circle cx="59" cy="88" r="2" fill="#ffffff"/>
+
+  <!-- Right Eye -->
+  <ellipse cx="98" cy="82" rx="10" ry="13" fill="#22d3ee"/>
+  <ellipse cx="98" cy="82" rx="8" ry="11" fill="#083344"/>
+  <circle cx="101" cy="78" r="4.5" fill="#ffffff"/>
+  <circle cx="95" cy="88" r="2" fill="#ffffff"/>
+
+  <!-- Rosy Cute Cheeks -->
+  <ellipse cx="50" cy="98" rx="6" ry="3.5" fill="#ff7ab8" opacity="0.8"/>
+  <ellipse cx="110" cy="98" rx="6" ry="3.5" fill="#ff7ab8" opacity="0.8"/>
+
+  <!-- Friendly Smile -->
+  <path d="M 74 96 Q 80 102 86 96" fill="none" stroke="#22d3ee" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Cute Waving Hand -->
+  <circle cx="138" cy="100" r="8" fill="#22d3ee" stroke="#ffffff" stroke-width="2"/>
+  <circle cx="22" cy="114" r="8" fill="#0891b2" stroke="#ffffff" stroke-width="2"/>
+</svg>

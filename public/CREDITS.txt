@@ -28,3 +28,14 @@
 
 == Quảng cáo ==
 - SDK quảng cáo vẫn là stub tắt (src/systems/ads.js). Không mạng, không tài khoản.
+
+== Bộ Asset Đồ Họa 2D Thật (AIH-21 — Game Artist) ==
+- Bộ 37 asset đồ họa vector SVG chuyên nghiệp theo phong cách "Neon Night":
+  + 14 Tile set (cấp bậc 2..2048 có bevel 3D, selected, merge-flash, empty).
+  + 2 Backgrounds (bg-main, bg-menu chuẩn 480x800 gradient đa tầng & họa tiết cyber).
+  + 8 UI Kit (nút primary/secondary normal & pressed, panel-card, score-board, progress-bar, badge-combo).
+  + 10 Icon đồng bộ (play, pause, replay, volume, mute, trophy, hammer, bomb, help, combo-star).
+  + 3 Sprite Linh vật "Stacky" (3 biểu cảm: idle vẫy tay, cheer ăn mừng kỷ lục, shock khi game over).
+- Thư mục lưu trữ: public/assets/art/ và public/assets/svg/
+- Bản quyền & Giấy phép: Tài sản độc quyền do Game Artist AIH Games tự thiết kế, phát hành theo CC0 1.0 Universal.
+- Chi phí: 0 VNĐ, không bản quyền bên thứ ba.

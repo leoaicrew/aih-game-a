@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160">
+  <defs>
+    <linearGradient id="cheer-body" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="50%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#0369a1"/>
+    </linearGradient>
+    <filter id="cheer-glow">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#38bdf8" flood-opacity="0.75"/>
+    </filter>
+  </defs>
+
+  <ellipse cx="80" cy="148" rx="42" ry="8" fill="#030712" opacity="0.5"/>
+
+  <!-- Jumping Upward Sparkles -->
+  <polygon points="24,30 26,34 30,35 27,38 28,42 24,40 20,42 21,38 18,35 22,34" fill="#fef08a"/>
+  <polygon points="136,30 138,34 142,35 139,38 140,42 136,40 132,42 133,38 130,35 134,34" fill="#fef08a"/>
+
+  <!-- Antenna -->
+  <line x1="80" y1="24" x2="80" y2="38" stroke="#e9c46a" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="80" cy="20" r="9" fill="#fef08a" stroke="#e9c46a" stroke-width="2"/>
+  <circle cx="82" cy="18" r="3" fill="#ffffff"/>
+
+  <!-- Raised Hands in Victory -->
+  <ellipse cx="22" cy="62" rx="9" ry="11" fill="#38bdf8" stroke="#ffffff" stroke-width="2" transform="rotate(-30 22 62)"/>
+  <ellipse cx="138" cy="62" rx="9" ry="11" fill="#38bdf8" stroke="#ffffff" stroke-width="2" transform="rotate(30 138 62)"/>
+
+  <!-- Headphones -->
+  <rect x="22" y="64" width="12" height="30" rx="6" fill="#e9c46a" stroke="#ffffff" stroke-width="1.5"/>
+  <rect x="126" y="64" width="12" height="30" rx="6" fill="#e9c46a" stroke="#ffffff" stroke-width="1.5"/>
+  <path d="M 28 66 C 28 36, 132 36, 132 66" fill="none" stroke="#e9c46a" stroke-width="3.5" stroke-linecap="round"/>
+
+  <!-- Mascot Body -->
+  <rect x="30" y="38" width="100" height="96" rx="30" fill="url(#cheer-body)" stroke="#ffffff" stroke-width="3" filter="url(#cheer-glow)"/>
+
+  <!-- Screen Visor -->
+  <rect x="42" y="54" width="76" height="58" rx="18" fill="#0b1329" stroke="#67e8f9" stroke-width="2"/>
+
+  <!-- Star-Shaped Excited Cheer Eyes -->
+  <polygon points="62,68 64,74 70,75 66,79 67,85 62,82 57,85 58,79 54,75 60,74" fill="#fef08a"/>
+  <polygon points="98,68 100,74 106,75 102,79 103,85 98,82 93,85 94,79 90,75 96,74" fill="#fef08a"/>
+
+  <!-- Cheeks -->
+  <ellipse cx="50" cy="95" rx="6" ry="4" fill="#ff7ab8" opacity="0.9"/>
+  <ellipse cx="110" cy="95" rx="6" ry="4" fill="#ff7ab8" opacity="0.9"/>
+
+  <!-- Open Joyful Mouth -->
+  <path d="M 72 92 Q 80 106 88 92 Z" fill="#ff7ab8" stroke="#ffffff" stroke-width="1.5"/>
+</svg>

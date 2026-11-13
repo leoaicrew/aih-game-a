@@ -1,0 +1,1811 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Bảng Tổng Hợp Asset 2D — "Neon Night" (Game A: Merge Stack)</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #070a14;
+      color: #f1f5f9;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      padding: 32px;
+      width: 1200px;
+      margin: 0 auto;
+    }
+    header {
+      border-bottom: 2px solid #22d3ee;
+      padding-bottom: 20px;
+      margin-bottom: 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+    h1 {
+      font-size: 28px;
+      color: #ffffff;
+      text-shadow: 0 0 12px rgba(34, 211, 238, 0.6);
+      margin-bottom: 6px;
+    }
+    .subtitle {
+      color: #94a3b8;
+      font-size: 14px;
+    }
+    .badge-bar {
+      display: flex;
+      gap: 12px;
+    }
+    .tag {
+      background: #161f36;
+      border: 1px solid #2c3856;
+      color: #22d3ee;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 6px;
+    }
+    .tag.gold {
+      color: #e9c46a;
+      border-color: #b8933f;
+    }
+    section {
+      background: #0f1629;
+      border: 1px solid #1e293b;
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 28px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    }
+    h2 {
+      font-size: 18px;
+      color: #22d3ee;
+      border-left: 4px solid #22d3ee;
+      padding-left: 10px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+    }
+    h2 span {
+      color: #64748b;
+      font-size: 13px;
+      font-weight: normal;
+    }
+    .grid {
+      display: grid;
+      gap: 16px;
+    }
+    .grid-tiles {
+      grid-template-columns: repeat(7, 1fr);
+    }
+    .grid-icons {
+      grid-template-columns: repeat(10, 1fr);
+    }
+    .grid-mascot {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    .grid-ui {
+      grid-template-columns: repeat(4, 1fr);
+    }
+    .grid-bg {
+      grid-template-columns: 1fr 1fr;
+    }
+    .card {
+      background: #141c33;
+      border: 1px solid #232f4e;
+      border-radius: 12px;
+      padding: 16px 12px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+    .card svg {
+      max-width: 100%;
+      height: auto;
+    }
+    .card-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #cbd5e1;
+    }
+    .card-sub {
+      font-size: 10px;
+      color: #64748b;
+    }
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+    }
+    .comparison-table th, .comparison-table td {
+      border: 1px solid #232f4e;
+      padding: 14px;
+      text-align: center;
+    }
+    .comparison-table th {
+      background: #16203a;
+      color: #e9c46a;
+      font-size: 14px;
+    }
+    .old-item {
+      opacity: 0.6;
+      filter: grayscale(0.5);
+    }
+    .new-item {
+      filter: drop-shadow(0 0 8px rgba(34, 211, 238, 0.4));
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div>
+      <h1>Bộ Asset Đồ Họa 2D Thật — Studio Game AIH</h1>
+      <div class="subtitle">Dự án: Game A (Merge Stack) | Phong cách: Neon Night | Giấy phép: CC0 1.0 (AIH Games độc quyền)</div>
+    </div>
+    <div class="badge-bar">
+      <div class="tag">37 VECTOR ASSETS</div>
+      <div class="tag gold">100% SVG NGUYÊN BẢN</div>
+      <div class="tag">PHASER 3 READY</div>
+    </div>
+  </header>
+
+  <!-- 1. TILE SET -->
+  <section>
+    <h2>1. Tile Set Đa Tầng (14 Assets — Bevel 3D, Gradient Neon, Specular Arc) <span>Kích thước: 128x128 SVG</span></h2>
+    <div class="grid grid-tiles">
+      <div class="card"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <!-- Tile Gradient -->
+    <linearGradient id="grad-2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3b4a6b"/>
+      <stop offset="100%" stop-color="#24314d"/>
+    </linearGradient>
+    <!-- Bevel Specular Top -->
+    <linearGradient id="bevel-2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.6"/>
+      <stop offset="50%" stop-color="#64748b" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.5"/>
+    </linearGradient>
+    <!-- Soft Glow Filter -->
+    <filter id="glow-2" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#38bdf8" flood-opacity="0.3"/>
+    </filter>
+    <filter id="shadow-2" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#050814" flood-opacity="0.7"/>
+    </filter>
+  </defs>
+
+  <!-- Outer Drop Shadow Plate -->
+  <rect x="8" y="10" width="112" height="112" rx="20" fill="none" filter="url(#shadow-2)"/>
+
+  <!-- High-tier Aura / Glow Ring -->
+  
+
+  <!-- Main Tile Body -->
+  <rect x="8" y="8" width="112" height="112" rx="20" fill="url(#grad-2)" stroke="url(#bevel-2)" stroke-width="2.5"/>
+
+  <!-- Inner Gloss Arc / Specular Pill -->
+  <path d="M 16 26 C 16 16, 26 14, 40 14 L 88 14 C 102 14, 112 16, 112 26 C 112 36, 100 24, 86 24 L 42 24 C 28 24, 16 36, 16 26 Z" fill="#ffffff" opacity="0.3"/>
+
+  <!-- Bottom Inner Shadow for 3D Bevel depth -->
+  <path d="M 12 104 C 20 114, 40 116, 64 116 C 88 116, 108 114, 116 104 C 112 110, 90 114, 64 114 C 38 114, 16 110, 12 104 Z" fill="#000000" opacity="0.45"/>
+
+  <!-- Corner Tech Accent Dots for subtle Cyber Look -->
+  <circle cx="18" cy="18" r="2" fill="#64748b" opacity="0.8"/>
+  <circle cx="110" cy="18" r="2" fill="#64748b" opacity="0.8"/>
+  <circle cx="18" cy="110" r="2" fill="#64748b" opacity="0.5"/>
+  <circle cx="110" cy="110" r="2" fill="#64748b" opacity="0.5"/>
+
+  <!-- Small Tier Category Badge at Top Right -->
+  
+
+  
+
+  <!-- Number Text with 3D Offset & Glow -->
+  <text x="64" y="78" text-anchor="middle" font-family="'Arial Black', Impact, 'Segoe UI Black', sans-serif" font-weight="900" font-size="50" fill="#000000" opacity="0.35" dy="3">2</text>
+  <text x="64" y="76" text-anchor="middle" font-family="'Arial Black', Impact, 'Segoe UI Black', sans-serif" font-weight="900" font-size="50" fill="#f1f5f9">2</text>
+</svg><div class="card-label">Tier 2</div><div class="card-sub">Slate Titanium</div></div>
+      <div class="card"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <!-- Tile Gradient -->
+    <linearGradient id="grad-4" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2e6f95"/>
+      <stop offset="100%" stop-color="#1b4a69"/>
+    </linearGradient>
+    <!-- Bevel Specular Top -->
+    <linearGradient id="bevel-4" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.6"/>
+      <stop offset="50%" stop-color="#38bdf8" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.5"/>
+    </linearGradient>
+    <!-- Soft Glow Filter -->
+    <filter id="glow-4" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#0ea5e9" flood-opacity="0.3"/>
+    </filter>
+    <filter id="shadow-4" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#050814" flood-opacity="0.7"/>
+    </filter>
+  </defs>
+
+  <!-- Outer Drop Shadow Plate -->
+  <rect x="8" y="10" width="112" height="112" rx="20" fill="none" filter="url(#shadow-4)"/>
+
+  <!-- High-tier Aura / Glow Ring -->
+  
+
+  <!-- Main Tile Body -->
+  <rect x="8" y="8" width="112" height="112" rx="20" fill="url(#grad-4)" stroke="url(#bevel-4)" stroke-width="2.5"/>
+
+  <!-- Inner Gloss Arc / Specular Pill -->
+  <path d="M 16 26 C 16 16, 26 14, 40 14 L 88 14 C 102 14, 112 16, 112 26 C 112 36, 100 24, 86 24 L 42 24 C 28 24, 16 36, 16 26 Z" fill="#ffffff" opacity="0.3"/>
+
+  <!-- Bottom Inner Shadow for 3D Bevel depth -->
+  <path d="M 12 104 C 20 114, 40 116, 64 116 C 88 116, 108 114, 116 104 C 112 110, 90 114, 64 114 C 38 114, 16 110, 12 104 Z" fill="#000000" opacity="0.45"/>
+
+  <!-- Corner Tech Accent Dots for subtle Cyber Look -->
+  <circle cx="18" cy="18" r="2" fill="#38bdf8" opacity="0.8"/>
+  <circle cx="110" cy="18" r="2" fill="#38bdf8" opacity="0.8"/>
+  <circle cx="18" cy="110" r="2" fill="#38bdf8" opacity="0.5"/>
+  <circle cx="110" cy="110" r="2" fill="#38bdf8" opacity="0.5"/>
+
+  <!-- Small Tier Category Badge at Top Right -->
+  
+
+  
+
+  <!-- Number Text with 3D Offset & Glow -->
+  <text x="64" y="78" text-anchor="middle" font-family="'Arial Black', Impact, 'Segoe UI Black', sans-serif" font-weight="900" font-size="50" fill="#000000" opacity="0.35" dy="3">4</text>
+  <text x="64" y="76" text-anchor="middle" font-family="'Arial Black', Impact, 'Segoe UI Black', sans-serif" font-weight="900" font-size="50" fill="#ffffff">4</text>
+</svg><div class="card-label">Tier 4</div><div class="card-sub">Deep Azure</div></div>
+      <div class="card"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <!-- Tile Gradient -->
+    <linearGradient id="grad-8" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1f8a99"/>
+      <stop offset="100%" stop-color="#0f5c6b"/>
+    </linearGradient>
+    <!-- Bevel Specular Top -->
+    <linearGradient id="bevel-8" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.6"/>
+      <stop offset="50%" stop-color="#2dd4bf" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.5"/>
+    </linearGradient>
+    <!-- Soft Glow Filter -->
+    <filter id="glow-8" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#14b8a6" flood-opacity="0.3"/>
+    </filter>
+    <filter id="shadow-8" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#050814" flood-opacity="0.7"/>
+    </filter>
+  </defs>
+
+  <!-- Outer Drop Shadow Plate -->
+  <rect x="8" y="10" width="112" height="112" rx="20" fill="none" filter="url(#shadow-8)"/>
+
+  <!-- High-tier Aura / Glow Ring -->
+  
+
+  <!-- Main Tile Body -->
+  <rect x="8" y="8" width="112" height="112" rx="20" fill="url(#grad-8)" stroke="url(#bevel-8)" stroke-width="2.5"/>
+
+  <!-- Inner Gloss Arc / Specular Pill -->
+  <path d="M 16 26 C 16 16, 26 14, 40 14 L 88 14 C 102 14, 112 16, 112 26 C 112 36, 100 24, 86 24 L 42 24 C 28 24, 16 36, 16 26 Z" fill="#ffffff" opacity="0.3"/>
+
+  <!-- Bottom Inner Shadow for 3D Bevel depth -->
+  <path d="M 12 104 C 20 114, 40 116, 64 116 C 88 116, 108 114, 116 104 C 112 110, 90 114, 64 114 C 38 114, 16 110, 12 104 Z" fill="#000000" opacity="0.45"/>
+
+  <!-- Corner Tech Accent Dots for subtle Cyber Look -->
+  <circle cx="18" cy="18" r="2" fill="#2dd4bf" opacity="0.8"/>
+  <circle cx="110" cy="18" r="2" fill="#2dd4bf" opacity="0.8"/>
+  <circle cx="18" cy="110" r="2" fill="#2dd4bf" opacity="0.5"/>
+  <circle cx="110" cy="110" r="2" fill="#2dd4bf" opacity="0.5"/>
+
+  <!-- Small Tier Category Badge at Top Right -->
+  
+
+  
+
+  <!-- Number Text with 3D Offset & Glow -->
+  <text x="64" y="78" text-anchor="middle" font-family="'Arial Black', Impact, 'Segoe UI Black', sans-serif" font-weight="900" font-size="50" fill="#000000" opacity="0.35" dy="3">8</text>
+  <text x="64" y="76" text-anchor="middle" font-family="'Arial Black', Impact, 'Segoe UI Black', sans-serif" font-weight="900" font-size="50" fill="#ffffff">8</text>
+</svg><div class="card-label">Tier 8</div><div class="card-sub">Electric Ocean</div></div>
+      <div class="card"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <!-- Tile Gradient -->
+    <linearGradient id="grad-16" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1fb0b8"/>
+      <stop offset="100%" stop-color="#0e7d88"/>
+    </linearGradient>
+    <!-- Bevel Specular Top -->
+    <linearGradient id="bevel-16" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.6"/>
+      <stop offset="50%" stop-color="#34d399" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.5"/>
+    </linearGradient>
+    <!-- Soft Glow Filter -->
+    <filter id="glow-16" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#10b981" flood-opacity="0.3"/>
+    </filter>
+    <filter id="shadow-16" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#050814" flood-opacity="0.7"/>
+    </filter>
+  </defs>
+
+  <!-- Outer Drop Shadow Plate -->
+  <rect x="8" y="10" width="112" height="112" rx="20" fill="none" filter="url(#shadow-16)"/>
+
+  <!-- High-tier Aura / Glow Ring -->
+  
+
+  <!-- Main Tile Body -->
+  <rect x="8" y="8" width="112" height="112" rx="20" fill="url(#grad-16)" stroke="url(#bevel-16)" stroke-width="2.5"/>
+
+  <!-- Inner Gloss Arc / Specular Pill -->
+  <path d="M 16 26 C 16 16, 26 14, 40 14 L 88 14 C 102 14, 112 16, 112 26 C 112 36, 100 24, 86 24 L 42 24 C 28 24, 16 36, 16 26 Z" fill="#ffffff" opacity="0.3"/>
+
+  <!-- Bottom Inner Shadow for 3D Bevel depth -->
+  <path d="M 12 104 C 20 114, 40 116, 64 116 C 88 116, 108 114, 116 104 C 112 110, 90 114, 64 114 C 38 114, 16 110, 12 104 Z" fill="#000000" opacity="0.45"/>
+
+  <!-- Corner Tech Accent Dots for subtle Cyber Look -->
+  <circle cx="18" cy="18" r="2" fill="#34d399" opacity="0.8"/>
+  <circle cx="110" cy="18" r="2" fill="#34d399" opacity="0.8"/>
+  <circle cx="18" cy="110" r="2" fill="#34d399" opacity="0.5"/>
+  <circle cx="110" cy="110" r="2" fill="#34d399" opacity="0.5"/>
+
+  <!-- Small Tier Category Badge at Top Right -->
+  
+
+  
+
+  <!-- Number Text with 3D Offset & Glow -->
+  <text x="64" y="78" text-anchor="middle" font-family="'Arial Black', Impact, 'Segoe UI Black', sans-serif" font-weight="900" font-size="50" fill="#000000" opacity="0.35" dy="3">16</text>
+  <text x="64" y="76" text-anchor="middle" font-family="'Arial Black', Impact, 'Segoe UI Black', sans-serif" font-weight="900" font-size="50" fill="#ffffff">16</text>
+</svg><div class="card-label">Tier 16</div><div class="card-sub">Aqua Mint</div></div>
+      <div class="card"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <!-- Tile Gradient -->
+    <linearGradient id="grad-32" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#22d3ee"/>
+      <stop offset="100%" stop-color="#0e8fa8"/>
+    </linearGradient>
+    <!-- Bevel Specular Top -->
+    <linearGradient id="bevel-32" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.6"/>
+      <stop offset="50%" stop-color="#67e8f9" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.5"/>
+    </linearGradient>
+    <!-- Soft Glow Filter -->
+    <filter id="glow-32" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#06b6d4" flood-opacity="0.3"/>
+    </filter>
+    <filter id="shadow-32" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#050814" flood-opacity="0.7"/>
+    </filter>
+  </defs>
+
+  <!-- Outer Drop Shadow Plate -->
+  <rect x="8" y="10" width="112" height="112" rx="20" fill="none" filter="url(#shadow-32)"/>
+
+  <!-- High-tier Aura / Glow Ring -->
+  
+
+  <!-- Main Tile Body -->
+  <rect x="8" y="8" width="112" height="112" rx="20" fill="url(#grad-32)" stroke="url(#bevel-32)" stroke-width="2.5"/>
+
+  <!-- Inner Gloss Arc / Specular Pill -->
+  <path d="M 16 26 C 16 16, 26 14, 40 14 L 88 14 C 102 14, 112 16, 112 26 C 112 36, 100 24, 86 24 L 42 24 C 28 24, 16 36, 16 26 Z" fill="#ffffff" opacity="0.3"/>
+
+  <!-- Bottom Inner Shadow for 3D Bevel depth -->
+  <path d="M 12 104 C 20 114, 40 116, 64 116 C 88 116, 108 114, 116 104 C 112 110, 90 114, 64 114 C 38 114, 16 110, 12 104 Z" fill="#000000" opacity="0.45"/>
+
+  <!-- Corner Tech Accent Dots for subtle Cyber Look -->
+  <circle cx="18" cy="18" r="2" fill="#67e8f9" opacity="0.8"/>
+  <circle cx="110" cy="18" r="2" fill="#67e8f9" opacity="0.8"/>
+  <circle cx="18" cy="110" r="2" fill="#67e8f9" opacity="0.5"/>
+  <circle cx="110" cy="110" r="2" fill="#67e8f9" opacity="0.5"/>
+
+  <!-- Small Tier Category Badge at Top Right -->
+  
+
+  
+
+  <!-- Number Text with 3D Offset & Glow -->
+  <text x="64" y="78" text-anchor="middle" font-family="'Arial Black', Impact, 'Segoe UI Black', sans-serif" font-weight="900" font-size="50" fill="#000000" opacity="0.35" dy="3">32</text>
+  <text x="64" y="76" text-anchor="middle" font-family="'Arial Black', Impact, 'Segoe UI Black', sans-serif" font-weight="900" font-size="50" fill="#083344">32</text>
+</svg><div class="card-label">Tier 32</div><div class="card-sub">Neon Cyan</div></div>
+      <div class="card"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <!-- Tile Gradient -->
+    <linearGradient id="grad-64" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4f8dff"/>
+      <stop offset="100%" stop-color="#2c5bd6"/>
+    </linearGradient>
+    <!-- Bevel Specular Top -->
+    <linearGradient id="bevel-64" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.6"/>
+      <stop offset="50%" stop-color="#93c5fd" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.5"/>
+    </linearGradient>
+    <!-- Soft Glow Filter -->
+    <filter id="glow-64" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#3b82f6" flood-opacity="0.3"/>
+    </filter>
+    <filter id="shadow-64" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#050814" flood-opacity="0.7"/>
+    </filter>
+  </defs>
+
+  <!-- Outer Drop Shadow Plate -->
+  <rect x="8" y="10" width="112" height="112" rx="20" fill="none" filter="url(#shadow-64)"/>
+
+  <!-- High-tier Aura / Glow Ring -->
+  
+
+  <!-- Main Tile Body -->
+  <rect x="8" y="8" width="112" height="112" rx="20" fill="url(#grad-64)" stroke="url(#bevel-64)" stroke-width="2.5"/>
+
+  <!-- Inner Gloss Arc / Specular Pill -->
+  <path d="M 16 26 C 16 16, 26 14, 40 14 L 88 14 C 102 14, 112 16, 112 26 C 112 36, 100 24, 86 24 L 42 24 C 28 24, 16 36, 16 26 Z" fill="#ffffff" opacity="0.3"/>
+
+  <!-- Bottom Inner Shadow for 3D Bevel depth -->
+  <path d="M 12 104 C 20 114, 40 116, 64 116 C 88 116, 108 114, 116 104 C 112 110, 90 114, 64 114 C 38 114, 16 110, 12 104 Z" fill="#000000" opacity="0.45"/>
+
+  <!-- Corner Tech Accent Dots for subtle Cyber Look -->
+  <circle cx="18" cy="18" r="2" fill="#93c5fd" opacity="0.8"/>
+  <circle cx="110" cy="18" r="2" fill="#93c5fd" opacity="0.8"/>
+  <circle cx="18" cy="110" r="2" fill="#93c5fd" opacity="0.5"/>
+  <circle cx="110" cy="110" r="2" fill="#93c5fd" opacity="0.5"/>
+
+  <!-- Small Tier Category Badge at Top Right -->
+  
+
+  
+
+  <!-- Number Text with 3D Offset & Glow -->
+  <text x="64" y="78" text-anchor="middle" font-family="'Arial Black', Impact, 'Segoe UI Black', sans-serif" font-weight="900" font-size="50" fill="#000000" opacity="0.35" dy="3">64</text>
+  <text x="64" y="76" text-anchor="middle" font-family="'Arial Black', Impact, 'Segoe UI Black', sans-serif" font-weight="900" font-size="50" fill="#ffffff">64</text>
+</svg><div class="card-label">Tier 64</div><div class="card-sub">Royal Cobalt</div></div>
+      <div class="card"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <!-- Tile Gradient -->
+    <linearGradient id="grad-128" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8b6bff"/>
+      <stop offset="100%" stop-color="#5b3fd6"/>
+    </linearGradient>
+    <!-- Bevel Specular Top -->
+    <linearGradient id="bevel-128" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.6"/>
+      <stop offset="50%" stop-color="#c4b5fd" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.5"/>
+    </linearGradient>
+    <!-- Soft Glow Filter -->
+    <filter id="glow-128" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#8b5cf6" flood-opacity="0.6"/>
+    </filter>
+    <filter id="shadow-128" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#050814" flood-opacity="0.7"/>
+    </filter>
+  </defs>
+
+  <!-- Outer Drop Shadow Plate -->
+  <rect x="8" y="10" width="112" height="112" rx="20" fill="none" filter="url(#shadow-128)"/>
+
+  <!-- High-tier Aura / Glow Ring -->
+  <rect x="6" y="6" width="116" height="116" rx="22" fill="none" stroke="#8b5cf6" stroke-width="3" filter="url(#glow-128)" opacity="0.8"/>
+
+  <!-- Main Tile Body -->
+  <rect x="8" y="8" width="112" height="112" rx="20" fill="url(#grad-128)" stroke="url(#bevel-128)" stroke-width="2.5"/>
+
+  <!-- Inner Gloss Arc / Specular Pill -->
+  <path d="M 16 26 C 16 16, 26 14, 40 14 L 88 14 C 102 14, 112 16, 112 26 C 112 36, 100 24, 86 24 L 42 24 C 28 24, 16 36, 16 26 Z" fill="#ffffff" opacity="0.3"/>
+
+  <!-- Bottom Inner Shadow for 3D Bevel depth -->
+  <path d="M 12 104 C 20 114, 40 116, 64 116 C 88 116, 108 114, 116 104 C 112 110, 90 114, 64 114 C 38 114, 16 110, 12 104 Z" fill="#000000" opacity="0.45"/>
+
+  <!-- Corner Tech Accent Dots for subtle Cyber Look -->
+  <circle cx="18" cy="18" r="2" fill="#c4b5fd" opacity="0.8"/>
+  <circle cx="110" cy="18" r="2" fill="#c4b5fd" opacity="0.8"/>
+  <circle cx="18" cy="110" r="2" fill="#c4b5fd" opacity="0.5"/>
+  <circle cx="110" cy="110" r="2" fill="#c4b5fd" opacity="0.5"/>
+
+  <!-- Small Tier Category Badge at Top Right -->
+  
+  <rect x="36" y="14" width="56" height="14" rx="7" fill="#0b1020" opacity="0.75"/>
+  <text x="64" y="24" text-anchor="middle" font-family="'Segoe UI', Roboto, system-ui, sans-serif" font-weight="800" font-size="8" fill="#c4b5fd" letter-spacing="1">★ 128</text>
+  
+
+  
+
+  <!-- Number Text with 3D Offset & Glow -->
+  <text x="64" y="78" text-anchor="middle" font-family="'Arial Black', Impact, 'Segoe UI Black', sans-serif" font-weight="900" font-size="42" fill="#000000" opacity="0.35" dy="3">128</text>
+  <text x="64" y="76" text-anchor="middle" font-family="'Arial Black', Impact, 'Segoe UI Black', sans-serif" font-weight="900" font-size="42" fill="#ffffff">128</text>
+</svg><div class="card-label">Tier 128 ★</div><div class="card-sub">Amethyst Aura</div></div>
+      <div class="card"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <!-- Tile Gradient -->
+    <linearGradient id="grad-256" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#d16bff"/>
+      <stop offset="100%" stop-color="#8e3fc4"/>
+    </linearGradient>
+    <!-- Bevel Specular Top -->
+    <linearGradient id="bevel-256" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.6"/>
+      <stop offset="50%" stop-color="#f0abfc" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.5"/>
+    </linearGradient>
+    <!-- Soft Glow Filter -->
+    <filter id="glow-256" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#d946ef" flood-opacity="0.6"/>
+    </filter>
+    <filter id="shadow-256" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#050814" flood-opacity="0.7"/>
+    </filter>
+  </defs>
+
+  <!-- Outer Drop Shadow Plate -->
+  <rect x="8" y="10" width="112" height="112" rx="20" fill="none" filter="url(#shadow-256)"/>
+
+  <!-- High-tier Aura / Glow Ring -->
+  <rect x="6" y="6" width="116" height="116" rx="22" fill="none" stroke="#d946ef" stroke-width="3" filter="url(#glow-256)" opacity="0.8"/>
+
+  <!-- Main Tile Body -->
+  <rect x="8" y="8" width="112" height="112" rx="20" fill="url(#grad-256)" stroke="url(#bevel-256)" stroke-width="2.5"/>
+
+  <!-- Inner Gloss Arc / Specular Pill -->
+  <path d="M 16 26 C 16 16, 26 14, 40 14 L 88 14 C 102 14, 112 16, 112 26 C 112 36, 100 24, 86 24 L 42 24 C 28 24, 16 36, 16 26 Z" fill="#ffffff" opacity="0.3"/>
+
+  <!-- Bottom Inner Shadow for 3D Bevel depth -->
+  <path d="M 12 104 C 20 114, 40 116, 64 116 C 88 116, 108 114, 116 104 C 112 110, 90 114, 64 114 C 38 114, 16 110, 12 104 Z" fill="#000000" opacity="0.45"/>
+
+  <!-- Corner Tech Accent Dots for subtle Cyber Look -->
+  <circle cx="18" cy="18" r="2" fill="#f0abfc" opacity="0.8"/>
+  <circle cx="110" cy="18" r="2" fill="#f0abfc" opacity="0.8"/>
+  <circle cx="18" cy="110" r="2" fill="#f0abfc" opacity="0.5"/>
+  <circle cx="110" cy="110" r="2" fill="#f0abfc" opacity="0.5"/>
+
+  <!-- Small Tier Category Badge at Top Right -->
+  
+  <rect x="36" y="14" width="56" height="14" rx="7" fill="#0b1020" opacity="0.75"/>
+  <text x="64" y="24" text-anchor="middle" font-family="'Segoe UI', Roboto, system-ui, sans-serif" font-weight="800" font-size="8" fill="#f0abfc" letter-spacing="1">★ 256</text>
+  
+
+  
+
+  <!-- Number Text with 3D Offset & Glow -->
+  <text x="64" y="78" text-anchor="middle" font-family="'Arial Black', Impact, 'Segoe UI Black', sans-serif" font-weight="900" font-size="42" fill="#000000" opacity="0.35" dy="3">256</text>
+  <text x="64" y="76" text-anchor="middle" font-family="'Arial Black', Impact, 'Segoe UI Black', sans-serif" font-weight="900" font-size="42" fill="#ffffff">256</text>
+</svg><div class="card-label">Tier 256 ★</div><div class="card-sub">Neon Magenta</div></div>
+      <div class="card"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <!-- Tile Gradient -->
+    <linearGradient id="grad-512" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ff7ab8"/>
+      <stop offset="100%" stop-color="#d6406f"/>
+    </linearGradient>
+    <!-- Bevel Specular Top -->
+    <linearGradient id="bevel-512" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.6"/>
+      <stop offset="50%" stop-color="#fda4af" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.5"/>
+    </linearGradient>
+    <!-- Soft Glow Filter -->
+    <filter id="glow-512" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#f43f5e" flood-opacity="0.6"/>
+    </filter>
+    <filter id="shadow-512" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#050814" flood-opacity="0.7"/>
+    </filter>
+  </defs>
+
+  <!-- Outer Drop Shadow Plate -->
+  <rect x="8" y="10" width="112" height="112" rx="20" fill="none" filter="url(#shadow-512)"/>
+
+  <!-- High-tier Aura / Glow Ring -->
+  <rect x="6" y="6" width="116" height="116" rx="22" fill="none" stroke="#f43f5e" stroke-width="3" filter="url(#glow-512)" opacity="0.8"/>
+
+  <!-- Main Tile Body -->
+  <rect x="8" y="8" width="112" height="112" rx="20" fill="url(#grad-512)" stroke="url(#bevel-512)" stroke-width="2.5"/>
+
+  <!-- Inner Gloss Arc / Specular Pill -->
+  <path d="M 16 26 C 16 16, 26 14, 40 14 L 88 14 C 102 14, 112 16, 112 26 C 112 36, 100 24, 86 24 L 42 24 C 28 24, 16 36, 16 26 Z" fill="#ffffff" opacity="0.3"/>
+
+  <!-- Bottom Inner Shadow for 3D Bevel depth -->
+  <path d="M 12 104 C 20 114, 40 116, 64 116 C 88 116, 108 114, 116 104 C 112 110, 90 114, 64 114 C 38 114, 16 110, 12 104 Z" fill="#000000" opacity="0.45"/>
+
+  <!-- Corner Tech Accent Dots for subtle Cyber Look -->
+  <circle cx="18" cy="18" r="2" fill="#fda4af" opacity="0.8"/>
+  <circle cx="110" cy="18" r="2" fill="#fda4af" opacity="0.8"/>
+  <circle cx="18" cy="110" r="2" fill="#fda4af" opacity="0.5"/>
+  <circle cx="110" cy="110" r="2" fill="#fda4af" opacity="0.5"/>
+
+  <!-- Small Tier Category Badge at Top Right -->
+  
+  <rect x="36" y="14" width="56" height="14" rx="7" fill="#0b1020" opacity="0.75"/>
+  <text x="64" y="24" text-anchor="middle" font-family="'Segoe UI', Roboto, system-ui, sans-serif" font-weight="800" font-size="8" fill="#fda4af" letter-spacing="1">★★ 512</text>
+  
+
+  
+
+  <!-- Number Text with 3D Offset & Glow -->
+  <text x="64" y="78" text-anchor="middle" font-family="'Arial Black', Impact, 'Segoe UI Black', sans-serif" font-weight="900" font-size="42" fill="#000000" opacity="0.35" dy="3">512</text>
+  <text x="64" y="76" text-anchor="middle" font-family="'Arial Black', Impact, 'Segoe UI Black', sans-serif" font-weight="900" font-size="42" fill="#ffffff">512</text>
+</svg><div class="card-label">Tier 512 ★★</div><div class="card-sub">Cyber Rose</div></div>
+      <div class="card"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <!-- Tile Gradient -->
+    <linearGradient id="grad-1024" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f4a261"/>
+      <stop offset="100%" stop-color="#c9622b"/>
+    </linearGradient>
+    <!-- Bevel Specular Top -->
+    <linearGradient id="bevel-1024" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.6"/>
+      <stop offset="50%" stop-color="#fcd34d" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.5"/>
+    </linearGradient>
+    <!-- Soft Glow Filter -->
+    <filter id="glow-1024" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#f59e0b" flood-opacity="0.6"/>
+    </filter>
+    <filter id="shadow-1024" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#050814" flood-opacity="0.7"/>
+    </filter>
+  </defs>
+
+  <!-- Outer Drop Shadow Plate -->
+  <rect x="8" y="10" width="112" height="112" rx="20" fill="none" filter="url(#shadow-1024)"/>
+
+  <!-- High-tier Aura / Glow Ring -->
+  <rect x="6" y="6" width="116" height="116" rx="22" fill="none" stroke="#f59e0b" stroke-width="3" filter="url(#glow-1024)" opacity="0.8"/>
+
+  <!-- Main Tile Body -->
+  <rect x="8" y="8" width="112" height="112" rx="20" fill="url(#grad-1024)" stroke="url(#bevel-1024)" stroke-width="2.5"/>
+
+  <!-- Inner Gloss Arc / Specular Pill -->
+  <path d="M 16 26 C 16 16, 26 14, 40 14 L 88 14 C 102 14, 112 16, 112 26 C 112 36, 100 24, 86 24 L 42 24 C 28 24, 16 36, 16 26 Z" fill="#ffffff" opacity="0.3"/>
+
+  <!-- Bottom Inner Shadow for 3D Bevel depth -->
+  <path d="M 12 104 C 20 114, 40 116, 64 116 C 88 116, 108 114, 116 104 C 112 110, 90 114, 64 114 C 38 114, 16 110, 12 104 Z" fill="#000000" opacity="0.45"/>
+
+  <!-- Corner Tech Accent Dots for subtle Cyber Look -->
+  <circle cx="18" cy="18" r="2" fill="#fcd34d" opacity="0.8"/>
+  <circle cx="110" cy="18" r="2" fill="#fcd34d" opacity="0.8"/>
+  <circle cx="18" cy="110" r="2" fill="#fcd34d" opacity="0.5"/>
+  <circle cx="110" cy="110" r="2" fill="#fcd34d" opacity="0.5"/>
+
+  <!-- Small Tier Category Badge at Top Right -->
+  
+  <rect x="36" y="14" width="56" height="14" rx="7" fill="#0b1020" opacity="0.75"/>
+  <text x="64" y="24" text-anchor="middle" font-family="'Segoe UI', Roboto, system-ui, sans-serif" font-weight="800" font-size="8" fill="#fcd34d" letter-spacing="1">★★★ 1K</text>
+  
+
+  
+
+  <!-- Number Text with 3D Offset & Glow -->
+  <text x="64" y="78" text-anchor="middle" font-family="'Arial Black', Impact, 'Segoe UI Black', sans-serif" font-weight="900" font-size="34" fill="#000000" opacity="0.35" dy="3">1024</text>
+  <text x="64" y="76" text-anchor="middle" font-family="'Arial Black', Impact, 'Segoe UI Black', sans-serif" font-weight="900" font-size="34" fill="#ffffff">1024</text>
+</svg><div class="card-label">Tier 1024 ★★★</div><div class="card-sub">Solar Amber</div></div>
+      <div class="card"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <!-- Tile Gradient -->
+    <linearGradient id="grad-2048" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e9c46a"/>
+      <stop offset="100%" stop-color="#b8933f"/>
+    </linearGradient>
+    <!-- Bevel Specular Top -->
+    <linearGradient id="bevel-2048" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.6"/>
+      <stop offset="50%" stop-color="#fef08a" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.5"/>
+    </linearGradient>
+    <!-- Soft Glow Filter -->
+    <filter id="glow-2048" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#eab308" flood-opacity="0.6"/>
+    </filter>
+    <filter id="shadow-2048" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#050814" flood-opacity="0.7"/>
+    </filter>
+  </defs>
+
+  <!-- Outer Drop Shadow Plate -->
+  <rect x="8" y="10" width="112" height="112" rx="20" fill="none" filter="url(#shadow-2048)"/>
+
+  <!-- High-tier Aura / Glow Ring -->
+  <rect x="6" y="6" width="116" height="116" rx="22" fill="none" stroke="#eab308" stroke-width="3" filter="url(#glow-2048)" opacity="0.8"/>
+
+  <!-- Main Tile Body -->
+  <rect x="8" y="8" width="112" height="112" rx="20" fill="url(#grad-2048)" stroke="url(#bevel-2048)" stroke-width="2.5"/>
+
+  <!-- Inner Gloss Arc / Specular Pill -->
+  <path d="M 16 26 C 16 16, 26 14, 40 14 L 88 14 C 102 14, 112 16, 112 26 C 112 36, 100 24, 86 24 L 42 24 C 28 24, 16 36, 16 26 Z" fill="#ffffff" opacity="0.3"/>
+
+  <!-- Bottom Inner Shadow for 3D Bevel depth -->
+  <path d="M 12 104 C 20 114, 40 116, 64 116 C 88 116, 108 114, 116 104 C 112 110, 90 114, 64 114 C 38 114, 16 110, 12 104 Z" fill="#000000" opacity="0.45"/>
+
+  <!-- Corner Tech Accent Dots for subtle Cyber Look -->
+  <circle cx="18" cy="18" r="2" fill="#fef08a" opacity="0.8"/>
+  <circle cx="110" cy="18" r="2" fill="#fef08a" opacity="0.8"/>
+  <circle cx="18" cy="110" r="2" fill="#fef08a" opacity="0.5"/>
+  <circle cx="110" cy="110" r="2" fill="#fef08a" opacity="0.5"/>
+
+  <!-- Small Tier Category Badge at Top Right -->
+  
+  <rect x="36" y="14" width="56" height="14" rx="7" fill="#0b1020" opacity="0.75"/>
+  <text x="64" y="24" text-anchor="middle" font-family="'Segoe UI', Roboto, system-ui, sans-serif" font-weight="800" font-size="8" fill="#fef08a" letter-spacing="1">👑 CROWN</text>
+  
+
+  
+  <!-- Crown Icon on 2048 -->
+  <path d="M 46 36 L 52 46 L 64 34 L 76 46 L 82 36 L 80 50 L 48 50 Z" fill="#fef08a" stroke="#b8933f" stroke-width="1.5"/>
+  <circle cx="46" cy="35" r="2" fill="#ffffff"/>
+  <circle cx="64" cy="33" r="2.5" fill="#ffffff"/>
+  <circle cx="82" cy="35" r="2" fill="#ffffff"/>
+  
+
+  <!-- Number Text with 3D Offset & Glow -->
+  <text x="64" y="90" text-anchor="middle" font-family="'Arial Black', Impact, 'Segoe UI Black', sans-serif" font-weight="900" font-size="34" fill="#000000" opacity="0.35" dy="3">2048</text>
+  <text x="64" y="88" text-anchor="middle" font-family="'Arial Black', Impact, 'Segoe UI Black', sans-serif" font-weight="900" font-size="34" fill="#1c1917">2048</text>
+</svg><div class="card-label">Tier 2048 👑</div><div class="card-sub">Crown Imperial</div></div>
+      <div class="card"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <filter id="sel-glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="0" stdDeviation="6" flood-color="#22d3ee" flood-opacity="0.9"/>
+    </filter>
+  </defs>
+  <!-- Reticle Brackets -->
+  <path d="M 16 36 L 16 16 L 36 16" fill="none" stroke="#22d3ee" stroke-width="4" stroke-linecap="round"/>
+  <path d="M 112 36 L 112 16 L 92 16" fill="none" stroke="#22d3ee" stroke-width="4" stroke-linecap="round"/>
+  <path d="M 16 92 L 16 112 L 36 112" fill="none" stroke="#22d3ee" stroke-width="4" stroke-linecap="round"/>
+  <path d="M 112 92 L 112 112 L 92 112" fill="none" stroke="#22d3ee" stroke-width="4" stroke-linecap="round"/>
+  <!-- Glowing Selection Border -->
+  <rect x="14" y="14" width="100" height="100" rx="18" fill="#22d3ee" fill-opacity="0.12" stroke="#67e8f9" stroke-width="2.5" stroke-dasharray="8 4" filter="url(#sel-glow)"/>
+  <!-- Corner indicator pulses -->
+  <circle cx="16" cy="16" r="3" fill="#ffffff"/>
+  <circle cx="112" cy="16" r="3" fill="#ffffff"/>
+  <circle cx="16" cy="112" r="3" fill="#ffffff"/>
+  <circle cx="112" cy="112" r="3" fill="#ffffff"/>
+</svg><div class="card-label">Selected</div><div class="card-sub">Cyber Reticle</div></div>
+      <div class="card"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <radialGradient id="flash-rad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="1"/>
+      <stop offset="35%" stop-color="#67e8f9" stop-opacity="0.85"/>
+      <stop offset="70%" stop-color="#e9c46a" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#0b1020" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <!-- Radiant Shockwave Burst -->
+  <circle cx="64" cy="64" r="56" fill="url(#flash-rad)"/>
+  <!-- 4 Radiant Light Rays -->
+  <path d="M 64 8 L 68 56 L 120 64 L 68 72 L 64 120 L 60 72 L 8 64 L 60 56 Z" fill="#ffffff" opacity="0.9"/>
+  <!-- Diagonal Sparkles -->
+  <path d="M 64 24 L 66 60 L 104 64 L 66 68 L 64 104 L 62 68 L 24 64 L 62 60 Z" fill="#fef08a" opacity="0.75" transform="rotate(45 64 64)"/>
+  <circle cx="64" cy="64" r="16" fill="#ffffff"/>
+</svg><div class="card-label">Merge Flash</div><div class="card-sub">8-Way Sparkle</div></div>
+      <div class="card"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <linearGradient id="empty-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#101524"/>
+      <stop offset="100%" stop-color="#161e32"/>
+    </linearGradient>
+  </defs>
+  <!-- Inset recessed cell shadow -->
+  <rect x="8" y="8" width="112" height="112" rx="20" fill="url(#empty-grad)" stroke="#222c44" stroke-width="2"/>
+  <!-- Inner top shadow for cavity depth -->
+  <path d="M 10 26 C 10 16, 20 10, 36 10 L 92 10 C 108 10, 118 16, 118 26 L 114 26 C 114 18, 106 14, 92 14 L 36 14 C 22 14, 14 18, 14 26 Z" fill="#000000" opacity="0.6"/>
+  <!-- Subtle center crosshair guide -->
+  <circle cx="64" cy="64" r="3" fill="#2c3856" opacity="0.5"/>
+</svg><div class="card-label">Empty Cell</div><div class="card-sub">Cavity Bevel</div></div>
+    </div>
+  </section>
+
+  <!-- 2. MASCOT -->
+  <section>
+    <h2>2. Linh Vật "Stacky" (3 Biểu Cảm — Tăng Tính Hấp Dẫn & "Ăn Tiền") <span>160x160 SVG</span></h2>
+    <div class="grid grid-mascot">
+      <div class="card">
+        <div style="width: 140px; height: 140px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160">
+  <defs>
+    <linearGradient id="bot-body" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#22d3ee"/>
+      <stop offset="45%" stop-color="#06b6d4"/>
+      <stop offset="100%" stop-color="#0891b2"/>
+    </linearGradient>
+    <linearGradient id="bot-face" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <filter id="bot-glow">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#0891b2" flood-opacity="0.6"/>
+    </filter>
+  </defs>
+
+  <!-- Shadow below mascot -->
+  <ellipse cx="80" cy="148" rx="46" ry="9" fill="#030712" opacity="0.6"/>
+
+  <!-- Antenna -->
+  <line x1="80" y1="28" x2="80" y2="42" stroke="#e9c46a" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="80" cy="24" r="8" fill="#fef08a" stroke="#e9c46a" stroke-width="2"/>
+  <circle cx="82" cy="22" r="2.5" fill="#ffffff"/>
+
+  <!-- Headphones / Ear Pods -->
+  <rect x="22" y="66" width="12" height="32" rx="6" fill="#e9c46a" stroke="#ffffff" stroke-width="1.5"/>
+  <rect x="126" y="66" width="12" height="32" rx="6" fill="#e9c46a" stroke="#ffffff" stroke-width="1.5"/>
+  <path d="M 28 68 C 28 40, 132 40, 132 68" fill="none" stroke="#e9c46a" stroke-width="3.5" stroke-linecap="round"/>
+
+  <!-- Mascot Body (Rounded Chamfer Cube) -->
+  <rect x="30" y="42" width="100" height="96" rx="30" fill="url(#bot-body)" stroke="#ffffff" stroke-width="3" filter="url(#bot-glow)"/>
+
+  <!-- Specular Arc on Top Body -->
+  <path d="M 48 50 C 60 46, 100 46, 112 50 C 114 54, 46 54, 48 50 Z" fill="#ffffff" opacity="0.5"/>
+
+  <!-- Screen Visor Face Plate -->
+  <rect x="42" y="58" width="76" height="58" rx="18" fill="url(#bot-face)" stroke="#38bdf8" stroke-width="2"/>
+
+  <!-- Big Sparkling Happy Anime Eyes -->
+  <!-- Left Eye -->
+  <ellipse cx="62" cy="82" rx="10" ry="13" fill="#22d3ee"/>
+  <ellipse cx="62" cy="82" rx="8" ry="11" fill="#083344"/>
+  <circle cx="65" cy="78" r="4.5" fill="#ffffff"/>
+  <circle cx="59" cy="88" r="2" fill="#ffffff"/>
+
+  <!-- Right Eye -->
+  <ellipse cx="98" cy="82" rx="10" ry="13" fill="#22d3ee"/>
+  <ellipse cx="98" cy="82" rx="8" ry="11" fill="#083344"/>
+  <circle cx="101" cy="78" r="4.5" fill="#ffffff"/>
+  <circle cx="95" cy="88" r="2" fill="#ffffff"/>
+
+  <!-- Rosy Cute Cheeks -->
+  <ellipse cx="50" cy="98" rx="6" ry="3.5" fill="#ff7ab8" opacity="0.8"/>
+  <ellipse cx="110" cy="98" rx="6" ry="3.5" fill="#ff7ab8" opacity="0.8"/>
+
+  <!-- Friendly Smile -->
+  <path d="M 74 96 Q 80 102 86 96" fill="none" stroke="#22d3ee" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Cute Waving Hand -->
+  <circle cx="138" cy="100" r="8" fill="#22d3ee" stroke="#ffffff" stroke-width="2"/>
+  <circle cx="22" cy="114" r="8" fill="#0891b2" stroke="#ffffff" stroke-width="2"/>
+</svg></div>
+        <div class="card-label">mascot-idle.svg</div>
+        <div class="card-sub">Màn Menu & HUD: Mắt anime long lanh, nụ cười chào đón, vẫy tay</div>
+      </div>
+      <div class="card">
+        <div style="width: 140px; height: 140px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160">
+  <defs>
+    <linearGradient id="cheer-body" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="50%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#0369a1"/>
+    </linearGradient>
+    <filter id="cheer-glow">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#38bdf8" flood-opacity="0.75"/>
+    </filter>
+  </defs>
+
+  <ellipse cx="80" cy="148" rx="42" ry="8" fill="#030712" opacity="0.5"/>
+
+  <!-- Jumping Upward Sparkles -->
+  <polygon points="24,30 26,34 30,35 27,38 28,42 24,40 20,42 21,38 18,35 22,34" fill="#fef08a"/>
+  <polygon points="136,30 138,34 142,35 139,38 140,42 136,40 132,42 133,38 130,35 134,34" fill="#fef08a"/>
+
+  <!-- Antenna -->
+  <line x1="80" y1="24" x2="80" y2="38" stroke="#e9c46a" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="80" cy="20" r="9" fill="#fef08a" stroke="#e9c46a" stroke-width="2"/>
+  <circle cx="82" cy="18" r="3" fill="#ffffff"/>
+
+  <!-- Raised Hands in Victory -->
+  <ellipse cx="22" cy="62" rx="9" ry="11" fill="#38bdf8" stroke="#ffffff" stroke-width="2" transform="rotate(-30 22 62)"/>
+  <ellipse cx="138" cy="62" rx="9" ry="11" fill="#38bdf8" stroke="#ffffff" stroke-width="2" transform="rotate(30 138 62)"/>
+
+  <!-- Headphones -->
+  <rect x="22" y="64" width="12" height="30" rx="6" fill="#e9c46a" stroke="#ffffff" stroke-width="1.5"/>
+  <rect x="126" y="64" width="12" height="30" rx="6" fill="#e9c46a" stroke="#ffffff" stroke-width="1.5"/>
+  <path d="M 28 66 C 28 36, 132 36, 132 66" fill="none" stroke="#e9c46a" stroke-width="3.5" stroke-linecap="round"/>
+
+  <!-- Mascot Body -->
+  <rect x="30" y="38" width="100" height="96" rx="30" fill="url(#cheer-body)" stroke="#ffffff" stroke-width="3" filter="url(#cheer-glow)"/>
+
+  <!-- Screen Visor -->
+  <rect x="42" y="54" width="76" height="58" rx="18" fill="#0b1329" stroke="#67e8f9" stroke-width="2"/>
+
+  <!-- Star-Shaped Excited Cheer Eyes -->
+  <polygon points="62,68 64,74 70,75 66,79 67,85 62,82 57,85 58,79 54,75 60,74" fill="#fef08a"/>
+  <polygon points="98,68 100,74 106,75 102,79 103,85 98,82 93,85 94,79 90,75 96,74" fill="#fef08a"/>
+
+  <!-- Cheeks -->
+  <ellipse cx="50" cy="95" rx="6" ry="4" fill="#ff7ab8" opacity="0.9"/>
+  <ellipse cx="110" cy="95" rx="6" ry="4" fill="#ff7ab8" opacity="0.9"/>
+
+  <!-- Open Joyful Mouth -->
+  <path d="M 72 92 Q 80 106 88 92 Z" fill="#ff7ab8" stroke="#ffffff" stroke-width="1.5"/>
+</svg></div>
+        <div class="card-label">mascot-cheer.svg</div>
+        <div class="card-sub">Kỷ Lục & Mega Combo: Mắt sao lấp lánh, giơ 2 tay ăn mừng, nhảy vọt</div>
+      </div>
+      <div class="card">
+        <div style="width: 140px; height: 140px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160">
+  <defs>
+    <linearGradient id="shock-body" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#64748b"/>
+      <stop offset="100%" stop-color="#334155"/>
+    </linearGradient>
+    <filter id="shock-glow">
+      <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#020617" flood-opacity="0.8"/>
+    </filter>
+  </defs>
+
+  <ellipse cx="80" cy="148" rx="46" ry="9" fill="#030712" opacity="0.7"/>
+
+  <!-- Antenna with crooked spark -->
+  <line x1="80" y1="28" x2="80" y2="44" stroke="#94a3b8" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="80" cy="26" r="8" fill="#f43f5e" stroke="#94a3b8" stroke-width="2"/>
+
+  <!-- Anime Big Blue Sweat Drop -->
+  <path d="M 126 34 C 126 34, 136 46, 136 52 C 136 57.5, 131.5 62, 126 62 C 120.5 62, 116 57.5, 116 52 C 116 46, 126 34, 126 34 Z" fill="#38bdf8" stroke="#ffffff" stroke-width="1.5"/>
+  <circle cx="123" cy="50" r="2" fill="#ffffff"/>
+
+  <!-- Mascot Body -->
+  <rect x="30" y="44" width="100" height="96" rx="30" fill="url(#shock-body)" stroke="#94a3b8" stroke-width="3" filter="url(#shock-glow)"/>
+
+  <!-- Screen Visor -->
+  <rect x="42" y="60" width="76" height="58" rx="18" fill="#090d16" stroke="#475569" stroke-width="2"/>
+
+  <!-- Spiral / Stunned Eyes (X or Spiral) -->
+  <g stroke="#38bdf8" stroke-width="3" stroke-linecap="round" fill="none">
+    <!-- Left X -->
+    <line x1="54" y1="74" x2="70" y2="90"/>
+    <line x1="70" y1="74" x2="54" y2="90"/>
+    <!-- Right X -->
+    <line x1="90" y1="74" x2="106" y2="90"/>
+    <line x1="106" y1="74" x2="90" y2="90"/>
+  </g>
+
+  <!-- Blue blush of embarrassment -->
+  <ellipse cx="50" cy="100" rx="6" ry="3" fill="#38bdf8" opacity="0.6"/>
+  <ellipse cx="110" cy="100" rx="6" ry="3" fill="#38bdf8" opacity="0.6"/>
+
+  <!-- O-shaped shocked mouth -->
+  <ellipse cx="80" cy="98" rx="7" ry="9" fill="#f43f5e" stroke="#ffffff" stroke-width="1.5"/>
+
+  <!-- Trembling hands hugging face -->
+  <circle cx="34" cy="94" r="8" fill="#475569" stroke="#94a3b8" stroke-width="2"/>
+  <circle cx="126" cy="94" r="8" fill="#475569" stroke="#94a3b8" stroke-width="2"/>
+</svg></div>
+        <div class="card-label">mascot-shock.svg</div>
+        <div class="card-sub">Game Over: Mắt xoay choáng ngợp, giọt mồ hôi anime, miệng chữ O</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. ICONS -->
+  <section>
+    <h2>3. Bộ Icon Game (10 Icons — Nâng Cấp Hoàn Toàn So Với Bản Cũ) <span>64x64 SVG</span></h2>
+    <div class="grid grid-icons">
+      <div class="card"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="ic-p-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#22d3ee"/>
+      <stop offset="100%" stop-color="#0891b2"/>
+    </linearGradient>
+    <filter id="ic-p-glow">
+      <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#0891b2" flood-opacity="0.7"/>
+    </filter>
+  </defs>
+  <rect x="4" y="4" width="56" height="56" rx="18" fill="url(#ic-p-bg)" stroke="#67e8f9" stroke-width="2" filter="url(#ic-p-glow)"/>
+  <!-- Specular Cap -->
+  <path d="M 12 12 C 20 8, 44 8, 52 12 C 48 18, 16 18, 12 12 Z" fill="#ffffff" opacity="0.4"/>
+  <!-- Play Triangle -->
+  <polygon points="26,20 46,32 26,44" fill="#03252a" opacity="0.3" transform="translate(1, 2)"/>
+  <polygon points="26,20 46,32 26,44" fill="#ffffff"/>
+</svg><div class="card-label">Play</div></div>
+      <div class="card"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="ic-pause-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <filter id="ic-pause-shadow">
+      <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#000000" flood-opacity="0.6"/>
+    </filter>
+  </defs>
+  <rect x="4" y="4" width="56" height="56" rx="18" fill="url(#ic-pause-bg)" stroke="#22d3ee" stroke-width="2" filter="url(#ic-pause-shadow)"/>
+  <!-- Pause Bars -->
+  <rect x="22" y="20" width="7" height="24" rx="3.5" fill="#22d3ee"/>
+  <rect x="35" y="20" width="7" height="24" rx="3.5" fill="#22d3ee"/>
+  <rect x="23" y="21" width="5" height="10" rx="2.5" fill="#ffffff" opacity="0.5"/>
+  <rect x="36" y="21" width="5" height="10" rx="2.5" fill="#ffffff" opacity="0.5"/>
+</svg><div class="card-label">Pause</div></div>
+      <div class="card"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="ic-rep-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#06b6d4"/>
+      <stop offset="100%" stop-color="#0f766e"/>
+    </linearGradient>
+    <filter id="ic-rep-glow">
+      <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#06b6d4" flood-opacity="0.6"/>
+    </filter>
+  </defs>
+  <rect x="4" y="4" width="56" height="56" rx="18" fill="url(#ic-rep-bg)" stroke="#5eead4" stroke-width="2" filter="url(#ic-rep-glow)"/>
+  <path d="M 44 32 A 13 13 0 1 1 40 22.5 L 44 18" fill="none" stroke="#ffffff" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <polygon points="36,18 46,18 46,28" fill="#ffffff"/>
+</svg><div class="card-label">Replay</div></div>
+      <div class="card"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="ic-vol-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+  </defs>
+  <rect x="4" y="4" width="56" height="56" rx="18" fill="url(#ic-vol-bg)" stroke="#22d3ee" stroke-width="2"/>
+  <!-- Speaker body -->
+  <path d="M 16 26 L 24 26 L 33 18 L 33 46 L 24 38 L 16 38 Z" fill="#22d3ee"/>
+  <!-- Waves -->
+  <path d="M 39 25 C 43 28, 43 36, 39 39" fill="none" stroke="#67e8f9" stroke-width="3" stroke-linecap="round"/>
+  <path d="M 44 20 C 51 25, 51 39, 44 44" fill="none" stroke="#e9c46a" stroke-width="3" stroke-linecap="round"/>
+</svg><div class="card-label">Volume</div></div>
+      <div class="card"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="ic-mute-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+  </defs>
+  <rect x="4" y="4" width="56" height="56" rx="18" fill="url(#ic-mute-bg)" stroke="#64748b" stroke-width="2"/>
+  <!-- Speaker Body Dimmed -->
+  <path d="M 16 26 L 24 26 L 33 18 L 33 46 L 24 38 L 16 38 Z" fill="#94a3b8"/>
+  <!-- Red/Rose Mute Strike -->
+  <line x1="39" y1="23" x2="51" y2="41" stroke="#f43f5e" stroke-width="4" stroke-linecap="round"/>
+  <line x1="51" y1="23" x2="39" y2="41" stroke="#f43f5e" stroke-width="4" stroke-linecap="round"/>
+</svg><div class="card-label">Mute</div></div>
+      <div class="card"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="ic-tr-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#b45309"/>
+    </linearGradient>
+    <filter id="ic-tr-glow">
+      <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#f59e0b" flood-opacity="0.6"/>
+    </filter>
+  </defs>
+  <rect x="4" y="4" width="56" height="56" rx="18" fill="#1e293b" stroke="#e9c46a" stroke-width="2"/>
+  <!-- Trophy Cup Body -->
+  <path d="M 22 18 L 42 18 L 42 28 C 42 34 38 38 32 38 C 26 38 22 34 22 28 Z" fill="url(#ic-tr-bg)" stroke="#fef08a" stroke-width="1.5" filter="url(#ic-tr-glow)"/>
+  <!-- Handles -->
+  <path d="M 22 22 H 17 C 14.5 22 13 24 13 26.5 C 13 30 16 32 20 32 H 22" fill="none" stroke="#fef08a" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M 42 22 H 47 C 49.5 22 51 24 51 26.5 C 51 30 48 32 44 32 H 42" fill="none" stroke="#fef08a" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Stem & Pedestal -->
+  <rect x="29" y="38" width="6" height="6" fill="#fef08a"/>
+  <rect x="23" y="44" width="18" height="6" rx="2" fill="#d97706" stroke="#fef08a" stroke-width="1.5"/>
+  <!-- Star Crest on Cup -->
+  <polygon points="32,23 33.5,27 37.5,27 34.5,29.5 35.5,33.5 32,31 28.5,33.5 29.5,29.5 26.5,27 30.5,27" fill="#ffffff"/>
+</svg><div class="card-label">Trophy</div></div>
+      <div class="card"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="ic-ham-head" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#22d3ee"/>
+      <stop offset="100%" stop-color="#0284c7"/>
+    </linearGradient>
+    <filter id="ic-ham-glow">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#22d3ee" flood-opacity="0.8"/>
+    </filter>
+  </defs>
+  <rect x="4" y="4" width="56" height="56" rx="18" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
+  <g transform="rotate(-35 32 32)">
+    <!-- Shaft -->
+    <rect x="29" y="22" width="6" height="28" rx="3" fill="#94a3b8" stroke="#475569" stroke-width="1"/>
+    <!-- Cyber Hammer Head -->
+    <rect x="18" y="14" width="28" height="14" rx="4" fill="url(#ic-ham-head)" stroke="#67e8f9" stroke-width="1.5" filter="url(#ic-ham-glow)"/>
+    <!-- Energy Core on Hammer Head -->
+    <line x1="22" y1="21" x2="42" y2="21" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+  </g>
+</svg><div class="card-label">Hammer</div></div>
+      <div class="card"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <radialGradient id="ic-bomb-body" cx="40%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#475569"/>
+      <stop offset="70%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </radialGradient>
+    <filter id="ic-spark-glow">
+      <feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#f59e0b" flood-opacity="0.9"/>
+    </filter>
+  </defs>
+  <rect x="4" y="4" width="56" height="56" rx="18" fill="#1e293b" stroke="#f43f5e" stroke-width="2"/>
+  <!-- Bomb Sphere -->
+  <circle cx="30" cy="36" r="16" fill="url(#ic-bomb-body)" stroke="#f43f5e" stroke-width="2"/>
+  <ellipse cx="25" cy="29" rx="5" ry="3" fill="#ffffff" opacity="0.4" transform="rotate(-30 25 29)"/>
+  <!-- Cap & Fuse -->
+  <rect x="26" y="17" width="8" height="5" rx="1.5" fill="#94a3b8"/>
+  <path d="M 30 17 Q 38 10 46 16" fill="none" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Spark -->
+  <polygon points="46,16 49,12 51,17 55,16 52,20 54,24 49,21 46,24 47,19" fill="#fef08a" filter="url(#ic-spark-glow)"/>
+</svg><div class="card-label">Bomb</div></div>
+      <div class="card"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <rect x="4" y="4" width="56" height="56" rx="18" fill="#1e293b" stroke="#22d3ee" stroke-width="2"/>
+  <circle cx="32" cy="46" r="3.5" fill="#22d3ee"/>
+  <path d="M 23 25 C 23 18, 41 18, 41 26 C 41 31, 32 33, 32 38" fill="none" stroke="#22d3ee" stroke-width="5" stroke-linecap="round"/>
+</svg><div class="card-label">Help</div></div>
+      <div class="card"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="ic-star-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fef08a"/>
+      <stop offset="50%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#ea580c"/>
+    </linearGradient>
+    <filter id="ic-star-glow">
+      <feDropShadow dx="0" dy="0" stdDeviation="4" flood-color="#f59e0b" flood-opacity="0.8"/>
+    </filter>
+  </defs>
+  <rect x="4" y="4" width="56" height="56" rx="18" fill="#1e293b" stroke="#f59e0b" stroke-width="2"/>
+  <!-- 8-Point Faceted Star -->
+  <polygon points="32,10 36.5,23 50,18.5 41,29 52,38 38,38 32,52 26,38 12,38 23,29 14,18.5 27.5,23" fill="url(#ic-star-grad)" stroke="#ffffff" stroke-width="1.5" filter="url(#ic-star-glow)"/>
+  <circle cx="32" cy="32" r="4" fill="#ffffff"/>
+</svg><div class="card-label">Combo Star</div></div>
+    </div>
+  </section>
+
+  <!-- 4. UI KIT -->
+  <section>
+    <h2>4. UI Kit (8 Assets — Nút Chuyển Sắc, Hộp Thoại, HUD Điểm, Tiến Trình)</h2>
+    <div class="grid grid-ui">
+      <div class="card">
+        <div style="width: 180px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 64" width="240" height="64">
+  <defs>
+    <linearGradient id="btn-p-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#22d3ee"/>
+      <stop offset="40%" stop-color="#06b6d4"/>
+      <stop offset="100%" stop-color="#0891b2"/>
+    </linearGradient>
+    <linearGradient id="btn-p-border" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="30%" stop-color="#67e8f9"/>
+      <stop offset="100%" stop-color="#0e7490"/>
+    </linearGradient>
+    <filter id="btn-p-glow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#0891b2" flood-opacity="0.55"/>
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#020617" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+  <!-- Shadow & Glow Base -->
+  <rect x="8" y="8" width="224" height="48" rx="24" fill="url(#btn-p-grad)" filter="url(#btn-p-glow)"/>
+  <!-- Beveled Surface -->
+  <rect x="8" y="8" width="224" height="48" rx="24" fill="url(#btn-p-grad)" stroke="url(#btn-p-border)" stroke-width="2"/>
+  <!-- Top Specular Highlight Arc -->
+  <path d="M 28 14 C 40 11, 80 11, 120 11 C 160 11, 200 11, 212 14 C 218 15, 200 22, 120 22 C 40 22, 22 15, 28 14 Z" fill="#ffffff" opacity="0.45"/>
+  <!-- Bottom Lip for 3D depth -->
+  <path d="M 32 52 C 70 55, 170 55, 208 52 C 196 54, 150 56, 120 56 C 90 56, 44 54, 32 52 Z" fill="#042f2e" opacity="0.6"/>
+  <!-- Dual Side Tech Accents -->
+  <circle cx="28" cy="32" r="3" fill="#ffffff" opacity="0.8"/>
+  <circle cx="212" cy="32" r="3" fill="#ffffff" opacity="0.8"/>
+</svg></div>
+        <div class="card-label">btn-primary.svg</div>
+        <div class="card-sub">Nút chính (Chơi / Tiếp tục)</div>
+      </div>
+      <div class="card">
+        <div style="width: 180px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 64" width="240" height="64">
+  <defs>
+    <linearGradient id="btn-p-press" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0e7490"/>
+      <stop offset="100%" stop-color="#0891b2"/>
+    </linearGradient>
+  </defs>
+  <rect x="8" y="12" width="224" height="46" rx="23" fill="url(#btn-p-press)" stroke="#155e75" stroke-width="2"/>
+  <path d="M 12 16 C 30 20, 210 20, 228 16" stroke="#042f2e" stroke-width="3" fill="none" opacity="0.5"/>
+</svg></div>
+        <div class="card-label">btn-primary-pressed.svg</div>
+        <div class="card-sub">Trạng thái nhấn nút chính</div>
+      </div>
+      <div class="card">
+        <div style="width: 180px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 56" width="200" height="56">
+  <defs>
+    <linearGradient id="btn-s-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="btn-s-border" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <filter id="btn-s-shadow">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#020617" flood-opacity="0.6"/>
+    </filter>
+  </defs>
+  <rect x="6" y="6" width="188" height="44" rx="14" fill="url(#btn-s-grad)" stroke="url(#btn-s-border)" stroke-width="2" filter="url(#btn-s-shadow)"/>
+  <!-- Corner Tech Cuts -->
+  <line x1="16" y1="6" x2="6" y2="16" stroke="#38bdf8" stroke-width="2"/>
+  <line x1="184" y1="6" x2="194" y2="16" stroke="#38bdf8" stroke-width="2"/>
+  <!-- Specular glint -->
+  <path d="M 22 10 L 178 10 C 182 10, 184 14, 180 14 L 20 14 C 16 14, 18 10, 22 10 Z" fill="#ffffff" opacity="0.18"/>
+</svg></div>
+        <div class="card-label">btn-secondary.svg</div>
+        <div class="card-sub">Nút phụ (Menu / Hướng dẫn)</div>
+      </div>
+      <div class="card">
+        <div style="width: 180px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 56" width="200" height="56">
+  <rect x="6" y="8" width="188" height="42" rx="14" fill="#0b1120" stroke="#0e7490" stroke-width="2"/>
+</svg></div>
+        <div class="card-label">btn-secondary-pressed.svg</div>
+        <div class="card-sub">Trạng thái nhấn nút phụ</div>
+      </div>
+      <div class="card" style="grid-column: span 2;">
+        <div style="width: 100%; max-height: 240px; overflow: hidden;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 520" width="420" height="520">
+  <defs>
+    <linearGradient id="panel-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#161f36"/>
+      <stop offset="50%" stop-color="#101728"/>
+      <stop offset="100%" stop-color="#0a0f1d"/>
+    </linearGradient>
+    <linearGradient id="panel-border" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="30%" stop-color="#2c3856"/>
+      <stop offset="70%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#e9c46a"/>
+    </linearGradient>
+    <filter id="panel-shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="16" stdDeviation="16" flood-color="#020617" flood-opacity="0.85"/>
+      <feDropShadow dx="0" dy="0" stdDeviation="8" flood-color="#22d3ee" flood-opacity="0.2"/>
+    </filter>
+  </defs>
+  <!-- Main Modal Container -->
+  <rect x="16" y="16" width="388" height="488" rx="28" fill="url(#panel-bg)" stroke="url(#panel-border)" stroke-width="2.5" filter="url(#panel-shadow)"/>
+  <!-- Top Banner Ridge -->
+  <path d="M 28 32 C 28 24, 36 20, 50 20 L 370 20 C 384 20, 392 24, 392 32 L 392 48 L 28 48 Z" fill="#22d3ee" fill-opacity="0.08"/>
+  <!-- Top Trim Glow Line -->
+  <line x1="50" y1="20" x2="370" y2="20" stroke="#67e8f9" stroke-width="2" stroke-linecap="round"/>
+  <!-- Header Separator -->
+  <line x1="36" y1="84" x2="384" y2="84" stroke="#2c3856" stroke-width="1.5"/>
+  <circle cx="210" cy="84" r="4" fill="#22d3ee"/>
+  <!-- Bottom Tech Accents -->
+  <line x1="160" y1="486" x2="260" y2="486" stroke="#e9c46a" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+  <circle cx="36" cy="476" r="3" fill="#2c3856"/>
+  <circle cx="384" cy="476" r="3" fill="#2c3856"/>
+</svg></div>
+        <div class="card-label">panel-card.svg (420x520)</div>
+        <div class="card-sub">Khung hộp thoại Game Over / Pause / Hướng dẫn</div>
+      </div>
+      <div class="card">
+        <div style="width: 160px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 64" width="180" height="64">
+  <defs>
+    <linearGradient id="hud-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a233a"/>
+      <stop offset="100%" stop-color="#0e1424"/>
+    </linearGradient>
+    <filter id="hud-shadow">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#020617" flood-opacity="0.6"/>
+    </filter>
+  </defs>
+  <!-- HUD Plate -->
+  <rect x="6" y="6" width="168" height="52" rx="16" fill="url(#hud-bg)" stroke="#2c3856" stroke-width="2" filter="url(#hud-shadow)"/>
+  <!-- Cyan Accent Corner Marks -->
+  <path d="M 12 16 L 12 12 L 16 12" stroke="#22d3ee" stroke-width="2" fill="none"/>
+  <path d="M 168 16 L 168 12 L 164 12" stroke="#22d3ee" stroke-width="2" fill="none"/>
+  <!-- Inner top gloss line -->
+  <line x1="24" y1="10" x2="156" y2="10" stroke="#ffffff" stroke-width="1" opacity="0.2"/>
+  <!-- Gold badge dot -->
+  <circle cx="90" cy="18" r="2" fill="#e9c46a"/>
+</svg></div>
+        <div class="card-label">score-board.svg</div>
+        <div class="card-sub">Khung hiển thị Điểm & Kỷ lục</div>
+      </div>
+      <div class="card">
+        <div style="width: 160px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 54" width="160" height="54">
+  <defs>
+    <linearGradient id="badge-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f59e0b"/>
+      <stop offset="50%" stop-color="#ea580c"/>
+      <stop offset="100%" stop-color="#b91c1c"/>
+    </linearGradient>
+    <filter id="badge-glow">
+      <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#f59e0b" flood-opacity="0.6"/>
+    </filter>
+  </defs>
+  <!-- Angled Ribbon Body -->
+  <polygon points="12,6 148,6 160,27 148,48 12,48 24,27" fill="url(#badge-grad)" stroke="#fef08a" stroke-width="2" filter="url(#badge-glow)"/>
+  <!-- Inner Highlight Line -->
+  <polygon points="18,10 142,10 151,27 142,44 18,44 27,27" fill="none" stroke="#ffffff" stroke-width="1" opacity="0.4"/>
+  <!-- Left Star Accent -->
+  <polygon points="36,21 39,26 44,27 40,31 41,36 36,33 31,36 32,31 28,27 33,26" fill="#fef08a"/>
+  <!-- Badge Text Placeholder Guide -->
+  <text x="92" y="32" text-anchor="middle" font-family="'Arial Black', Impact, sans-serif" font-size="16" font-weight="900" fill="#ffffff" letter-spacing="1">COMBO</text>
+</svg></div>
+        <div class="card-label">badge-combo.svg</div>
+        <div class="card-sub">Huy hiệu chuỗi Combo x1.5 / x2 / x3</div>
+      </div>
+      <div class="card" style="grid-column: span 4;">
+        <div style="width: 100%; max-width: 600px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 28" width="360" height="28">
+  <defs>
+    <linearGradient id="prog-fill" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#06b6d4"/>
+      <stop offset="50%" stop-color="#22d3ee"/>
+      <stop offset="100%" stop-color="#e9c46a"/>
+    </linearGradient>
+    <filter id="prog-glow">
+      <feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#22d3ee" flood-opacity="0.8"/>
+    </filter>
+  </defs>
+  <!-- Background Track -->
+  <rect x="4" y="4" width="352" height="20" rx="10" fill="#0d1424" stroke="#1f2940" stroke-width="2"/>
+  <!-- Progress Sample (70% fill) -->
+  <rect x="6" y="6" width="246" height="16" rx="8" fill="url(#prog-fill)" filter="url(#prog-glow)"/>
+  <!-- Specular Shine Top -->
+  <path d="M 14 8 L 246 8" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+  <!-- Progress Pip Head -->
+  <circle cx="250" cy="14" r="8" fill="#ffffff" stroke="#e9c46a" stroke-width="2"/>
+</svg></div>
+        <div class="card-label">progress-bar.svg (360x28)</div>
+        <div class="card-sub">Thanh tiến trình gộp & năng lượng</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. BACKGROUNDS -->
+  <section>
+    <h2>5. Backgrounds (2 Assets Chuẩn 480x800 Mobile Viewport)</h2>
+    <div class="grid grid-bg">
+      <div class="card">
+        <div style="width: 240px; height: 400px; overflow: hidden; border-radius: 8px; border: 1px solid #22d3ee;">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 800" width="480" height="800">
+  <defs>
+    <linearGradient id="bg-sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0b1020"/>
+      <stop offset="45%" stop-color="#12182b"/>
+      <stop offset="100%" stop-color="#1a2238"/>
+    </linearGradient>
+    <radialGradient id="nebula-cyan" cx="50%" cy="38%" r="45%">
+      <stop offset="0%" stop-color="#22d3ee" stop-opacity="0.14"/>
+      <stop offset="60%" stop-color="#0e7490" stop-opacity="0.04"/>
+      <stop offset="100%" stop-color="#0b1020" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="nebula-gold" cx="50%" cy="85%" r="40%">
+      <stop offset="0%" stop-color="#e9c46a" stop-opacity="0.12"/>
+      <stop offset="70%" stop-color="#b8933f" stop-opacity="0.02"/>
+      <stop offset="100%" stop-color="#0b1020" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="vignette" cx="50%" cy="50%" r="65%">
+      <stop offset="60%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#05070d" stop-opacity="0.75"/>
+    </radialGradient>
+    <!-- Pattern definition: futuristic isometric constellation grid -->
+    <pattern id="tech-grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#22d3ee" stroke-width="0.5" stroke-opacity="0.07"/>
+      <circle cx="40" cy="40" r="1" fill="#67e8f9" fill-opacity="0.15"/>
+    </pattern>
+  </defs>
+
+  <!-- Deep Night Sky Base -->
+  <rect width="480" height="800" fill="url(#bg-sky)"/>
+
+  <!-- Constellation Tech Grid Pattern -->
+  <rect width="480" height="800" fill="url(#tech-grid)"/>
+
+  <!-- Upper Cyan Center Glow behind board -->
+  <rect width="480" height="800" fill="url(#nebula-cyan)"/>
+  <!-- Lower Gold Hearth Glow -->
+  <rect width="480" height="800" fill="url(#nebula-gold)"/>
+
+  <!-- Ambient Light Streaks & Tech Hex Accents -->
+  <g opacity="0.15" stroke="#22d3ee" stroke-width="1" fill="none">
+    <polygon points="40,120 55,110 70,120 70,138 55,148 40,138"/>
+    <polygon points="410,240 425,230 440,240 440,258 425,268 410,258"/>
+    <polygon points="50,680 62,672 74,680 74,694 62,702 50,694"/>
+    <line x1="20" y1="200" x2="100" y2="200" stroke-dasharray="4 6"/>
+    <line x1="380" y1="620" x2="460" y2="620" stroke-dasharray="4 6"/>
+  </g>
+
+  <!-- Star points -->
+  <g fill="#ffffff" opacity="0.4">
+    <circle cx="68" cy="85" r="1.5"/>
+    <circle cx="395" cy="115" r="1.2"/>
+    <circle cx="420" cy="90" r="1.8"/>
+    <circle cx="95" cy="310" r="1"/>
+    <circle cx="380" cy="440" r="1.4"/>
+    <circle cx="80" cy="540" r="1.2"/>
+    <circle cx="410" cy="710" r="1.6"/>
+    <circle cx="120" cy="750" r="1.2"/>
+  </g>
+
+  <!-- Vignette Perimeter Shade -->
+  <rect width="480" height="800" fill="url(#vignette)"/>
+</svg>
+        </div>
+        <div class="card-label">bg-main.svg (480x800)</div>
+        <div class="card-sub">Nền Gameplay: Gradient dọc, chòm sao mờ, tinh vân cyan, vignette 4 góc</div>
+      </div>
+      <div class="card">
+        <div style="width: 240px; height: 400px; overflow: hidden; border-radius: 8px; border: 1px solid #e9c46a;">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 800" width="480" height="800">
+  <defs>
+    <linearGradient id="menu-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#080c18"/>
+      <stop offset="35%" stop-color="#0f1629"/>
+      <stop offset="70%" stop-color="#141c33"/>
+      <stop offset="100%" stop-color="#1e2740"/>
+    </linearGradient>
+    <radialGradient id="menu-glow" cx="50%" cy="32%" r="45%">
+      <stop offset="0%" stop-color="#22d3ee" stop-opacity="0.25"/>
+      <stop offset="40%" stop-color="#4f8dff" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#080c18" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="menu-gold-glow" cx="50%" cy="65%" r="35%">
+      <stop offset="0%" stop-color="#e9c46a" stop-opacity="0.16"/>
+      <stop offset="70%" stop-color="#e9c46a" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Deep Cosmic Canvas -->
+  <rect width="480" height="800" fill="url(#menu-grad)"/>
+
+  <!-- Cyber Ray Angles -->
+  <path d="M 0 0 L 280 0 L 0 560 Z" fill="#22d3ee" fill-opacity="0.03"/>
+  <path d="M 480 800 L 200 800 L 480 240 Z" fill="#e9c46a" fill-opacity="0.03"/>
+
+  <!-- Logo Aura Radial -->
+  <circle cx="240" cy="260" r="220" fill="url(#menu-glow)"/>
+  <!-- CTA Aura Radial -->
+  <circle cx="240" cy="540" r="180" fill="url(#menu-gold-glow)"/>
+
+  <!-- Tech Hexagons in background -->
+  <g stroke="#22d3ee" stroke-width="1.5" stroke-opacity="0.15" fill="none">
+    <polygon points="240,110 270,126 270,158 240,174 210,158 210,126"/>
+    <polygon points="120,240 145,254 145,282 120,296 95,282 95,254"/>
+    <polygon points="360,240 385,254 385,282 360,296 335,282 335,254"/>
+    <polygon points="240,410 260,421 260,443 240,454 220,443 220,421"/>
+  </g>
+
+  <!-- Speed Rays -->
+  <g stroke="#ffffff" stroke-width="1" stroke-opacity="0.12">
+    <line x1="80" y1="120" x2="160" y2="40"/>
+    <line x1="400" y1="140" x2="340" y2="60"/>
+    <line x1="60" y1="620" x2="140" y2="700"/>
+    <line x1="420" y1="600" x2="340" y2="680"/>
+  </g>
+</svg>
+        </div>
+        <div class="card-label">bg-menu.svg (480x800)</div>
+        <div class="card-sub">Nền Menu: Vệt tia cyber, ánh sáng vòm trung tâm làm nổi bật logo</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. SO SÁNH TRƯỚC / SAU -->
+  <section>
+    <h2>6. So Sánh Trực Quan: Bản Cũ (Tối Giản) vs Bản Mới 2D Thật ("Neon Night")</h2>
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th>Hạng mục</th>
+          <th>Bản cũ (Kỹ sư code vẽ thô)</th>
+          <th>Bản mới (Game Artist 2D)</th>
+          <th>Điểm nâng cấp nổi bật</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-weight: 700;">Tile Set</td>
+          <td>Hình chữ nhật bo tròn 1 màu phẳng, không bóng đổ, tier cao trùng màu 0xff007f</td>
+          <td class="new-item" style="display: flex; gap: 8px; justify-content: center;">
+            <div style="width: 48px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <!-- Tile Gradient -->
+    <linearGradient id="grad-32" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#22d3ee"/>
+      <stop offset="100%" stop-color="#0e8fa8"/>
+    </linearGradient>
+    <!-- Bevel Specular Top -->
+    <linearGradient id="bevel-32" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.6"/>
+      <stop offset="50%" stop-color="#67e8f9" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.5"/>
+    </linearGradient>
+    <!-- Soft Glow Filter -->
+    <filter id="glow-32" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#06b6d4" flood-opacity="0.3"/>
+    </filter>
+    <filter id="shadow-32" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#050814" flood-opacity="0.7"/>
+    </filter>
+  </defs>
+
+  <!-- Outer Drop Shadow Plate -->
+  <rect x="8" y="10" width="112" height="112" rx="20" fill="none" filter="url(#shadow-32)"/>
+
+  <!-- High-tier Aura / Glow Ring -->
+  
+
+  <!-- Main Tile Body -->
+  <rect x="8" y="8" width="112" height="112" rx="20" fill="url(#grad-32)" stroke="url(#bevel-32)" stroke-width="2.5"/>
+
+  <!-- Inner Gloss Arc / Specular Pill -->
+  <path d="M 16 26 C 16 16, 26 14, 40 14 L 88 14 C 102 14, 112 16, 112 26 C 112 36, 100 24, 86 24 L 42 24 C 28 24, 16 36, 16 26 Z" fill="#ffffff" opacity="0.3"/>
+
+  <!-- Bottom Inner Shadow for 3D Bevel depth -->
+  <path d="M 12 104 C 20 114, 40 116, 64 116 C 88 116, 108 114, 116 104 C 112 110, 90 114, 64 114 C 38 114, 16 110, 12 104 Z" fill="#000000" opacity="0.45"/>
+
+  <!-- Corner Tech Accent Dots for subtle Cyber Look -->
+  <circle cx="18" cy="18" r="2" fill="#67e8f9" opacity="0.8"/>
+  <circle cx="110" cy="18" r="2" fill="#67e8f9" opacity="0.8"/>
+  <circle cx="18" cy="110" r="2" fill="#67e8f9" opacity="0.5"/>
+  <circle cx="110" cy="110" r="2" fill="#67e8f9" opacity="0.5"/>
+
+  <!-- Small Tier Category Badge at Top Right -->
+  
+
+  
+
+  <!-- Number Text with 3D Offset & Glow -->
+  <text x="64" y="78" text-anchor="middle" font-family="'Arial Black', Impact, 'Segoe UI Black', sans-serif" font-weight="900" font-size="50" fill="#000000" opacity="0.35" dy="3">32</text>
+  <text x="64" y="76" text-anchor="middle" font-family="'Arial Black', Impact, 'Segoe UI Black', sans-serif" font-weight="900" font-size="50" fill="#083344">32</text>
+</svg></div>
+            <div style="width: 48px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <!-- Tile Gradient -->
+    <linearGradient id="grad-256" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#d16bff"/>
+      <stop offset="100%" stop-color="#8e3fc4"/>
+    </linearGradient>
+    <!-- Bevel Specular Top -->
+    <linearGradient id="bevel-256" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.6"/>
+      <stop offset="50%" stop-color="#f0abfc" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.5"/>
+    </linearGradient>
+    <!-- Soft Glow Filter -->
+    <filter id="glow-256" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#d946ef" flood-opacity="0.6"/>
+    </filter>
+    <filter id="shadow-256" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#050814" flood-opacity="0.7"/>
+    </filter>
+  </defs>
+
+  <!-- Outer Drop Shadow Plate -->
+  <rect x="8" y="10" width="112" height="112" rx="20" fill="none" filter="url(#shadow-256)"/>
+
+  <!-- High-tier Aura / Glow Ring -->
+  <rect x="6" y="6" width="116" height="116" rx="22" fill="none" stroke="#d946ef" stroke-width="3" filter="url(#glow-256)" opacity="0.8"/>
+
+  <!-- Main Tile Body -->
+  <rect x="8" y="8" width="112" height="112" rx="20" fill="url(#grad-256)" stroke="url(#bevel-256)" stroke-width="2.5"/>
+
+  <!-- Inner Gloss Arc / Specular Pill -->
+  <path d="M 16 26 C 16 16, 26 14, 40 14 L 88 14 C 102 14, 112 16, 112 26 C 112 36, 100 24, 86 24 L 42 24 C 28 24, 16 36, 16 26 Z" fill="#ffffff" opacity="0.3"/>
+
+  <!-- Bottom Inner Shadow for 3D Bevel depth -->
+  <path d="M 12 104 C 20 114, 40 116, 64 116 C 88 116, 108 114, 116 104 C 112 110, 90 114, 64 114 C 38 114, 16 110, 12 104 Z" fill="#000000" opacity="0.45"/>
+
+  <!-- Corner Tech Accent Dots for subtle Cyber Look -->
+  <circle cx="18" cy="18" r="2" fill="#f0abfc" opacity="0.8"/>
+  <circle cx="110" cy="18" r="2" fill="#f0abfc" opacity="0.8"/>
+  <circle cx="18" cy="110" r="2" fill="#f0abfc" opacity="0.5"/>
+  <circle cx="110" cy="110" r="2" fill="#f0abfc" opacity="0.5"/>
+
+  <!-- Small Tier Category Badge at Top Right -->
+  
+  <rect x="36" y="14" width="56" height="14" rx="7" fill="#0b1020" opacity="0.75"/>
+  <text x="64" y="24" text-anchor="middle" font-family="'Segoe UI', Roboto, system-ui, sans-serif" font-weight="800" font-size="8" fill="#f0abfc" letter-spacing="1">★ 256</text>
+  
+
+  
+
+  <!-- Number Text with 3D Offset & Glow -->
+  <text x="64" y="78" text-anchor="middle" font-family="'Arial Black', Impact, 'Segoe UI Black', sans-serif" font-weight="900" font-size="42" fill="#000000" opacity="0.35" dy="3">256</text>
+  <text x="64" y="76" text-anchor="middle" font-family="'Arial Black', Impact, 'Segoe UI Black', sans-serif" font-weight="900" font-size="42" fill="#ffffff">256</text>
+</svg></div>
+            <div style="width: 48px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <!-- Tile Gradient -->
+    <linearGradient id="grad-2048" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e9c46a"/>
+      <stop offset="100%" stop-color="#b8933f"/>
+    </linearGradient>
+    <!-- Bevel Specular Top -->
+    <linearGradient id="bevel-2048" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.6"/>
+      <stop offset="50%" stop-color="#fef08a" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.5"/>
+    </linearGradient>
+    <!-- Soft Glow Filter -->
+    <filter id="glow-2048" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#eab308" flood-opacity="0.6"/>
+    </filter>
+    <filter id="shadow-2048" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#050814" flood-opacity="0.7"/>
+    </filter>
+  </defs>
+
+  <!-- Outer Drop Shadow Plate -->
+  <rect x="8" y="10" width="112" height="112" rx="20" fill="none" filter="url(#shadow-2048)"/>
+
+  <!-- High-tier Aura / Glow Ring -->
+  <rect x="6" y="6" width="116" height="116" rx="22" fill="none" stroke="#eab308" stroke-width="3" filter="url(#glow-2048)" opacity="0.8"/>
+
+  <!-- Main Tile Body -->
+  <rect x="8" y="8" width="112" height="112" rx="20" fill="url(#grad-2048)" stroke="url(#bevel-2048)" stroke-width="2.5"/>
+
+  <!-- Inner Gloss Arc / Specular Pill -->
+  <path d="M 16 26 C 16 16, 26 14, 40 14 L 88 14 C 102 14, 112 16, 112 26 C 112 36, 100 24, 86 24 L 42 24 C 28 24, 16 36, 16 26 Z" fill="#ffffff" opacity="0.3"/>
+
+  <!-- Bottom Inner Shadow for 3D Bevel depth -->
+  <path d="M 12 104 C 20 114, 40 116, 64 116 C 88 116, 108 114, 116 104 C 112 110, 90 114, 64 114 C 38 114, 16 110, 12 104 Z" fill="#000000" opacity="0.45"/>
+
+  <!-- Corner Tech Accent Dots for subtle Cyber Look -->
+  <circle cx="18" cy="18" r="2" fill="#fef08a" opacity="0.8"/>
+  <circle cx="110" cy="18" r="2" fill="#fef08a" opacity="0.8"/>
+  <circle cx="18" cy="110" r="2" fill="#fef08a" opacity="0.5"/>
+  <circle cx="110" cy="110" r="2" fill="#fef08a" opacity="0.5"/>
+
+  <!-- Small Tier Category Badge at Top Right -->
+  
+  <rect x="36" y="14" width="56" height="14" rx="7" fill="#0b1020" opacity="0.75"/>
+  <text x="64" y="24" text-anchor="middle" font-family="'Segoe UI', Roboto, system-ui, sans-serif" font-weight="800" font-size="8" fill="#fef08a" letter-spacing="1">👑 CROWN</text>
+  
+
+  
+  <!-- Crown Icon on 2048 -->
+  <path d="M 46 36 L 52 46 L 64 34 L 76 46 L 82 36 L 80 50 L 48 50 Z" fill="#fef08a" stroke="#b8933f" stroke-width="1.5"/>
+  <circle cx="46" cy="35" r="2" fill="#ffffff"/>
+  <circle cx="64" cy="33" r="2.5" fill="#ffffff"/>
+  <circle cx="82" cy="35" r="2" fill="#ffffff"/>
+  
+
+  <!-- Number Text with 3D Offset & Glow -->
+  <text x="64" y="90" text-anchor="middle" font-family="'Arial Black', Impact, 'Segoe UI Black', sans-serif" font-weight="900" font-size="34" fill="#000000" opacity="0.35" dy="3">2048</text>
+  <text x="64" y="88" text-anchor="middle" font-family="'Arial Black', Impact, 'Segoe UI Black', sans-serif" font-weight="900" font-size="34" fill="#1c1917">2048</text>
+</svg></div>
+          </td>
+          <td style="text-align: left;">11 tier màu phân biệt, bevel ánh sáng 3D, specular arc trán ô, đổ bóng rơi, halo hào quang & vương miện 2048</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 700;">Icon HUD</td>
+          <td class="old-item">10 icon SVG phẳng nét đơn, màu xám xỉn #2a3140</td>
+          <td class="new-item" style="display: flex; gap: 8px; justify-content: center;">
+            <div style="width: 36px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="ic-p-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#22d3ee"/>
+      <stop offset="100%" stop-color="#0891b2"/>
+    </linearGradient>
+    <filter id="ic-p-glow">
+      <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#0891b2" flood-opacity="0.7"/>
+    </filter>
+  </defs>
+  <rect x="4" y="4" width="56" height="56" rx="18" fill="url(#ic-p-bg)" stroke="#67e8f9" stroke-width="2" filter="url(#ic-p-glow)"/>
+  <!-- Specular Cap -->
+  <path d="M 12 12 C 20 8, 44 8, 52 12 C 48 18, 16 18, 12 12 Z" fill="#ffffff" opacity="0.4"/>
+  <!-- Play Triangle -->
+  <polygon points="26,20 46,32 26,44" fill="#03252a" opacity="0.3" transform="translate(1, 2)"/>
+  <polygon points="26,20 46,32 26,44" fill="#ffffff"/>
+</svg></div>
+            <div style="width: 36px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="ic-tr-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#b45309"/>
+    </linearGradient>
+    <filter id="ic-tr-glow">
+      <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#f59e0b" flood-opacity="0.6"/>
+    </filter>
+  </defs>
+  <rect x="4" y="4" width="56" height="56" rx="18" fill="#1e293b" stroke="#e9c46a" stroke-width="2"/>
+  <!-- Trophy Cup Body -->
+  <path d="M 22 18 L 42 18 L 42 28 C 42 34 38 38 32 38 C 26 38 22 34 22 28 Z" fill="url(#ic-tr-bg)" stroke="#fef08a" stroke-width="1.5" filter="url(#ic-tr-glow)"/>
+  <!-- Handles -->
+  <path d="M 22 22 H 17 C 14.5 22 13 24 13 26.5 C 13 30 16 32 20 32 H 22" fill="none" stroke="#fef08a" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M 42 22 H 47 C 49.5 22 51 24 51 26.5 C 51 30 48 32 44 32 H 42" fill="none" stroke="#fef08a" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Stem & Pedestal -->
+  <rect x="29" y="38" width="6" height="6" fill="#fef08a"/>
+  <rect x="23" y="44" width="18" height="6" rx="2" fill="#d97706" stroke="#fef08a" stroke-width="1.5"/>
+  <!-- Star Crest on Cup -->
+  <polygon points="32,23 33.5,27 37.5,27 34.5,29.5 35.5,33.5 32,31 28.5,33.5 29.5,29.5 26.5,27 30.5,27" fill="#ffffff"/>
+</svg></div>
+            <div style="width: 36px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <radialGradient id="ic-bomb-body" cx="40%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#475569"/>
+      <stop offset="70%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </radialGradient>
+    <filter id="ic-spark-glow">
+      <feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#f59e0b" flood-opacity="0.9"/>
+    </filter>
+  </defs>
+  <rect x="4" y="4" width="56" height="56" rx="18" fill="#1e293b" stroke="#f43f5e" stroke-width="2"/>
+  <!-- Bomb Sphere -->
+  <circle cx="30" cy="36" r="16" fill="url(#ic-bomb-body)" stroke="#f43f5e" stroke-width="2"/>
+  <ellipse cx="25" cy="29" rx="5" ry="3" fill="#ffffff" opacity="0.4" transform="rotate(-30 25 29)"/>
+  <!-- Cap & Fuse -->
+  <rect x="26" y="17" width="8" height="5" rx="1.5" fill="#94a3b8"/>
+  <path d="M 30 17 Q 38 10 46 16" fill="none" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Spark -->
+  <polygon points="46,16 49,12 51,17 55,16 52,20 54,24 49,21 46,24 47,19" fill="#fef08a" filter="url(#ic-spark-glow)"/>
+</svg></div>
+          </td>
+          <td style="text-align: left;">Khung phiến cyber bo tròn, đổ bóng, màu cyan/gold rực rỡ, hiệu ứng phát quang điện tử</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 700;">Linh vật / Mascot</td>
+          <td><strong>Không có linh vật nào</strong> (thiếu điểm nhấn giữ chân người chơi)</td>
+          <td class="new-item" style="width: 120px; margin: 0 auto;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160">
+  <defs>
+    <linearGradient id="bot-body" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#22d3ee"/>
+      <stop offset="45%" stop-color="#06b6d4"/>
+      <stop offset="100%" stop-color="#0891b2"/>
+    </linearGradient>
+    <linearGradient id="bot-face" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <filter id="bot-glow">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#0891b2" flood-opacity="0.6"/>
+    </filter>
+  </defs>
+
+  <!-- Shadow below mascot -->
+  <ellipse cx="80" cy="148" rx="46" ry="9" fill="#030712" opacity="0.6"/>
+
+  <!-- Antenna -->
+  <line x1="80" y1="28" x2="80" y2="42" stroke="#e9c46a" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="80" cy="24" r="8" fill="#fef08a" stroke="#e9c46a" stroke-width="2"/>
+  <circle cx="82" cy="22" r="2.5" fill="#ffffff"/>
+
+  <!-- Headphones / Ear Pods -->
+  <rect x="22" y="66" width="12" height="32" rx="6" fill="#e9c46a" stroke="#ffffff" stroke-width="1.5"/>
+  <rect x="126" y="66" width="12" height="32" rx="6" fill="#e9c46a" stroke="#ffffff" stroke-width="1.5"/>
+  <path d="M 28 68 C 28 40, 132 40, 132 68" fill="none" stroke="#e9c46a" stroke-width="3.5" stroke-linecap="round"/>
+
+  <!-- Mascot Body (Rounded Chamfer Cube) -->
+  <rect x="30" y="42" width="100" height="96" rx="30" fill="url(#bot-body)" stroke="#ffffff" stroke-width="3" filter="url(#bot-glow)"/>
+
+  <!-- Specular Arc on Top Body -->
+  <path d="M 48 50 C 60 46, 100 46, 112 50 C 114 54, 46 54, 48 50 Z" fill="#ffffff" opacity="0.5"/>
+
+  <!-- Screen Visor Face Plate -->
+  <rect x="42" y="58" width="76" height="58" rx="18" fill="url(#bot-face)" stroke="#38bdf8" stroke-width="2"/>
+
+  <!-- Big Sparkling Happy Anime Eyes -->
+  <!-- Left Eye -->
+  <ellipse cx="62" cy="82" rx="10" ry="13" fill="#22d3ee"/>
+  <ellipse cx="62" cy="82" rx="8" ry="11" fill="#083344"/>
+  <circle cx="65" cy="78" r="4.5" fill="#ffffff"/>
+  <circle cx="59" cy="88" r="2" fill="#ffffff"/>
+
+  <!-- Right Eye -->
+  <ellipse cx="98" cy="82" rx="10" ry="13" fill="#22d3ee"/>
+  <ellipse cx="98" cy="82" rx="8" ry="11" fill="#083344"/>
+  <circle cx="101" cy="78" r="4.5" fill="#ffffff"/>
+  <circle cx="95" cy="88" r="2" fill="#ffffff"/>
+
+  <!-- Rosy Cute Cheeks -->
+  <ellipse cx="50" cy="98" rx="6" ry="3.5" fill="#ff7ab8" opacity="0.8"/>
+  <ellipse cx="110" cy="98" rx="6" ry="3.5" fill="#ff7ab8" opacity="0.8"/>
+
+  <!-- Friendly Smile -->
+  <path d="M 74 96 Q 80 102 86 96" fill="none" stroke="#22d3ee" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Cute Waving Hand -->
+  <circle cx="138" cy="100" r="8" fill="#22d3ee" stroke="#ffffff" stroke-width="2"/>
+  <circle cx="22" cy="114" r="8" fill="#0891b2" stroke="#ffffff" stroke-width="2"/>
+</svg>
+          </td>
+          <td style="text-align: left;">Linh vật "Stacky" với 3 trạng thái cảm xúc (chào đón, ăn mừng kỷ lục, choáng váng game over), tăng cảm xúc "ăn tiền"</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 700;">Nền / Background</td>
+          <td>Nền phẳng 1 màu tối #161a23</td>
+          <td class="new-item">
+            Gradient dọc #0b1020 → #1a2238 + tinh vân + lưới chòm sao
+          </td>
+          <td style="text-align: left;">Độ sâu trường ảnh (depth of field), vignette giảm mỏi mắt, tôn vinh cụm bàn cờ</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+</body>
+</html>

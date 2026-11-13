@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="ic-p-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#22d3ee"/>
+      <stop offset="100%" stop-color="#0891b2"/>
+    </linearGradient>
+    <filter id="ic-p-glow">
+      <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#0891b2" flood-opacity="0.7"/>
+    </filter>
+  </defs>
+  <rect x="4" y="4" width="56" height="56" rx="18" fill="url(#ic-p-bg)" stroke="#67e8f9" stroke-width="2" filter="url(#ic-p-glow)"/>
+  <!-- Specular Cap -->
+  <path d="M 12 12 C 20 8, 44 8, 52 12 C 48 18, 16 18, 12 12 Z" fill="#ffffff" opacity="0.4"/>
+  <!-- Play Triangle -->
+  <polygon points="26,20 46,32 26,44" fill="#03252a" opacity="0.3" transform="translate(1, 2)"/>
+  <polygon points="26,20 46,32 26,44" fill="#ffffff"/>
+</svg>

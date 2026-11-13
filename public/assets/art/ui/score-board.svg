@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 64" width="180" height="64">
+  <defs>
+    <linearGradient id="hud-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a233a"/>
+      <stop offset="100%" stop-color="#0e1424"/>
+    </linearGradient>
+    <filter id="hud-shadow">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#020617" flood-opacity="0.6"/>
+    </filter>
+  </defs>
+  <!-- HUD Plate -->
+  <rect x="6" y="6" width="168" height="52" rx="16" fill="url(#hud-bg)" stroke="#2c3856" stroke-width="2" filter="url(#hud-shadow)"/>
+  <!-- Cyan Accent Corner Marks -->
+  <path d="M 12 16 L 12 12 L 16 12" stroke="#22d3ee" stroke-width="2" fill="none"/>
+  <path d="M 168 16 L 168 12 L 164 12" stroke="#22d3ee" stroke-width="2" fill="none"/>
+  <!-- Inner top gloss line -->
+  <line x1="24" y1="10" x2="156" y2="10" stroke="#ffffff" stroke-width="1" opacity="0.2"/>
+  <!-- Gold badge dot -->
+  <circle cx="90" cy="18" r="2" fill="#e9c46a"/>
+</svg>

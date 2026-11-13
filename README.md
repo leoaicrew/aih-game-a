@@ -50,7 +50,10 @@ src/ui/fx.js          # bộ hiệu ứng "juice" (>=10 tween) + đếm fx
 test/logic.test.js    # unit test logic
 test/qa.test.js       # bộ QA (logic, twist, độ khó, viewport)
 test/uiux.test.js     # UI v2, juice >=10 tween, audio + nhạc nền, CREDITS
-public/assets/svg/    # 10 icon SVG do Thiết kế vẽ (CC0)
+public/assets/svg/    # 10 icon SVG phong cách Neon Night (CC0, đã nâng cấp AIH-21)
+public/assets/art/    # Bộ 37 asset 2D thật (tiles, UI kit, icons, backgrounds, mascot "Stacky")
+docs/                 # Hướng dẫn tích hợp asset, showcase HTML, ảnh chụp trước/sau
+
 ```
 
 ## UI/UX v2 + juice + audio (AIH-18/AIH-19)
@@ -60,6 +63,20 @@ public/assets/svg/    # 10 icon SVG do Thiết kế vẽ (CC0)
   score counter, score pop, nút hover/press, logo float, CTA pulse, scene fade, overlay slide-in.
 - Nhạc nền loop tự sinh bằng Web Audio (Am–F–C–G), mute tắt cả nhạc; thêm SFX menu + kỷ lục. 0 file audio, offline.
 - Ảnh trước/sau: `docs/screenshots/before/` (bản 68dd57e), `docs/screenshots/after/` (bản v2).
+
+## Bộ Asset Đồ Họa 2D Thật (AIH-21 — Game Artist)
+- **37 asset vector SVG nguyên bản** do Game Artist thiết kế theo brief "Neon Night" (AIH-18):
+  - **Tile set (14 assets):** Tiers 2..2048 có bevel 3D + specular arc + drop shadow + halo hào quang bậc cao + vương miện 2048, kèm tile-selected (reticle), tile-merge-flash (8-way starburst), tile-empty.
+  - **Backgrounds (2 assets):** `bg-main.svg`, `bg-menu.svg` (480x800 chuẩn mobile viewport, gradient đa tầng, chòm sao cyber, vignette).
+  - **UI Kit (8 assets):** `btn-primary`, `btn-secondary` (normal/pressed), `panel-card`, `score-board`, `progress-bar`, `badge-combo`.
+  - **Icons (10 assets):** `icon-play`, `icon-pause`, `icon-replay`, `icon-volume`, `icon-volume-mute`, `icon-trophy`, `icon-hammer`, `icon-bomb`, `icon-help`, `icon-combo-star`.
+  - **Linh vật "Stacky" (3 assets):** `mascot-idle.svg` (chào đón), `mascot-cheer.svg` (kỷ lục/combo), `mascot-shock.svg` (game over).
+- **Tài liệu & Thẩm mỹ:**
+  - `docs/ART_INTEGRATION_GUIDE.md`: hướng dẫn nạp và sử dụng trong Phaser 3.
+  - `docs/art-showcase.html`: gallery tổng hợp trực quan toàn bộ asset.
+  - Ảnh preview: `docs/screenshots/art-showcase-full.png`, `docs/screenshots/art-before-after.png`, `docs/screenshots/art-mascot-sheet.png`.
+- **Giấy phép:** 100% tự tạo độc quyền cho AIH Games, phát hành CC0 1.0 (chi tiết tại `public/assets/art/ART_LICENSES.md`). Chi phí: 0 VNĐ.
+
 
 ## Trạng thái
 - **Tuần 1 (đã xong):** khung Phaser + Vite, lưới 5x5, gộp/xếp, điểm, game over, lưu kỷ lục cục bộ (localStorage), menu + tạm dừng, hướng dẫn.

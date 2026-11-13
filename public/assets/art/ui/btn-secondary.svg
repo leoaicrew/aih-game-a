@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 56" width="200" height="56">
+  <defs>
+    <linearGradient id="btn-s-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="btn-s-border" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <filter id="btn-s-shadow">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#020617" flood-opacity="0.6"/>
+    </filter>
+  </defs>
+  <rect x="6" y="6" width="188" height="44" rx="14" fill="url(#btn-s-grad)" stroke="url(#btn-s-border)" stroke-width="2" filter="url(#btn-s-shadow)"/>
+  <!-- Corner Tech Cuts -->
+  <line x1="16" y1="6" x2="6" y2="16" stroke="#38bdf8" stroke-width="2"/>
+  <line x1="184" y1="6" x2="194" y2="16" stroke="#38bdf8" stroke-width="2"/>
+  <!-- Specular glint -->
+  <path d="M 22 10 L 178 10 C 182 10, 184 14, 180 14 L 20 14 C 16 14, 18 10, 22 10 Z" fill="#ffffff" opacity="0.18"/>
+</svg>
